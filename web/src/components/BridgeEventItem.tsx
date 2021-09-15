@@ -1,50 +1,51 @@
 import { BridgeEvent } from 'App';
+import { fr, Theme } from 'const';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import React from 'react';
-import { Box } from 'styled-kit/Box';
-import { Typography } from 'styled-kit/Typography';
-import { fr } from 'tools/translation';
+import styled from 'styled-components';
 type BridgeEventItemProps = BridgeEvent;
 dayjs.extend(isToday);
 dayjs.extend(isTomorrow);
 
-const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openAt }) => {
+const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-shadow: ${({ theme }) => theme.shadow(3)};
+  border-radius: 16px;
+  margin-bottom: 20px;
+  padding: 20px;
+`;
+
+type TextProps = {
+  variant?: keyof Theme['typography'];
+};
+const Text = styled.div<TextProps>`
+  font-family: ${({ variant = 'h5', theme }) => theme.typography[variant].font};
+  font-size: ${({ variant = 'h5', theme }) => theme.typography[variant].size}px;
+`;
+export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openAt }) => {
   return (
-    <Box elevation={3} radius padding={5} margin={5} direction="column">
-      <Typography>
-        Fermeture{' '}
+    <Item>
+      <Text>
         {dayjs(closeAt).isTomorrow()
-          ? 'demain '
+          ? 'Demain '
           : dayjs(closeAt).isToday()
-          ? "aujourd'hui "
-          : 'le ' +
-            fr.weekDays[Number(dayjs(closeAt).format('d'))] +
+          ? "Aujourd'hui "
+          : fr.weekDays[Number(dayjs(closeAt).format('d'))] +
             ' ' +
             dayjs(closeAt).format('DD') +
             ' ' +
             fr.month[dayjs(closeAt).month()] +
             ' '}
-        à {dayjs(closeAt).hour()}h{dayjs(closeAt).format('mm')}
-      </Typography>
-      <Typography>
-        Ouverture{' '}
-        {dayjs(openAt).isTomorrow()
-          ? 'demain '
-          : dayjs(openAt).isToday()
-          ? "aujourd'hui "
-          : 'le ' +
-            fr.weekDays[Number(dayjs(openAt).format('d'))] +
-            ' ' +
-            dayjs(openAt).format('DD') +
-            ' ' +
-            fr.month[dayjs(openAt).month()] +
-            ' '}
-        à {dayjs(openAt).hour()}h{dayjs(openAt).format('mm')}
-      </Typography>
-    </Box>
+      </Text>
+      <Text>
+        {dayjs(closeAt).hour()}h{dayjs(closeAt).format('mm')}
+      </Text>
+      <Text>
+        {dayjs(openAt).hour()}h{dayjs(openAt).format('mm')}
+      </Text>
+    </Item>
   );
 };
-
-export default BridgeEventItem;

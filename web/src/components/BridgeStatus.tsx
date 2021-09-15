@@ -1,63 +1,63 @@
 import { BridgeEvent } from 'App';
+import { Theme } from 'const';
 import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
-import { Box } from 'styled-kit/Box';
-import { Typography } from 'styled-kit/Typography';
+import React from 'react';
+import styled from 'styled-components';
+import { Timer } from './Timer';
 
 type BridgeStatusProps = BridgeEvent;
-
-const getDiff = (d1: Date, d2: Date) => {
-  const delta = d2.getTime() - d1.getTime();
-  const h = Math.floor(delta / 3600 / 1000);
-  const m = Math.floor((delta - h * 3600 * 1000) / 60 / 1000);
-  const s = Math.floor((delta - h * 3600 * 1000 - m * 60 * 1000) / 1000);
-  return `${h < 10 ? '0' : ''}${h}h${m < 10 ? '0' : ''}${m}m${s < 10 ? '0' : ''}${s}s`;
+type ContainerProps = {
+  color?: keyof Theme['colors'];
 };
-
-const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) => {
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const updateTime = () => {
-      setNow(new Date());
-    };
-    const delay = new Date().getTime() - Math.floor(new Date().getTime() / 1000) * 1000;
-
-    const intervall = setInterval(() => {
-      setTimeout(() => {
-        updateTime();
-      }, delay);
-    }, 1000);
-    return () => clearInterval(intervall);
-  }, []);
+const Container = styled.div<ContainerProps>`
+  display: flex;
+  flex: 1;
+  border-radius: 16px;
+  box-shadow: ${({ theme }) => theme.shadow(3)};
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ color = 'white', theme }) => theme.colors[color].main};
+`;
+type TextProps = {
+  variant?: keyof Theme['typography'];
+};
+const Text = styled.div<TextProps>`
+  font-family: ${({ variant = 'h5', theme }) => theme.typography[variant].font};
+  font-size: ${({ variant = 'h5', theme }) => theme.typography[variant].size}px;
+  color: white;
+`;
+export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) => {
+  const now = new Date();
 
   if (dayjs(closeAt).isToday()) {
     if (dayjs(closeAt).isAfter(now)) {
       return (
-        <Box elevation={3} radius padding={5} margin={5} direction="column">
-          <Typography>Ferme dans {getDiff(now, closeAt)}</Typography>
-        </Box>
+        <Container color="warning">
+          <Text variant="h1">
+            Ferme dans <Timer date={closeAt} />
+          </Text>
+        </Container>
       );
     }
     if (dayjs(openAt).isBefore(now)) {
       return (
-        <Box elevation={3} radius padding={5} margin={5} direction="column">
-          <Typography>Ouvert</Typography>
-        </Box>
+        <Container color="success">
+          <Text>Ouvert</Text>
+        </Container>
       );
     }
     return (
-      <Box elevation={3} radius padding={5} margin={5} direction="column">
-        <Typography>Reouvre dans {getDiff(now, openAt)}</Typography>
-      </Box>
+      <Container color="error">
+        <Text>
+          Reouvre dans <Timer date={openAt} />
+        </Text>
+      </Container>
     );
   }
 
   return (
-    <Box elevation={3} radius padding={5} margin={5} direction="column">
-      <Typography>Ouvert</Typography>
-    </Box>
+    <Container color="success">
+      <Text>Ouvert</Text>
+    </Container>
   );
 };
-
-export default BridgeStatus;

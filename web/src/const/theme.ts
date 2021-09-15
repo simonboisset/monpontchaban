@@ -61,12 +61,13 @@ export const theme = {
     error: { main: '#F44336', light: '#EF9A9A', dark: '#C62828' },
     background: { main: '#E0E0E0', light: '#F5F5F5', dark: '#BDBDBD' },
     light: { main: 'rgba(255, 255, 255, 0.25)', light: 'rgba(255, 255, 255, 0.12)', dark: 'rgba(255, 255, 255, 0.50)' },
+    white: { main: 'white', light: 'white', dark: 'white' },
   },
   typography: {
-    h1: { size: 26, font: 'Noto Sans', style: 'normal', weight: 500 },
+    h1: { size: 36, font: 'Noto Sans', style: 'normal', weight: 500 },
     h5: { size: 14, font: 'Noto Sans', style: 'normal', weight: 600 },
   },
-  radius: 5,
+  radius: 16,
   space,
   shadow,
 };

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import BridgeEventItem from 'components/BridgeEventItem';
-import BridgeStatus from 'components/BridgeStatus';
+import { BridgeEventItem } from 'components/BridgeEventItem';
+import { BridgeStatus } from 'components/BridgeStatus';
+import { theme } from 'const';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
 import React, { useEffect, useState } from 'react';
-import { ThemeProvider } from 'styled-components';
-import { theme } from 'styles';
+import styled, { ThemeProvider } from 'styled-components';
 export type BridgeEvent = { closeAt: Date; openAt: Date };
 
 type Record = {
@@ -15,6 +15,27 @@ type Record = {
     re_ouverture_a_la_circulation: string;
   };
 };
+
+const ScreenContainer = styled.div`
+  display: flex;
+  background-color: ${({ theme }) => theme.colors.background.main};
+`;
+const StatusContainer = styled.div`
+  display: flex;
+  flex: 6;
+  padding: 20px 10px 20px 20px;
+`;
+const EnventsContainer = styled.div`
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  overflow: scroll;
+  height: 100vh;
+  padding: 0px 20px 0px 10px;
+`;
+const EnventsPadding = styled.div`
+  margin-top: 20px;
+`;
 
 export const App: React.FC = () => {
   const [datas, setDatas] = useState<BridgeEvent[]>();
@@ -54,10 +75,18 @@ export const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <BridgeStatus {...datas[0]} />
-      {datas.map((data) => (
-        <BridgeEventItem key={data.closeAt.getTime()} {...data} />
-      ))}
+      <ScreenContainer>
+        <StatusContainer>
+          <BridgeStatus {...datas[0]} />
+        </StatusContainer>
+        <EnventsContainer>
+          <EnventsPadding>
+            {datas.map((data) => (
+              <BridgeEventItem key={data.closeAt.getTime()} {...data} />
+            ))}
+          </EnventsPadding>
+        </EnventsContainer>
+      </ScreenContainer>
     </ThemeProvider>
   );
 };
