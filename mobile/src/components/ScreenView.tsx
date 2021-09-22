@@ -1,7 +1,7 @@
 import { Theme } from 'const';
 import { getStatus } from 'const/getStatus';
 import React, { useRef } from 'react';
-import { Animated, Easing, FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import { Animated, Dimensions, Easing, FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
 import { BridgeEventItem } from './BridgeEventItem';
@@ -32,6 +32,7 @@ const colorPicker: Record<ReturnType<typeof getStatus>, keyof Theme['colors']> =
   WILL_CLOSE: 'warning',
   CLOSED: 'error',
 };
+const windowHeight = Dimensions.get('window').height;
 
 export const ScreenView: React.FC<ScreenViewProps> = ({ datas, children }) => {
   const status = getStatus(new Date(), datas[0].openAt, datas[0].closeAt);
@@ -67,7 +68,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, children }) => {
       <FlatList
         scrollEventThrottle={16}
         onScroll={handleScroll}
-        contentContainerStyle={{ paddingTop: 590, paddingBottom: 70, paddingLeft: 20, paddingRight: 20 }}
+        contentContainerStyle={{ paddingTop: windowHeight - 185, paddingLeft: 20, paddingRight: 20 }}
         data={datas}
         keyExtractor={(item) => item.closeAt.getTime().toString()}
         renderItem={({ item }) => <BridgeEventItem key={item.closeAt.getTime()} {...item} />}
