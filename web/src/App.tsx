@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { BridgeStatus } from 'components/BridgeStatus';
+import { Header } from 'components/Header';
+import { Loading } from 'components/Loading';
 import { ScreenView } from 'components/ScreenView';
 import { theme } from 'const';
 import dayjs from 'dayjs';
@@ -48,15 +50,17 @@ export const App: React.FC = () => {
     fetchData();
   }, []);
 
-  if (!datas) {
-    return null;
-  }
-
   return (
     <ThemeProvider theme={theme}>
-      <ScreenView datas={datas}>
-        <BridgeStatus {...datas[0]} />
-      </ScreenView>
+      {!datas ? (
+        <Loading>
+          <Header />
+        </Loading>
+      ) : (
+        <ScreenView datas={datas}>
+          <BridgeStatus {...datas[0]} />
+        </ScreenView>
+      )}
     </ThemeProvider>
   );
 };
