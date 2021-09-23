@@ -1,3 +1,4 @@
+import { fr } from 'const';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -18,5 +19,5 @@ const Container = styled.div`
 `;
 
 export const Header: React.FC = () => {
-  return <Container>Mon Pont Chaban</Container>;
+  return <Container>{fr.MyChaban}</Container>;
 };

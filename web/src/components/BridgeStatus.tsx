@@ -1,5 +1,5 @@
 import { BridgeEvent } from 'App';
-import { Theme } from 'const';
+import { fr, Theme } from 'const';
 import { getStatus } from 'const/getStatus';
 import React from 'react';
 import styled from 'styled-components';
@@ -29,7 +29,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
     case 'OPEN':
       return (
         <Container color="success">
-          <Text>Ouvert</Text>
+          <Text>{fr.opened}</Text>
         </Container>
       );
 
@@ -37,7 +37,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
       return (
         <Container color="warning">
           <Text>
-            Ferme dans <Timer date={closeAt} />
+            {fr.closeIn} <Timer date={closeAt} />
           </Text>
         </Container>
       );
@@ -46,14 +46,14 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
       return (
         <Container color="error">
           <Text>
-            Réouvre dans <Timer date={openAt} />
+            {fr.reopenIn} <Timer date={openAt} />
           </Text>
         </Container>
       );
     default:
       return (
         <Container color="success">
-          <Text>Ouvert</Text>
+          <Text>{fr.opened}</Text>
         </Container>
       );
   }

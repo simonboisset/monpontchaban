@@ -1,3 +1,4 @@
+import { fr } from 'const';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
@@ -18,7 +19,7 @@ export const Header: React.FC = () => {
   return (
     <Container>
       <SafeAreaView edges={['top']}>
-        <Text>Mon Pont Chaban</Text>
+        <Text>{fr.MyChaban}</Text>
       </SafeAreaView>
     </Container>
   );

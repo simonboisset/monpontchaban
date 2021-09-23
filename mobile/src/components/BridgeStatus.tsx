@@ -1,3 +1,4 @@
+import { fr } from 'const';
 import { getStatus } from 'const/getStatus';
 import React from 'react';
 import styled from 'styled-components/native';
@@ -16,22 +17,22 @@ const Text = styled.Text`
 export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) => {
   switch (getStatus(new Date(), openAt, closeAt)) {
     case 'OPEN':
-      return <Text>Ouvert</Text>;
+      return <Text>{fr.opened}</Text>;
 
     case 'WILL_CLOSE':
       return (
         <Text>
-          Ferme dans <Timer date={closeAt} />
+          {fr.closeIn} <Timer date={closeAt} />
         </Text>
       );
 
     case 'CLOSED':
       return (
         <Text>
-          Réouvre dans <Timer date={openAt} />
+          {fr.reopenIn} <Timer date={openAt} />
         </Text>
       );
     default:
-      return <Text>Ouvert</Text>;
+      return <Text>{fr.opened}</Text>;
   }
 };
