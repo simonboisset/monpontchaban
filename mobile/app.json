@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#84a59d"
       },
-      "versionCode": 420010000,
+      "versionCode": 420010001,
       "package": "com.simonboisset.monpontchaban"
     },
     "web": {
