@@ -1,14 +1,17 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
-import React, { useEffect, useState } from 'react';
-import { StatusBar, View } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import styled, { ThemeProvider } from 'styled-components/native';
 import { BridgeStatus } from './src/components/BridgeStatus';
 import { ScreenView } from './src/components/ScreenView';
 import { theme } from './src/const';
+
 export type BridgeEvent = { closeAt: Date; openAt: Date };
+
 const AppContainer = styled.View`
   flex: 1;
 `;
@@ -26,6 +29,7 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
+      await SplashScreen.preventAutoHideAsync();
       const req = await axios.get(
         'https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows=200&sort=-date_passage&facet=bateau'
       );
@@ -53,14 +57,20 @@ export default function App() {
     fetchData();
   }, []);
 
+  const onLayoutRootView = useCallback(async () => {
+    if (!!datas) {
+      await SplashScreen.hideAsync();
+    }
+  }, [!!datas]);
+
   if (!datas) {
-    return <View />;
+    return null;
   }
 
   return (
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
-        <AppContainer>
+        <AppContainer onLayout={onLayoutRootView}>
           <StatusBar barStyle="light-content" translucent={true} backgroundColor={'transparent'} />
           <ScreenView datas={datas}>
             <BridgeStatus {...datas[0]} />
