@@ -1,5 +1,6 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "version": "1.0.0",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -10,13 +11,19 @@
   "dependencies": {
     "axios": "^0.21.4",
     "dayjs": "^1.10.7",
+    "dotenv": "^10.0.0",
     "expo": "~42.0.1",
+    "expo-application": "~3.2.0",
+    "expo-constants": "~11.0.1",
+    "expo-device": "~3.3.0",
     "expo-splash-screen": "~0.11.2",
+    "expo-updates": "~0.8.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-safe-area-context": "3.2.0",
     "react-native-web": "~0.13.12",
+    "sentry-expo": "^4.0.0",
     "styled-components": "^5.3.1"
   },
   "devDependencies": {
