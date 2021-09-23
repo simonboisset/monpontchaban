@@ -28,7 +28,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
     case 'CLOSED':
       return (
         <Text>
-          Reouvre dans <Timer date={openAt} />
+          Réouvre dans <Timer date={openAt} />
         </Text>
       );
     default:

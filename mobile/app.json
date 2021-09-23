@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "chaban-delmas-bridge-mobile",
+    "name": "Mon Pont Chaban",
     "slug": "chaban-delmas-bridge-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,21 +8,19 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#84a59d"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#84a59d"
       }
     },
     "web": {

@@ -1,0 +1,17 @@
+<svg version="1.1" viewBox="0.0 0.0 800.0 600.0" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10">
+    <clipPath id="p.0">
+        <path d="m0 0l800.0 0l0 600.0l-800.0 0l0 -600.0z" clip-rule="nonzero"/>
+    </clipPath>
+    <g clip-path="url(#p.0)">
+        <path fill="#000000" fill-opacity="0.0" d="m0 0l800.0 0l0 600.0l-800.0 0z" fill-rule="evenodd"/>
+        <path fill="#000000" d="m334.4777 214.06299l28.818909 0l0 179.08661l-28.818909 0z" fill-rule="evenodd"/>
+        <path fill="#000000" d="m334.4777 214.06299l0 -21.606293l28.818909 21.606293z" fill-rule="evenodd"/>
+        <path fill="#000000" d="m286.66928 200.68242l28.818909 0l0 179.08662l-28.818909 0z" fill-rule="evenodd"/>
+        <path fill="#000000" d="m286.66928 200.68242l0 -21.606308l28.818909 21.606308z" fill-rule="evenodd"/>
+        <path fill="#000000" d="m575.3036 209.95013l-28.818909 0l0 179.08661l28.818909 0z" fill-rule="evenodd"/>
+        <path fill="#000000" d="m575.3036 209.95013l0 -21.606308l-28.818909 21.606308z" fill-rule="evenodd"/>
+        <path fill="#000000" d="m524.31506 200.68242l-28.818909 0l0 179.08662l28.818909 0z" fill-rule="evenodd"/>
+        <path fill="#000000" d="m524.31506 200.68242l0 -21.606308l-28.818909 21.606308z" fill-rule="evenodd"/>
+        <path fill="#000000" d="m286.66928 332.67715l0 0c0 -18.047089 64.61203 -32.677155 144.31497 -32.677155c79.70294 0 144.31494 14.630066 144.31494 32.677155l-16.338562 0c0 -9.023529 -57.296967 -16.338562 -127.97638 -16.338562c-70.67941 0 -127.97638 7.315033 -127.97638 16.338562z" fill-rule="evenodd"/>
+    </g>
+</svg>

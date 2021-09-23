@@ -46,7 +46,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
       return (
         <Container color="error">
           <Text>
-            Reouvre dans <Timer date={openAt} />
+            Réouvre dans <Timer date={openAt} />
           </Text>
         </Container>
       );
