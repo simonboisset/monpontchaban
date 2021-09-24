@@ -8,7 +8,6 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Sentry from 'sentry-expo';
 import styled, { ThemeProvider } from 'styled-components/native';
-import { BridgeStatus } from './src/components/BridgeStatus';
 import { ScreenView } from './src/components/ScreenView';
 import { theme } from './src/const';
 
@@ -89,9 +88,7 @@ export default function App() {
       <SafeAreaProvider>
         <AppContainer onLayout={onLayoutRootView}>
           <StatusBar barStyle="light-content" translucent={true} backgroundColor={'transparent'} />
-          <ScreenView datas={datas}>
-            <BridgeStatus {...datas[0]} />
-          </ScreenView>
+          <ScreenView datas={datas} />
         </AppContainer>
       </SafeAreaProvider>
     </ThemeProvider>

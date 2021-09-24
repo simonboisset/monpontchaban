@@ -1,6 +1,6 @@
 import { BridgeEvent } from 'App';
-import { fr, Theme } from 'const';
-import { getStatus } from 'const/getStatus';
+import { fr } from 'const';
+import useCurrentStatus from 'hooks/useCurrentStatus';
 import React from 'react';
 import styled from 'styled-components';
 import { ClosedLogo } from './ClosedLogo';
@@ -8,17 +8,14 @@ import { OpenedLogo } from './OpenedLogo';
 import { Timer } from './Timer';
 
 type BridgeStatusProps = BridgeEvent;
-type ContainerProps = {
-  color?: keyof Theme['colors'];
-};
-const Container = styled.div<ContainerProps>`
+
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
   border-radius: 16px;
   align-items: center;
   justify-content: center;
-  background-color: ${({ color = 'white', theme }) => theme.colors[color].main};
 `;
 
 const Text = styled.div`
@@ -28,10 +25,12 @@ const Text = styled.div`
 `;
 
 export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) => {
-  switch (getStatus(new Date(), openAt, closeAt)) {
+  const status = useCurrentStatus(closeAt, openAt);
+
+  switch (status) {
     case 'OPEN':
       return (
-        <Container color="success">
+        <Container>
           <OpenedLogo bottom={24} />
           <Text>{fr.opened}</Text>
         </Container>
@@ -39,7 +38,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
 
     case 'WILL_CLOSE':
       return (
-        <Container color="warning">
+        <Container>
           <OpenedLogo bottom={24} />
           <Text>
             {fr.closeIn} <Timer date={closeAt} />
@@ -49,7 +48,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
 
     case 'CLOSED':
       return (
-        <Container color="error">
+        <Container>
           <ClosedLogo bottom={24} />
           <Text>
             {fr.reopenIn} <Timer date={openAt} />
@@ -58,7 +57,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
       );
     default:
       return (
-        <Container color="success">
+        <Container>
           <OpenedLogo bottom={24} />
           <Text>{fr.opened}</Text>
         </Container>

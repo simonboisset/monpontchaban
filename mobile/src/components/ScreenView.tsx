@@ -1,10 +1,12 @@
 import { Theme } from 'const';
 import { getStatus } from 'const/getStatus';
+import useCurrentStatus from 'hooks/useCurrentStatus';
 import React, { useRef } from 'react';
 import { Animated, Dimensions, Easing, FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
 import { BridgeEventItem } from './BridgeEventItem';
+import { BridgeStatus } from './BridgeStatus';
 import { Header } from './Header';
 type ScreenContainerProps = {
   color?: keyof Theme['colors'];
@@ -34,8 +36,8 @@ const colorPicker: Record<ReturnType<typeof getStatus>, keyof Theme['colors']> =
 };
 const windowHeight = Dimensions.get('window').height;
 
-export const ScreenView: React.FC<ScreenViewProps> = ({ datas, children }) => {
-  const status = getStatus(new Date(), datas[0].openAt, datas[0].closeAt);
+export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
+  const status = useCurrentStatus(datas[0].closeAt, datas[0].openAt);
   const offset = useRef(new Animated.Value(0)).current;
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], { useNativeDriver: false })(event);
@@ -61,7 +63,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, children }) => {
             transform: [{ translateY }],
           }}
         >
-          {children}
+          <BridgeStatus {...datas[0]} />
         </Animated.View>
       </StatusContainer>
       <Header />

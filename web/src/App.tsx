@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { BridgeStatus } from 'components/BridgeStatus';
 import { Header } from 'components/Header';
 import { Loading } from 'components/Loading';
 import { ScreenView } from 'components/ScreenView';
@@ -57,9 +56,7 @@ export const App: React.FC = () => {
           <Header />
         </Loading>
       ) : (
-        <ScreenView datas={datas}>
-          <BridgeStatus {...datas[0]} />
-        </ScreenView>
+        <ScreenView datas={datas} />
       )}
     </ThemeProvider>
   );

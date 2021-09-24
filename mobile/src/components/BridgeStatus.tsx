@@ -1,5 +1,5 @@
 import { fr } from 'const';
-import { getStatus } from 'const/getStatus';
+import useCurrentStatus from 'hooks/useCurrentStatus';
 import React from 'react';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
@@ -15,7 +15,8 @@ const Text = styled.Text`
 `;
 
 export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) => {
-  switch (getStatus(new Date(), openAt, closeAt)) {
+  const status = useCurrentStatus(closeAt, openAt);
+  switch (status) {
     case 'OPEN':
       return <Text>{fr.opened}</Text>;
 
