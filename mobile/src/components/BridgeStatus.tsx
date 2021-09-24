@@ -1,8 +1,8 @@
 import { fr } from 'const';
-import useCurrentStatus from 'hooks/useCurrentStatus';
 import React from 'react';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
+import useCurrentStatus from '../hooks/useCurrentStatus';
 import { Timer } from './Timer';
 
 type BridgeStatusProps = BridgeEvent;

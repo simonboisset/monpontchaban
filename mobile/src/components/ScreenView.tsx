@@ -1,10 +1,10 @@
 import { Theme } from 'const';
 import { getStatus } from 'const/getStatus';
-import useCurrentStatus from 'hooks/useCurrentStatus';
 import React, { useRef } from 'react';
 import { Animated, Dimensions, Easing, FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
+import useCurrentStatus from '../hooks/useCurrentStatus';
 import { BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
 import { Header } from './Header';
