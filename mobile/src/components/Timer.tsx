@@ -5,7 +5,10 @@ const getDiff = (d1: Date, d2: Date) => {
   const h = Math.floor(delta / 3600 / 1000);
   const m = Math.floor((delta - h * 3600 * 1000) / 60 / 1000);
   const s = Math.floor((delta - h * 3600 * 1000 - m * 60 * 1000) / 1000);
-  return `${h < 10 ? '0' : ''}${h}h${m < 10 ? '0' : ''}${m}m${s < 10 ? '0' : ''}${s}s`;
+  const hours = !!h ? `${h}h` : '';
+  const minutes = !!m || !!h ? `${m < 10 ? '0' : ''}${m}m` : '';
+  const secondes = `${s < 10 ? '0' : ''}${s}s`;
+  return `${hours}${minutes}${secondes}`;
 };
 
 type TimerProps = { date: Date };
