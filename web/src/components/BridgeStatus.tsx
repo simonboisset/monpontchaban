@@ -3,6 +3,8 @@ import { fr, Theme } from 'const';
 import { getStatus } from 'const/getStatus';
 import React from 'react';
 import styled from 'styled-components';
+import { ClosedLogo } from './ClosedLogo';
+import { OpenedLogo } from './OpenedLogo';
 import { Timer } from './Timer';
 
 type BridgeStatusProps = BridgeEvent;
@@ -11,6 +13,7 @@ type ContainerProps = {
 };
 const Container = styled.div<ContainerProps>`
   display: flex;
+  flex-direction: column;
   flex: 1;
   border-radius: 16px;
   align-items: center;
@@ -29,6 +32,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
     case 'OPEN':
       return (
         <Container color="success">
+          <OpenedLogo bottom={24} />
           <Text>{fr.opened}</Text>
         </Container>
       );
@@ -36,6 +40,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
     case 'WILL_CLOSE':
       return (
         <Container color="warning">
+          <OpenedLogo bottom={24} />
           <Text>
             {fr.closeIn} <Timer date={closeAt} />
           </Text>
@@ -45,6 +50,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
     case 'CLOSED':
       return (
         <Container color="error">
+          <ClosedLogo bottom={24} />
           <Text>
             {fr.reopenIn} <Timer date={openAt} />
           </Text>
@@ -53,6 +59,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
     default:
       return (
         <Container color="success">
+          <OpenedLogo bottom={24} />
           <Text>{fr.opened}</Text>
         </Container>
       );

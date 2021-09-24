@@ -5,6 +5,8 @@ import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import React from 'react';
 import styled from 'styled-components';
+import { ClosedLogo } from './ClosedLogo';
+import { OpenedLogo } from './OpenedLogo';
 type BridgeEventItemProps = BridgeEvent;
 dayjs.extend(isToday);
 dayjs.extend(isTomorrow);
@@ -19,15 +21,6 @@ const Item = styled.div`
   background-color: ${({ theme }) => theme.colors.background.main};
 `;
 
-type DotProps = {
-  color?: keyof Theme['colors'];
-};
-const Dot = styled.div<DotProps>`
-  border-radius: 16px;
-  padding: 3px;
-  margin: 8px;
-  background-color: ${({ color = 'success', theme }) => theme.colors[color].main};
-`;
 type TextAlign = 'center' | 'start' | 'end';
 type TextProps = {
   variant?: keyof Theme['typography'];
@@ -58,11 +51,11 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openA
             ' '}
       </Text>
       <Text>
-        <Dot color="error" />
+        <ClosedLogo width={15} color="error" right={8} />
         {dayjs(closeAt).hour()}h{dayjs(closeAt).format('mm')}
       </Text>
       <Text>
-        <Dot />
+        <OpenedLogo width={15} color="success" right={8} />
         {dayjs(openAt).hour()}h{dayjs(openAt).format('mm')}
       </Text>
     </Item>
