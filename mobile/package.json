@@ -6,7 +6,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "apk": "expo build:android --no-wait --type apk",
+    "aab": "expo build:android --no-wait --type app-bundle",
+    "push": "expo publish"
   },
   "dependencies": {
     "axios": "^0.21.4",
