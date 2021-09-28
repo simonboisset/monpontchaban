@@ -1,5 +1,5 @@
 import { BridgeEvent } from 'App';
-import { fr } from 'const';
+import { fr } from 'const/translation';
 import useCurrentStatus from 'hooks/useCurrentStatus';
 import React from 'react';
 import styled from 'styled-components';

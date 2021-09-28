@@ -1,5 +1,6 @@
 import { BridgeEvent } from 'App';
-import { fr, Theme } from 'const';
+import { Theme } from 'const/theme';
+import { fr } from 'const/translation';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
@@ -7,6 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ClosedLogo } from './ClosedLogo';
 import { OpenedLogo } from './OpenedLogo';
+
 type BridgeEventItemProps = BridgeEvent;
 dayjs.extend(isToday);
 dayjs.extend(isTomorrow);

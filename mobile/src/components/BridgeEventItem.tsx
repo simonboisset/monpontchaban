@@ -1,4 +1,5 @@
-import { fr, Theme } from 'const';
+import { Theme } from 'const/theme';
+import { fr } from 'const/translation';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';

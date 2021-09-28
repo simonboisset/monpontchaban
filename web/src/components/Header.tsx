@@ -1,4 +1,4 @@
-import { fr } from 'const';
+import { fr } from 'const/translation';
 import React from 'react';
 import styled from 'styled-components';
 

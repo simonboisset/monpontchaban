@@ -1,6 +1,6 @@
 import { BridgeEvent } from 'App';
-import { Theme } from 'const';
 import { getStatus } from 'const/getStatus';
+import { Theme } from 'const/theme';
 import useCurrentStatus from 'hooks/useCurrentStatus';
 import React from 'react';
 import styled from 'styled-components';

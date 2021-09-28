@@ -1,4 +1,4 @@
-import { fr } from 'const';
+import { fr } from 'const/translation';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
