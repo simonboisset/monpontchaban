@@ -1,4 +1,4 @@
-import { theme, Theme } from 'const';
+import { theme, Theme } from 'const/theme';
 import styled from 'styled-components';
 type LogoProps = {
   width?: number;

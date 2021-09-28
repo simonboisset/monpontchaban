@@ -1,5 +1,5 @@
-import { Theme } from 'const';
 import { getStatus } from 'const/getStatus';
+import { Theme } from 'const/theme';
 import React, { useRef } from 'react';
 import { Animated, Dimensions, Easing, FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import styled from 'styled-components/native';
