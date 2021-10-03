@@ -5,3 +5,4 @@ migrations
 dist
 lib
 .env
+build
