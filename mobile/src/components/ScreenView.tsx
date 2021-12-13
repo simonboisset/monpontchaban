@@ -37,7 +37,7 @@ const colorPicker: Record<ReturnType<typeof getStatus>, keyof Theme['colors']> =
 const windowHeight = Dimensions.get('window').height;
 
 export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
-  const status = useCurrentStatus(datas[0].closeAt, datas[0].openAt);
+  const status = useCurrentStatus(datas[0]?.closeAt, datas[0]?.openAt);
   const offset = useRef(new Animated.Value(0)).current;
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], { useNativeDriver: false })(event);
@@ -63,7 +63,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
             transform: [{ translateY }],
           }}
         >
-          <BridgeStatus {...datas[0]} />
+          <BridgeStatus event={datas[0]} />
         </Animated.View>
       </StatusContainer>
       <Header />

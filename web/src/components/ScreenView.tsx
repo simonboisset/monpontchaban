@@ -44,14 +44,14 @@ const colorPicker: Record<ReturnType<typeof getStatus>, keyof Theme['colors']> =
 };
 
 export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
-  const status = useCurrentStatus(datas[0].closeAt, datas[0].openAt);
+  const status = useCurrentStatus(datas[0]?.closeAt, datas[0]?.openAt);
 
   return (
     <ScreenContainer color={colorPicker[status]}>
       <Header />
       <Content>
         <StatusContainer>
-          <BridgeStatus {...datas[0]} />
+          <BridgeStatus event={datas[0]} />
         </StatusContainer>
         <EnventsContainer>
           <EnventsPadding>

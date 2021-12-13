@@ -24,10 +24,10 @@ const Text = styled.div`
   color: white;
 `;
 
-export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) => {
-  const status = useCurrentStatus(closeAt, openAt);
+export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) => {
+  const status = useCurrentStatus(event?.closeAt, event?.openAt);
 
-  switch (status) {
+  switch (status || !event) {
     case 'OPEN':
       return (
         <Container>
@@ -41,7 +41,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
         <Container>
           <OpenedLogo bottom={24} />
           <Text>
-            {fr.closeIn} <Timer date={closeAt} />
+            {fr.closeIn} <Timer date={event.closeAt} />
           </Text>
         </Container>
       );
@@ -51,7 +51,7 @@ export const BridgeStatus: React.FC<BridgeStatusProps> = ({ closeAt, openAt }) =
         <Container>
           <ClosedLogo bottom={24} />
           <Text>
-            {fr.reopenIn} <Timer date={openAt} />
+            {fr.reopenIn} <Timer date={event.openAt} />
           </Text>
         </Container>
       );
