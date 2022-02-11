@@ -1,8 +1,8 @@
-import { BridgeEvent } from 'App';
-import { fr } from 'const/translation';
-import useCurrentStatus from 'hooks/useCurrentStatus';
 import React from 'react';
 import styled from 'styled-components';
+import { fr } from '~/const/translation';
+import useCurrentStatus from '~/hooks/useCurrentStatus';
+import { BridgeEvent } from './BridgeEventItem';
 import { ClosedLogo } from './ClosedLogo';
 import { OpenedLogo } from './OpenedLogo';
 import { Timer } from './Timer';

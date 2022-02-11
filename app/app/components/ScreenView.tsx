@@ -1,10 +1,9 @@
-import { BridgeEvent } from 'App';
-import { getStatus } from 'const/getStatus';
-import { Theme } from 'const/theme';
-import useCurrentStatus from 'hooks/useCurrentStatus';
 import React from 'react';
 import styled from 'styled-components';
-import { BridgeEventItem } from './BridgeEventItem';
+import { getStatus } from '~/const/getStatus';
+import { Theme } from '~/const/theme';
+import useCurrentStatus from '~/hooks/useCurrentStatus';
+import { BridgeEvent, BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
 import { Header } from './Header';
 type ScreenContainerProps = {

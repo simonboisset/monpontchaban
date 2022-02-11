@@ -1,5 +1,5 @@
-import { getStatus } from 'const/getStatus';
 import { useState } from 'react';
+import { getStatus } from '~/const/getStatus';
 import useInterval from './useInterval';
 
 const useCurrentStatus = (closeAt?: Date, openAt?: Date) => {

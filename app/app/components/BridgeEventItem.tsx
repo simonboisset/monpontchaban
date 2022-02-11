@@ -1,13 +1,14 @@
-import { BridgeEvent } from 'App';
-import { Theme } from 'const/theme';
-import { fr } from 'const/translation';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import React from 'react';
 import styled from 'styled-components';
+import { Theme } from '~/const/theme';
+import { fr } from '~/const/translation';
 import { ClosedLogo } from './ClosedLogo';
 import { OpenedLogo } from './OpenedLogo';
+
+export type BridgeEvent = { closeAt: Date; openAt: Date };
 
 type BridgeEventItemProps = BridgeEvent;
 dayjs.extend(isToday);
@@ -40,7 +41,7 @@ const Text = styled.div<TextProps>`
 export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openAt }) => {
   return (
     <Item>
-      <Text justify="center" variant="h3">
+      <Text justify='center' variant='h3'>
         {dayjs(closeAt).isTomorrow()
           ? 'Demain '
           : dayjs(closeAt).isToday()
@@ -53,11 +54,11 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openA
             ' '}
       </Text>
       <Text>
-        <ClosedLogo width={15} color="error" right={8} />
+        <ClosedLogo width={15} color='error' right={8} />
         {dayjs(closeAt).hour()}h{dayjs(closeAt).format('mm')}
       </Text>
       <Text>
-        <OpenedLogo width={15} color="success" right={8} />
+        <OpenedLogo width={15} color='success' right={8} />
         {dayjs(openAt).hour()}h{dayjs(openAt).format('mm')}
       </Text>
     </Item>

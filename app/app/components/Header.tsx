@@ -1,6 +1,6 @@
-import { fr } from 'const/translation';
 import React from 'react';
 import styled from 'styled-components';
+import { fr } from '~/const/translation';
 
 const Container = styled.div`
   position: absolute;

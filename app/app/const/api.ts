@@ -1,5 +1,3 @@
-import * as Sentry from '@sentry/react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 
 type Data = {
@@ -12,11 +10,12 @@ type Data = {
 
 const get = async () => {
   try {
-    const req = await axios.get(
-      'https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows=200&sort=-date_passage&facet=bateau'
+    const req = await fetch(
+      'https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows=200&sort=-date_passage&facet=bateau',
     );
-    const records: Data[] = req.data.records;
-    return records.map((record) => {
+    const datas: { records: Data[] } = await req.json();
+
+    return datas.records.map((record) => {
       const date = record.fields.date_passage;
       const [hClose, mClose] = record.fields.fermeture_a_la_circulation
         .split(':')
@@ -33,9 +32,7 @@ const get = async () => {
       openAt.setMinutes(mOpen);
       return { closeAt, openAt };
     });
-  } catch (error) {
-    Sentry.captureException(error);
-  }
+  } catch (error) {}
 };
 
 export const api = { get };
