@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { fr } from '~/const/translation';
 import useCurrentStatus from '~/hooks/useCurrentStatus';
 import { BridgeEvent } from './BridgeEventItem';
@@ -9,58 +8,51 @@ import { Timer } from './Timer';
 
 type BridgeStatusProps = BridgeEvent;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  border-radius: 16px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Text = styled.div`
-  font-family: ${({ theme }) => theme.typography.status.font};
-  font-size: ${({ theme }) => theme.typography.status.size}px;
-  color: white;
-`;
-
 export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) => {
   const status = useCurrentStatus(event?.closeAt, event?.openAt);
 
   switch (status || !event) {
     case 'OPEN':
       return (
-        <Container>
-          <OpenedLogo bottom={24} />
-          <Text>{fr.opened}</Text>
-        </Container>
+        <div className='flex grow flex-col items-center justify-center'>
+          <div className='mb-8 w-2/6'>
+            <OpenedLogo />
+          </div>
+          <div className='text-6xl text-white'>{fr.opened}</div>
+        </div>
       );
 
     case 'WILL_CLOSE':
       return (
-        <Container>
-          <OpenedLogo bottom={24} />
-          <Text>
+        <div className='flex grow flex-col items-center justify-center'>
+          <div className='mb-8 w-2/6'>
+            <OpenedLogo />
+          </div>
+          <div className='text-6xl text-white'>
             {fr.closeIn} <Timer date={event.closeAt} />
-          </Text>
-        </Container>
+          </div>
+        </div>
       );
 
     case 'CLOSED':
       return (
-        <Container>
-          <ClosedLogo bottom={24} />
-          <Text>
+        <div className='flex grow flex-col items-center justify-center'>
+          <div className='mb-8 w-2/6 '>
+            <ClosedLogo />
+          </div>
+          <div className='text-6xl text-white'>
             {fr.reopenIn} <Timer date={event.openAt} />
-          </Text>
-        </Container>
+          </div>
+        </div>
       );
     default:
       return (
-        <Container>
-          <OpenedLogo bottom={24} />
-          <Text>{fr.opened}</Text>
-        </Container>
+        <div className='flex grow flex-col items-center justify-center'>
+          <div className='mb-8 w-2/6'>
+            <OpenedLogo />
+          </div>
+          <div className='text-6xl text-white'>{fr.opened}</div>
+        </div>
       );
   }
 };

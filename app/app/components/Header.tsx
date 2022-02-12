@@ -1,23 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
 import { fr } from '~/const/translation';
 
-const Container = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  margin-left: 10%;
-  padding-left: 5%;
-  padding-right: 5%;
-  align-items: center;
-  box-shadow: ${({ theme }) => theme.shadow(3)};
-  border-radius: 0px 0px 36px 36px;
-  height: 72px;
-  background-color: ${({ theme }) => theme.colors.background.main};
-  font-family: ${({ theme }) => theme.typography.h1.font};
-  font-size: ${({ theme }) => theme.typography.h2.size}px;
-`;
-
 export const Header: React.FC = () => {
-  return <Container>{fr.MyChaban}</Container>;
+  return (
+    <div className=' flex flex-row absolute ml-40 w-80 p-4 items-center justify-center drop-shadow-lg rounded-b-full h-15 bg-white text-2xl'>
+      {fr.MyChaban}
+    </div>
+  );
 };

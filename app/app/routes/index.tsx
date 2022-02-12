@@ -4,10 +4,11 @@ import { api } from '~/const/api';
 
 export const loader = async () => {
   const fetchedDatas = await api.get();
-
   return fetchedDatas?.filter((reccord) => reccord.openAt.getTime() > new Date().getTime()) || [];
 };
+
 type Data = Awaited<ReturnType<typeof loader>>;
+
 export default function Index() {
   const datas = useLoaderData<Data>();
 

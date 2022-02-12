@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import useInterval from '~/hooks/useInterval';
 
 const getDiff = (d1: Date, d2: Date) => {
   const delta = Math.abs(d2.getTime() - d1.getTime());
@@ -14,19 +15,9 @@ const getDiff = (d1: Date, d2: Date) => {
 type TimerProps = { date: Date };
 export const Timer: React.FC<TimerProps> = ({ date }) => {
   const [now, setNow] = useState(new Date());
+  useInterval(() => {
+    setNow(new Date());
+  }, 1000);
 
-  useEffect(() => {
-    const updateTime = () => {
-      setNow(new Date());
-    };
-    const delay = new Date().getTime() - Math.floor(new Date().getTime() / 1000) * 1000;
-
-    const intervall = setInterval(() => {
-      setTimeout(() => {
-        updateTime();
-      }, delay);
-    }, 1000);
-    return () => clearInterval(intervall);
-  }, []);
   return <>{getDiff(now, date)}</>;
 };
