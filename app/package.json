@@ -4,7 +4,8 @@
   "description": "",
   "license": "",
   "scripts": {
-    "build": "tailwindcss -o ./app/tailwind.css && remix build",
+    "build": "npm run build:css && remix build",
+    "build:css": "tailwindcss -o ./app/tailwind.css",
     "dev": "concurrently \"tailwindcss -o ./app/tailwind.css --watch\" \"cross-env NODE_ENV=development netlify dev\"",
     "postinstall": "remix setup node"
   },
