@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useCurrentStatus from '~/hooks/useCurrentStatus';
 import { BridgeEvent, BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
@@ -8,6 +8,15 @@ type ScreenViewProps = { datas: BridgeEvent[] };
 
 export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
   const status = useCurrentStatus(datas[0]?.closeAt, datas[0]?.openAt);
+  const [opacity, setOpacity] = useState('opacity-100');
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    if (e.currentTarget.scrollTop > 100) {
+      setOpacity('opacity-0');
+    } else {
+      setOpacity('opacity-100');
+    }
+  };
 
   return (
     <div
@@ -17,13 +26,19 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
       }>
       <div className='flex md:flex-row flex-col w-screen items-center md:items-start'>
         <div className='flex grow h-screen justify-center absolute md:static'>
-          <div className='flex flex-col w-full md:max-w-2xl max-w-md'>
+          <div className={'flex flex-col w-full md:max-w-2xl max-w-md'}>
             <Header />
-            <BridgeStatus event={datas[0]} />
+            <div
+              className={
+                opacity +
+                ' md:opacity-100 transition-opacity duration-500 flex grow flex-col items-center justify-center'
+              }>
+              <BridgeStatus event={datas[0]} />
+            </div>
           </div>
         </div>
 
-        <div className='overflow-y-scroll md:max-w-md w-full h-screen z-10'>
+        <div className='overflow-y-scroll md:max-w-md w-full h-screen z-10' onScroll={handleScroll}>
           <div
             className={
               (status === 'OPEN' ? 'bg-[#84a59d]' : status === 'WILL_CLOSE' ? 'bg-[#f6bd60]' : 'bg-[#f28482]') +

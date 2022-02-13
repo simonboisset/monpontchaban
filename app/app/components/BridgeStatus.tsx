@@ -14,45 +14,46 @@ export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) 
   switch (status || !event) {
     case 'OPEN':
       return (
-        <div className='flex grow flex-col items-center justify-center'>
+        <>
           <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
             <OpenedLogo />
           </div>
           <div className='mb-20 text-2xl md:text-4xl text-white'>{fr.opened}</div>
-        </div>
+        </>
       );
 
     case 'WILL_CLOSE':
       return (
-        <div className='flex grow flex-col items-center justify-center'>
+        <>
           <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
             <OpenedLogo />
           </div>
           <div className='text-2xl md:text-4xl text-white'>
             {fr.closeIn} <Timer date={event.closeAt} />
           </div>
-        </div>
+        </>
       );
 
     case 'CLOSED':
       return (
-        <div className='flex grow flex-col items-center justify-center'>
+        <>
+          {' '}
           <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60 '>
             <ClosedLogo />
           </div>
           <div className='text-2xl md:text-4xl text-white'>
             {fr.reopenIn} <Timer date={event.openAt} />
           </div>
-        </div>
+        </>
       );
     default:
       return (
-        <div className='flex grow flex-col items-center justify-center'>
+        <>
           <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
             <OpenedLogo />
           </div>
           <div className='text-2xl md:text-4xl text-white'>{fr.opened}</div>
-        </div>
+        </>
       );
   }
 };
