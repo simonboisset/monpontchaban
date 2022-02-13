@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useCurrentStatus from '~/hooks/useCurrentStatus';
+import { Android } from './Android';
 import { BridgeEvent, BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
 import { GithubLogo } from './GithubLogo';
@@ -46,6 +47,11 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
               ' h-16 fixed  w-full z-10'
             }
           />
+          <a
+            className='w-8 cursor-pointer h-8 text-white absolute top-5 right-16 z-40'
+            href='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban'>
+            <Android />
+          </a>
           <a
             className='w-8 cursor-pointer h-8 text-white absolute top-5 right-4 z-40'
             href='https://github.com/simonboisset/chaban-delmas-bridge'>
