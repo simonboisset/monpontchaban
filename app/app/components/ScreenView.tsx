@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useCurrentStatus from '~/hooks/useCurrentStatus';
 import { BridgeEvent, BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
+import { GithubLogo } from './GithubLogo';
 import { Header } from './Header';
 
 type ScreenViewProps = { datas: BridgeEvent[] };
@@ -42,12 +43,17 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
           <div
             className={
               (status === 'OPEN' ? 'bg-[#84a59d]' : status === 'WILL_CLOSE' ? 'bg-[#f6bd60]' : 'bg-[#f28482]') +
-              ' h-20 md:h-0 fixed  w-full z-10'
+              ' h-16 fixed  w-full z-10'
             }
           />
+          <a
+            className='w-8 cursor-pointer h-8 text-white absolute top-5 right-4 z-40'
+            href='https://github.com/simonboisset/chaban-delmas-bridge'>
+            <GithubLogo />
+          </a>
           <div className='h-full md:h-0' />
           <div className='flex flex-col items-center'>
-            <div className='flex w-full flex-col p-5 space-y-5 -translate-y-40 md:translate-y-20 max-w-md'>
+            <div className='flex w-full flex-col p-5 space-y-5 -mt-40 md:mt-20 max-w-md'>
               {datas.map((data) => (
                 <BridgeEventItem key={data.closeAt.getTime()} {...data} />
               ))}
