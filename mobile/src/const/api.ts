@@ -1,4 +1,3 @@
-import axios from 'axios';
 import dayjs from 'dayjs';
 import * as Sentry from 'sentry-expo';
 
@@ -12,11 +11,11 @@ type Data = {
 
 const get = async () => {
   try {
-    const req = await axios.get(
+    const req = await fetch(
       'https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows=200&sort=-date_passage&facet=bateau'
     );
-    const records: Data[] = req.data.records;
-    return records.map((record) => {
+    const datas: { records: Data[] } = await req.json();
+    return datas.records.map((record) => {
       const date = record.fields.date_passage;
       const [hClose, mClose] = record.fields.fermeture_a_la_circulation
         .split(':')

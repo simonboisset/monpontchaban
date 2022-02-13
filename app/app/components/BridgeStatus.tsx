@@ -15,7 +15,7 @@ export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) 
     case 'OPEN':
       return (
         <>
-          <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
+          <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60 text-white'>
             <OpenedLogo />
           </div>
           <div className='mb-20 text-2xl md:text-4xl text-white'>{fr.opened}</div>

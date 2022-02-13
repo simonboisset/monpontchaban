@@ -27,15 +27,15 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openA
             fr.month[dayjs(closeAt).month()] +
             ' '}
       </div>
-      <div className='flex flex-row items-center '>
-        <div className='w-6 mr-4'>
-          <ClosedLogo color='error' />
+      <div className='flex flex-row items-center'>
+        <div className='w-6 mr-4 text-[#84a59d]'>
+          <ClosedLogo />
         </div>
         {dayjs(closeAt).hour()}h{dayjs(closeAt).format('mm')}
       </div>
-      <div className='flex flex-row items-center  '>
-        <div className='w-6 mr-4'>
-          <OpenedLogo color='success' />
+      <div className='flex flex-row items-center'>
+        <div className='w-6 mr-4 text-[#f28482]'>
+          <OpenedLogo />
         </div>
         {dayjs(openAt).hour()}h{dayjs(openAt).format('mm')}
       </div>
