@@ -3,8 +3,6 @@ import { fr } from '~/const/translation';
 
 export const Header: React.FC = () => {
   return (
-    <div className=' flex flex-row absolute ml-40 w-80 p-4 items-center justify-center drop-shadow-lg rounded-b-full h-15 bg-white text-2xl'>
-      {fr.MyChaban}
-    </div>
+    <div className='z-20 flex flex-row w-full p-4 items-center justify-center text-white text-3xl'>{fr.MyChaban}</div>
   );
 };
