@@ -14,7 +14,6 @@ const get = async () => {
       'https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows=200&sort=-date_passage&facet=bateau',
     );
     const datas: { records: Data[] } = await req.json();
-
     return datas.records.map((record) => {
       const date = record.fields.date_passage;
       const [hClose, mClose] = record.fields.fermeture_a_la_circulation
