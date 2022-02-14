@@ -61,4 +61,13 @@ export default {
   extra: {
     SENTRY_DSN: process.env.SENTRY_DSN,
   },
+  plugins: [
+    [
+      'expo-notifications',
+      {
+        icon: './assets/notification-icon.png',
+        color: '#ffffff',
+      },
+    ],
+  ],
 };

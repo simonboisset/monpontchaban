@@ -1,4 +1,5 @@
 import { api } from 'const/api';
+import { scheduleNewEventNotification } from 'const/notifications';
 import 'dayjs/locale/fr';
 import Constants from 'expo-constants';
 import * as SplashScreen from 'expo-splash-screen';
@@ -37,6 +38,7 @@ export default function App() {
       if (fetchedDatas) {
         setDatas(fetchedDatas.filter((reccord: BridgeEvent) => reccord.openAt.getTime() > new Date().getTime()));
       }
+      scheduleNewEventNotification(fetchedDatas);
     };
     fetchData();
   }, []);

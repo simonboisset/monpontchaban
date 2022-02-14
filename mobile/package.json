@@ -18,6 +18,7 @@
     "expo-application": "~3.2.0",
     "expo-constants": "~11.0.1",
     "expo-device": "~3.3.0",
+    "expo-notifications": "~0.12.3",
     "expo-splash-screen": "~0.11.2",
     "expo-updates": "~0.8.2",
     "react": "^17.0.2",
