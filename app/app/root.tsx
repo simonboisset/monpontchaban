@@ -28,7 +28,7 @@ export default function App() {
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
-        <meta name='description' content='Horaire pont Chaban-Delmas' />
+        <meta name='description' content='Les horaires de fermeture du pont Chaban Delmas' />
         <Meta />
         <Links />
       </head>
