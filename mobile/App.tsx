@@ -1,6 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from 'const/api';
+import { scheduleNewEventNotification } from 'const/notifications';
 import 'dayjs/locale/fr';
 import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback, useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
@@ -29,17 +32,37 @@ const AppContainer = styled.View`
 
 export default function App() {
   const [datas, setDatas] = useState<BridgeEvent[]>();
-
+  const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
+      const enableNotificationsStorage = await AsyncStorage.getItem('enable-notifications');
+
       await SplashScreen.preventAutoHideAsync();
       const fetchedDatas = await api.get();
       if (fetchedDatas) {
         setDatas(fetchedDatas.filter((reccord: BridgeEvent) => reccord.openAt.getTime() > new Date().getTime()));
       }
+      if (enableNotificationsStorage === 'true') {
+        setEnableNotifications(true);
+        scheduleNewEventNotification(fetchedDatas);
+      } else {
+        Notifications.cancelAllScheduledNotificationsAsync();
+      }
     };
     fetchData();
   }, []);
+
+  const handleToggleNotifications = () => {
+    if (enableNotifications) {
+      setEnableNotifications(false);
+      AsyncStorage.setItem('enable-notifications', 'false');
+      Notifications.cancelAllScheduledNotificationsAsync();
+    } else {
+      setEnableNotifications(true);
+      AsyncStorage.setItem('enable-notifications', 'true');
+      scheduleNewEventNotification(datas);
+    }
+  };
 
   const onLayoutRootView = useCallback(async () => {
     if (!!datas) {
@@ -56,7 +79,11 @@ export default function App() {
       <SafeAreaProvider>
         <AppContainer onLayout={onLayoutRootView}>
           <StatusBar barStyle="light-content" translucent={true} backgroundColor={'transparent'} />
-          <ScreenView datas={datas} />
+          <ScreenView
+            onToggleNotifications={handleToggleNotifications}
+            enableNotifications={enableNotifications}
+            datas={datas}
+          />
         </AppContainer>
       </SafeAreaProvider>
     </ThemeProvider>

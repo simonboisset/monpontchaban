@@ -8,6 +8,7 @@ import useCurrentStatus from '../hooks/useCurrentStatus';
 import { BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
 import { Header } from './Header';
+
 type ScreenContainerProps = {
   color?: keyof Theme['colors'];
 };
@@ -27,7 +28,7 @@ const StatusContainer = styled.View`
   justify-content: center;
 `;
 
-type ScreenViewProps = { datas: BridgeEvent[] };
+type ScreenViewProps = { datas: BridgeEvent[]; enableNotifications: boolean; onToggleNotifications: () => void };
 
 const colorPicker: Record<ReturnType<typeof getStatus>, keyof Theme['colors']> = {
   OPEN: 'success',
@@ -36,24 +37,27 @@ const colorPicker: Record<ReturnType<typeof getStatus>, keyof Theme['colors']> =
 };
 const windowHeight = Dimensions.get('window').height;
 
-export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
+export const ScreenView: React.FC<ScreenViewProps> = ({ datas, enableNotifications, onToggleNotifications }) => {
   const status = useCurrentStatus(datas[0]?.closeAt, datas[0]?.openAt);
   const offset = useRef(new Animated.Value(0)).current;
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], { useNativeDriver: false })(event);
   };
+
   const opacity = offset.interpolate({
     inputRange: [0, 200],
     outputRange: [1, 0],
     extrapolate: 'clamp',
     easing: Easing.quad,
   });
+
   const translateY = offset.interpolate({
     inputRange: [0, 200],
     outputRange: [0, 10],
     extrapolate: 'clamp',
     easing: Easing.cubic,
   });
+
   return (
     <ScreenContainer color={colorPicker[status]}>
       <StatusContainer>
@@ -66,7 +70,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
           <BridgeStatus event={datas[0]} />
         </Animated.View>
       </StatusContainer>
-      <Header />
+      <Header enableNotifications={enableNotifications} onToggleNotifications={onToggleNotifications} />
       <FlatList
         scrollEventThrottle={16}
         onScroll={handleScroll}
