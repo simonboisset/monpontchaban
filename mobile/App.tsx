@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from 'const/api';
-import { scheduleNewEventNotification } from 'const/notifications';
+import { getNotificationPermission, scheduleNewEventNotification } from 'const/notifications';
 import 'dayjs/locale/fr';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
@@ -35,39 +35,41 @@ export default function App() {
   const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const enableNotificationsStorage = await AsyncStorage.getItem('enable-notifications');
-
-      await SplashScreen.preventAutoHideAsync();
+      const enableNotificationsStorage = await getNotificationPermission();
       const fetchedDatas = await api.get();
       if (fetchedDatas) {
         setDatas(fetchedDatas.filter((reccord: BridgeEvent) => reccord.openAt.getTime() > new Date().getTime()));
       }
-      if (enableNotificationsStorage === 'true') {
+      if (enableNotificationsStorage) {
         setEnableNotifications(true);
         scheduleNewEventNotification(fetchedDatas);
       } else {
         Notifications.cancelAllScheduledNotificationsAsync();
       }
+      await SplashScreen.preventAutoHideAsync();
     };
     fetchData();
   }, []);
 
-  const handleToggleNotifications = () => {
+  const handleToggleNotifications = async () => {
     if (enableNotifications) {
       setEnableNotifications(false);
       AsyncStorage.setItem('enable-notifications', 'false');
       Notifications.cancelAllScheduledNotificationsAsync();
     } else {
-      Notifications.scheduleNotificationAsync({
-        content: {
-          title: 'Notifications activées',
-          body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
-        },
-        trigger: { seconds: 1 },
-      });
-      setEnableNotifications(true);
-      AsyncStorage.setItem('enable-notifications', 'true');
-      scheduleNewEventNotification(datas);
+      const enableNotificationsStorage = await getNotificationPermission();
+      if (enableNotificationsStorage) {
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: 'Notifications activées',
+            body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
+          },
+          trigger: { seconds: 1 },
+        });
+        setEnableNotifications(true);
+        AsyncStorage.setItem('enable-notifications', 'true');
+        scheduleNewEventNotification(datas);
+      }
     }
   };
 
@@ -85,7 +87,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <AppContainer onLayout={onLayoutRootView}>
-          <StatusBar barStyle="light-content" translucent={true} backgroundColor={'transparent'} />
+          <StatusBar barStyle="light-content" translucent={true} backgroundColor="transparent" />
           <ScreenView
             onToggleNotifications={handleToggleNotifications}
             enableNotifications={enableNotifications}

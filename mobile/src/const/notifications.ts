@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import dayjs from 'dayjs';
 import * as Notifications from 'expo-notifications';
 import { BridgeEvent } from '../../App';
@@ -41,4 +42,19 @@ export const scheduleNewEventNotification = async (events?: BridgeEvent[]) => {
       });
     }
   }
+};
+
+export const getNotificationPermission = async () => {
+  let enableNotificationsStorage = await AsyncStorage.getItem('enable-notifications');
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  let hasNotificationPermission = existingStatus === 'granted';
+  if (!hasNotificationPermission) {
+    const { status } = await Notifications.requestPermissionsAsync();
+    hasNotificationPermission = status === 'granted';
+  }
+  if (!hasNotificationPermission && enableNotificationsStorage === 'true') {
+    enableNotificationsStorage = 'false';
+    await AsyncStorage.setItem('enable-notifications', enableNotificationsStorage);
+  }
+  return enableNotificationsStorage === 'true';
 };
