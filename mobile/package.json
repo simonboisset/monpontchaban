@@ -9,7 +9,8 @@
     "eject": "expo eject",
     "apk": "eas build --profile internal --platform android --no-wait --non-interactive",
     "distribute": "eas build --profile release --platform android --no-wait --auto-submit --non-interactive",
-    "push": "expo publish"
+    "push": "expo publish",
+    "push-prod": "expo publish --release-channel production"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.15.0",

@@ -58,6 +58,13 @@ export default function App() {
       AsyncStorage.setItem('enable-notifications', 'false');
       Notifications.cancelAllScheduledNotificationsAsync();
     } else {
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: 'Notifications activées',
+          body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
+        },
+        trigger: { seconds: 1 },
+      });
       setEnableNotifications(true);
       AsyncStorage.setItem('enable-notifications', 'true');
       scheduleNewEventNotification(datas);

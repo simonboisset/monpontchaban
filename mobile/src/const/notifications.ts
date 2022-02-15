@@ -13,7 +13,7 @@ Notifications.setNotificationHandler({
 const schedulePushNotification = async (start: Date, end: Date) => {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: 'Fermeture du pont Chaban Delmas',
+      title: 'Fermeture du pont Chaban-Delmas',
       body: `Le pont sera fermé de ${dayjs(start).hour()}h${dayjs(start).format('mm')} à ${dayjs(end).hour()}h${dayjs(
         end
       ).format('mm')}`,
