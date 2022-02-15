@@ -42,7 +42,7 @@ export default {
     },
     versionCode,
     package: 'com.simonboisset.monpontchaban',
-    googleServicesFile: './google-services.json',
+    // googleServicesFile: './google-services.json',
   },
   web: {
     favicon: './assets/favicon.png',

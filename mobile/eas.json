@@ -9,7 +9,6 @@
     },
     "release": {
       "distribution": "internal",
-      "releaseChannel": "production",
       "android": {
         "buildType": "apk"
       }
