@@ -2,27 +2,14 @@ import { api } from 'const/api';
 import { getNotificationPermission, scheduleNewEventNotification } from 'const/notifications';
 import { storage } from 'const/storage';
 import 'dayjs/locale/fr';
-import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback, useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import * as Sentry from 'sentry-expo';
 import styled, { ThemeProvider } from 'styled-components/native';
 import { ScreenView } from './src/components/ScreenView';
 import { theme } from './src/const/theme';
-
-const sentryDsn: string | undefined = Constants.manifest?.extra?.SENTRY_DSN;
-const version: string | undefined = Constants.manifest?.version;
-const release: string | undefined = Constants.manifest?.revisionId;
-Sentry.init({
-  dsn: sentryDsn,
-  enableInExpoDevelopment: true,
-  debug: false,
-  release: process.env.NODE_ENV !== 'development' ? release : 'DEVELOPMENT',
-});
-Sentry.Native.setTag('version', version);
 
 export type BridgeEvent = { closeAt: Date; openAt: Date };
 
@@ -49,9 +36,7 @@ export default function App() {
         } else {
           Notifications.cancelAllScheduledNotificationsAsync();
         }
-      } catch (error) {
-        Sentry.Native.captureException(error);
-      }
+      } catch (error) {}
     };
     fetchData();
   }, []);
@@ -78,9 +63,7 @@ export default function App() {
           scheduleNewEventNotification(datas);
         }
       }
-    } catch (error) {
-      Sentry.Native.captureException(error);
-    }
+    } catch (error) {}
   };
 
   const onLayoutRootView = useCallback(async () => {
