@@ -1,13 +1,13 @@
 {
   "build": {
-    "release": {
+    "production": {
       "distribution": "store",
       "releaseChannel": "production",
       "android": {
         "buildType": "app-bundle"
       }
     },
-    "internal": {
+    "release": {
       "distribution": "internal",
       "releaseChannel": "production",
       "android": {
@@ -16,7 +16,7 @@
     }
   },
   "submit": {
-    "release": {
+    "production": {
       "android": {
         "serviceAccountKeyPath": "./api-key.json"
       }
