@@ -63,7 +63,6 @@ export default {
     SENTRY_DSN: process.env.SENTRY_DSN,
   },
   plugins: [
-    ['sentry-expo'],
     [
       'expo-notifications',
       {
