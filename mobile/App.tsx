@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from 'const/api';
 import { getNotificationPermission, scheduleNewEventNotification } from 'const/notifications';
+import { storage } from 'const/storage';
 import 'dayjs/locale/fr';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
@@ -35,7 +35,7 @@ export default function App() {
   const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const enableNotificationsStorage = await AsyncStorage.getItem('enable-notifications');
+      const enableNotificationsStorage = await storage.getItem();
       const hasPermission = await getNotificationPermission(enableNotificationsStorage === 'true');
       const fetchedDatas = await api.get();
       if (fetchedDatas) {
@@ -55,12 +55,12 @@ export default function App() {
   const handleToggleNotifications = async () => {
     if (enableNotifications) {
       setEnableNotifications(false);
-      AsyncStorage.setItem('enable-notifications', 'false');
+      storage.setItem('false');
       Notifications.cancelAllScheduledNotificationsAsync();
     } else {
       const hasPermission = await getNotificationPermission(true);
       if (hasPermission) {
-        await AsyncStorage.setItem('enable-notifications', 'true');
+        await storage.setItem('true');
         Notifications.scheduleNotificationAsync({
           content: {
             title: 'Notifications activées',
