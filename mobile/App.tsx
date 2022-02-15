@@ -35,12 +35,13 @@ export default function App() {
   const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const enableNotificationsStorage = await getNotificationPermission();
+      const enableNotificationsStorage = await AsyncStorage.getItem('enable-notifications');
+      const hasPermission = await getNotificationPermission(enableNotificationsStorage === 'true');
       const fetchedDatas = await api.get();
       if (fetchedDatas) {
         setDatas(fetchedDatas.filter((reccord: BridgeEvent) => reccord.openAt.getTime() > new Date().getTime()));
       }
-      if (enableNotificationsStorage) {
+      if (hasPermission) {
         setEnableNotifications(true);
         scheduleNewEventNotification(fetchedDatas);
       } else {
@@ -57,8 +58,9 @@ export default function App() {
       AsyncStorage.setItem('enable-notifications', 'false');
       Notifications.cancelAllScheduledNotificationsAsync();
     } else {
-      const enableNotificationsStorage = await getNotificationPermission();
-      if (enableNotificationsStorage) {
+      const hasPermission = await getNotificationPermission(true);
+      if (hasPermission) {
+        await AsyncStorage.setItem('enable-notifications', 'true');
         Notifications.scheduleNotificationAsync({
           content: {
             title: 'Notifications activées',
@@ -67,7 +69,7 @@ export default function App() {
           trigger: { seconds: 1 },
         });
         setEnableNotifications(true);
-        AsyncStorage.setItem('enable-notifications', 'true');
+
         scheduleNewEventNotification(datas);
       }
     }

@@ -44,17 +44,17 @@ export const scheduleNewEventNotification = async (events?: BridgeEvent[]) => {
   }
 };
 
-export const getNotificationPermission = async () => {
-  let enableNotificationsStorage = await AsyncStorage.getItem('enable-notifications');
+export const getNotificationPermission = async (enableNotifications: boolean) => {
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let hasNotificationPermission = existingStatus === 'granted';
   if (!hasNotificationPermission) {
     const { status } = await Notifications.requestPermissionsAsync();
     hasNotificationPermission = status === 'granted';
   }
-  if (!hasNotificationPermission && enableNotificationsStorage === 'true') {
-    enableNotificationsStorage = 'false';
-    await AsyncStorage.setItem('enable-notifications', enableNotificationsStorage);
+  if (!hasNotificationPermission && enableNotifications) {
+    await AsyncStorage.setItem('enable-notifications', 'false');
+    return false;
   }
-  return enableNotificationsStorage === 'true';
+
+  return enableNotifications && hasNotificationPermission;
 };
