@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
 type Data = {
   fields: {
@@ -9,11 +11,14 @@ type Data = {
 };
 
 const get = async () => {
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
   try {
     const req = await fetch(
       'https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows=200&sort=-date_passage&facet=bateau',
     );
     const datas: { records: Data[] } = await req.json();
+
     return datas.records.map((record) => {
       const date = record.fields.date_passage;
       const [hClose, mClose] = record.fields.fermeture_a_la_circulation
@@ -25,11 +30,12 @@ const get = async () => {
 
       const closeAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
       closeAt.setHours(hClose);
-      closeAt.setMinutes(mClose);
       const openAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
       openAt.setHours(hOpen);
-      openAt.setMinutes(mOpen);
-      return { closeAt, openAt };
+      return {
+        closeAt: dayjs(closeAt.setMinutes(mClose)).tz('Europe/Paris', true).toDate(),
+        openAt: dayjs(openAt.setMinutes(mOpen)).tz('Europe/Paris', true).toDate(),
+      };
     });
   } catch (error) {}
 };
