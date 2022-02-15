@@ -7,8 +7,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "apk": "eas build --profile internal --platform android --no-wait --non-interactive",
-    "distribute": "eas build --profile release --platform android --no-wait --auto-submit --non-interactive",
+    "apk": "eas build --profile release --platform android --no-wait --non-interactive",
+    "submit": "eas build --profile production --platform android --no-wait --auto-submit --non-interactive",
     "push": "expo publish",
     "push-prod": "expo publish --release-channel production"
   },
