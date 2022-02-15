@@ -1,0 +1,25 @@
+{
+  "build": {
+    "release": {
+      "distribution": "store",
+      "releaseChannel": "production",
+      "android": {
+        "buildType": "app-bundle"
+      }
+    },
+    "internal": {
+      "distribution": "internal",
+      "releaseChannel": "production",
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  },
+  "submit": {
+    "release": {
+      "android": {
+        "serviceAccountKeyPath": "./api-key.json"
+      }
+    }
+  }
+}

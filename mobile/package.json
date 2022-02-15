@@ -1,14 +1,14 @@
 {
   "main": "node_modules/expo/AppEntry.js",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "apk": "expo build:android --no-wait --type apk",
-    "aab": "expo build:android --no-wait --type app-bundle",
+    "apk": "eas build --profile internal --platform android --no-wait --non-interactive",
+    "distribute": "eas build --profile release --platform android --no-wait --auto-submit --non-interactive",
     "push": "expo publish"
   },
   "dependencies": {
