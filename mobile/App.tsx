@@ -36,6 +36,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        await SplashScreen.preventAutoHideAsync();
         const enableNotificationsStorage = await storage.getItem();
         const hasPermission = await getNotificationPermission(enableNotificationsStorage === 'true');
         const fetchedDatas = await api.get();
@@ -48,7 +49,6 @@ export default function App() {
         } else {
           Notifications.cancelAllScheduledNotificationsAsync();
         }
-        await SplashScreen.preventAutoHideAsync();
       } catch (error) {
         Sentry.Native.captureException(error);
       }
