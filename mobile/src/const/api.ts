@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import * as Sentry from 'sentry-expo';
 
 type Data = {
   fields: {
@@ -34,9 +33,7 @@ const get = async () => {
         return { closeAt, openAt };
       })
       .filter(({ closeAt }) => dayjs(closeAt).isAfter(new Date()));
-  } catch (error) {
-    Sentry.Native.captureException(error);
-  }
+  } catch (error) {}
 };
 
 export const api = { get };
