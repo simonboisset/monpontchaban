@@ -17,7 +17,8 @@
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "./api-key.json"
+        "serviceAccountKeyPath": "./api-key.json",
+        "track": "production"
       }
     }
   }

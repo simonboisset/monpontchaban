@@ -35,43 +35,51 @@ export default function App() {
   const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const enableNotificationsStorage = await storage.getItem();
-      const hasPermission = await getNotificationPermission(enableNotificationsStorage === 'true');
-      const fetchedDatas = await api.get();
-      if (fetchedDatas) {
-        setDatas(fetchedDatas.filter((reccord: BridgeEvent) => reccord.openAt.getTime() > new Date().getTime()));
+      try {
+        const enableNotificationsStorage = await storage.getItem();
+        const hasPermission = await getNotificationPermission(enableNotificationsStorage === 'true');
+        const fetchedDatas = await api.get();
+        if (fetchedDatas) {
+          setDatas(fetchedDatas.filter((reccord: BridgeEvent) => reccord.openAt.getTime() > new Date().getTime()));
+        }
+        if (hasPermission) {
+          setEnableNotifications(true);
+          scheduleNewEventNotification(fetchedDatas);
+        } else {
+          Notifications.cancelAllScheduledNotificationsAsync();
+        }
+        await SplashScreen.preventAutoHideAsync();
+      } catch (error) {
+        Sentry.Native.captureException(error);
       }
-      if (hasPermission) {
-        setEnableNotifications(true);
-        scheduleNewEventNotification(fetchedDatas);
-      } else {
-        Notifications.cancelAllScheduledNotificationsAsync();
-      }
-      await SplashScreen.preventAutoHideAsync();
     };
     fetchData();
   }, []);
 
   const handleToggleNotifications = async () => {
-    if (enableNotifications) {
-      setEnableNotifications(false);
-      storage.setItem('false');
-      Notifications.cancelAllScheduledNotificationsAsync();
-    } else {
-      const hasPermission = await getNotificationPermission(true);
-      if (hasPermission) {
-        await storage.setItem('true');
-        Notifications.scheduleNotificationAsync({
-          content: {
-            title: 'Notifications activées',
-            body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
-          },
-          trigger: { seconds: 1 },
-        });
-        setEnableNotifications(true);
+    try {
+      if (enableNotifications) {
+        setEnableNotifications(false);
+        storage.setItem('false');
+        Notifications.cancelAllScheduledNotificationsAsync();
+      } else {
+        const hasPermission = await getNotificationPermission(true);
+        if (hasPermission) {
+          await storage.setItem('true');
+          Notifications.scheduleNotificationAsync({
+            content: {
+              title: 'Notifications activées',
+              body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
+            },
+            trigger: { seconds: 1 },
+          });
+          setEnableNotifications(true);
 
-        scheduleNewEventNotification(datas);
+          scheduleNewEventNotification(datas);
+        }
       }
+    } catch (error) {
+      Sentry.Native.captureException(error);
     }
   };
 
