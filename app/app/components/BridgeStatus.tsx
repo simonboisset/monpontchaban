@@ -15,10 +15,10 @@ export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) 
     case 'OPEN':
       return (
         <>
-          <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60 text-white'>
+          <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
             <OpenedLogo />
           </div>
-          <div className='mb-20 text-2xl md:text-4xl text-white'>{fr.opened}</div>
+          <div className='mb-20 text-2xl md:text-4xl'>{fr.opened}</div>
         </>
       );
 
@@ -28,7 +28,7 @@ export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) 
           <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
             <OpenedLogo />
           </div>
-          <div className='text-2xl md:text-4xl text-white'>
+          <div className='text-2xl md:text-4xl'>
             {fr.closeIn} <Timer date={event.closeAt} />
           </div>
         </>
@@ -41,7 +41,7 @@ export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) 
           <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60 '>
             <ClosedLogo />
           </div>
-          <div className='text-2xl md:text-4xl text-white'>
+          <div className='text-2xl md:text-4xl'>
             {fr.reopenIn} <Timer date={event.openAt} />
           </div>
         </>
@@ -52,7 +52,7 @@ export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) 
           <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
             <OpenedLogo />
           </div>
-          <div className='text-2xl md:text-4xl text-white'>{fr.opened}</div>
+          <div className='text-2xl md:text-4xl'>{fr.opened}</div>
         </>
       );
   }
