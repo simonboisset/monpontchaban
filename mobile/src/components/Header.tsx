@@ -16,17 +16,18 @@ const FakeIcon = styled.View`
   width: 16px;
 `;
 
-const Text = styled.Text`
+const Text = styled.Text<{ dark: boolean }>`
   flex: 1;
   text-align: center;
   font-family: ${({ theme }) => theme.typography.h2.font};
   font-size: ${({ theme }) => theme.typography.h2.size}px;
-  color: ${({ theme }) => theme.colors.white.main};
+  color: ${({ theme, dark }) => (dark ? theme.colors.background.main : 'white')};
 `;
 
-export const Header: React.FC<{ onToggleNotifications: () => void; enableNotifications: boolean }> = ({
+export const Header: React.FC<{ onToggleNotifications: () => void; enableNotifications: boolean; dark: boolean }> = ({
   onToggleNotifications,
   enableNotifications,
+  dark,
 }) => {
   return (
     <Container>
@@ -35,9 +36,9 @@ export const Header: React.FC<{ onToggleNotifications: () => void; enableNotific
         style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingRight: 24, paddingLeft: 24 }}
       >
         <FakeIcon />
-        <Text>{fr.MyChaban}</Text>
+        <Text dark={dark}>{fr.MyChaban}</Text>
         <TouchableOpacity onPress={onToggleNotifications}>
-          {enableNotifications ? <Notification /> : <NotificationOFF />}
+          {enableNotifications ? <Notification dark={dark} /> : <NotificationOFF dark={dark} />}
         </TouchableOpacity>
       </SafeAreaView>
     </Container>

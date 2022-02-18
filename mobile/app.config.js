@@ -21,6 +21,7 @@ export default {
   name: 'Mon Pont Chaban',
   slug: 'mon-pont-chaban',
   orientation: 'portrait',
+  userInterfaceStyle: 'automatic',
   icon: './assets/icon.png',
   splash: {
     image: './assets/splash.png',

@@ -1,7 +1,15 @@
 import { getStatus } from 'const/getStatus';
 import { Theme } from 'const/theme';
 import React, { useRef } from 'react';
-import { Animated, Dimensions, Easing, FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  Easing,
+  FlatList,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  useColorScheme,
+} from 'react-native';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
 import useCurrentStatus from '../hooks/useCurrentStatus';
@@ -11,11 +19,13 @@ import { Header } from './Header';
 
 type ScreenContainerProps = {
   color?: keyof Theme['colors'];
+  dark: boolean;
 };
 const ScreenContainer = styled.View<ScreenContainerProps>`
   flex: 1;
   flex-direction: column;
-  background-color: ${({ color = 'success', theme }) => theme.colors[color].main};
+  background-color: ${({ dark, color = 'success', theme }) =>
+    dark ? theme.colors[color].dark : theme.colors[color].main};
 `;
 
 const StatusContainer = styled.View`
@@ -38,6 +48,8 @@ const colorPicker: Record<ReturnType<typeof getStatus>, keyof Theme['colors']> =
 const windowHeight = Dimensions.get('window').height;
 
 export const ScreenView: React.FC<ScreenViewProps> = ({ datas, enableNotifications, onToggleNotifications }) => {
+  const colorScheme = useColorScheme();
+  const dark = colorScheme === 'dark';
   const status = useCurrentStatus(datas[0]?.closeAt, datas[0]?.openAt);
   const offset = useRef(new Animated.Value(0)).current;
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -59,7 +71,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, enableNotificatio
   });
 
   return (
-    <ScreenContainer color={colorPicker[status]}>
+    <ScreenContainer dark={dark} color={colorPicker[status]}>
       <StatusContainer>
         <Animated.View
           style={{
@@ -67,17 +79,17 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, enableNotificatio
             transform: [{ translateY }],
           }}
         >
-          <BridgeStatus event={datas[0]} />
+          <BridgeStatus dark={dark} event={datas[0]} />
         </Animated.View>
       </StatusContainer>
-      <Header enableNotifications={enableNotifications} onToggleNotifications={onToggleNotifications} />
+      <Header dark={dark} enableNotifications={enableNotifications} onToggleNotifications={onToggleNotifications} />
       <FlatList
         scrollEventThrottle={16}
         onScroll={handleScroll}
         contentContainerStyle={{ paddingTop: windowHeight - 185, paddingLeft: 20, paddingRight: 20 }}
         data={datas}
         keyExtractor={(item) => item.closeAt.getTime().toString()}
-        renderItem={({ item }) => <BridgeEventItem key={item.closeAt.getTime()} {...item} />}
+        renderItem={({ item }) => <BridgeEventItem dark={dark} key={item.closeAt.getTime()} {...item} />}
       />
     </ScreenContainer>
   );
