@@ -14,7 +14,7 @@ dayjs.extend(isTomorrow);
 
 export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openAt }) => {
   return (
-    <div className='flex flex-col p-5 bg-white rounded-3xl drop-shadow-lg space-y-1'>
+    <div className='flex flex-col p-5 bg-white dark:bg-slate-800 rounded-3xl drop-shadow-lg space-y-1 dark:text-slate-400 text-slate-600'>
       <div className='flex flex-row items-center '>
         {dayjs(closeAt).isTomorrow()
           ? 'Demain '
@@ -28,13 +28,13 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openA
             ' '}
       </div>
       <div className='flex flex-row items-center'>
-        <div className='w-6 mr-4 text-[#f28482]'>
+        <div className='w-6 mr-4 text-red'>
           <ClosedLogo />
         </div>
         {dayjs(closeAt).hour()}h{dayjs(closeAt).format('mm')}
       </div>
       <div className='flex flex-row items-center'>
-        <div className='w-6 mr-4 text-[#84a59d]'>
+        <div className='w-6 mr-4 text-green'>
           <OpenedLogo />
         </div>
         {dayjs(openAt).hour()}h{dayjs(openAt).format('mm')}

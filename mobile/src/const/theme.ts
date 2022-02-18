@@ -59,7 +59,7 @@ export const theme = {
     success: { main: '#84a59d', light: '#84a59d', dark: '#84a59d' },
     warning: { main: '#f6bd60', light: '#f6bd60', dark: '#f6bd60' },
     error: { main: '#f28482', light: '#f28482', dark: '#f28482' },
-    background: { main: 'white', light: 'white', dark: 'white' },
+    background: { light: '#94a3b8', main: '#475569', dark: '#1e293b' },
     light: { main: 'rgba(255, 255, 255, 0.25)', light: 'rgba(255, 255, 255, 0.12)', dark: 'rgba(255, 255, 255, 0.50)' },
     white: { main: 'white', light: 'white', dark: 'white' },
   },
