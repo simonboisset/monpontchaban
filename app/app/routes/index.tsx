@@ -1,10 +1,11 @@
 import { useLoaderData } from 'remix';
 import { ScreenView } from '~/components/ScreenView';
 import { api } from '~/const/api';
+import { filterNextBridgeEvents } from '~/const/filterNextBridgeEvents';
 
 export const loader = async () => {
   const fetchedDatas = await api.get();
-  return fetchedDatas?.filter((reccord) => reccord.openAt.getTime() > new Date().getTime()) || [];
+  return fetchedDatas?.filter(filterNextBridgeEvents(new Date())) || [];
 };
 
 type Data = Awaited<ReturnType<typeof loader>>;

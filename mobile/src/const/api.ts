@@ -32,7 +32,7 @@ const get = async () => {
         openAt.setMinutes(mOpen);
         return { closeAt, openAt };
       })
-      .filter(({ closeAt }) => dayjs(closeAt).isAfter(new Date()));
+      .filter(({ openAt }) => dayjs(openAt).isAfter(new Date()));
   } catch (error) {}
 };
 

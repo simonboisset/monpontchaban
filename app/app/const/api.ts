@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import fetch from 'node-fetch';
+import { BridgeEvent } from '~/components/BridgeEventItem';
 
 type Data = {
   fields: {
@@ -9,6 +11,24 @@ type Data = {
     re_ouverture_a_la_circulation: string;
   };
 };
+export const getBridgeEvents = (datas: Data[]): BridgeEvent[] =>
+  datas.map((record) => {
+    const date = record.fields.date_passage;
+    const [hClose, mClose] = record.fields.fermeture_a_la_circulation.split(':').map((value: string) => Number(value));
+    const [hOpen, mOpen] = record.fields.re_ouverture_a_la_circulation.split(':').map((value: string) => Number(value));
+
+    const closeAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
+    closeAt.setHours(hClose);
+    let openAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
+    openAt.setHours(hOpen);
+    if (dayjs(closeAt).isAfter(openAt)) {
+      openAt = dayjs(openAt).add(1, 'day').toDate();
+    }
+    return {
+      closeAt: dayjs(closeAt.setMinutes(mClose)).tz('Europe/Paris', true).toDate(),
+      openAt: dayjs(openAt.setMinutes(mOpen)).tz('Europe/Paris', true).toDate(),
+    };
+  });
 
 const get = async () => {
   dayjs.extend(utc);
@@ -19,24 +39,7 @@ const get = async () => {
     );
     const datas: { records: Data[] } = await req.json();
 
-    return datas.records.map((record) => {
-      const date = record.fields.date_passage;
-      const [hClose, mClose] = record.fields.fermeture_a_la_circulation
-        .split(':')
-        .map((value: string) => Number(value));
-      const [hOpen, mOpen] = record.fields.re_ouverture_a_la_circulation
-        .split(':')
-        .map((value: string) => Number(value));
-
-      const closeAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
-      closeAt.setHours(hClose);
-      const openAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
-      openAt.setHours(hOpen);
-      return {
-        closeAt: dayjs(closeAt.setMinutes(mClose)).tz('Europe/Paris', true).toDate(),
-        openAt: dayjs(openAt.setMinutes(mOpen)).tz('Europe/Paris', true).toDate(),
-      };
-    });
+    return getBridgeEvents(datas.records);
   } catch (error) {}
 };
 
