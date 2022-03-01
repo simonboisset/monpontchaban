@@ -1,17 +1,18 @@
 import dayjs from 'dayjs';
 
-export const getStatus = (now: Date, openAt?: Date, closeAt?: Date) => {
+export const getStatus = (now: Date, closeAt?: Date, openAt?: Date) => {
   if (!openAt || !closeAt) {
     return 'OPEN';
   }
-  if (dayjs(closeAt).isToday()) {
-    if (dayjs(closeAt).isAfter(now)) {
-      return 'WILL_CLOSE';
-    }
-    if (dayjs(openAt).isBefore(now)) {
-      return 'OPEN';
-    }
+
+  const diffCloseToNow = dayjs(closeAt).diff(now, 's');
+  if (diffCloseToNow > 0 && diffCloseToNow <= 12 * 3600) {
+    return 'WILL_CLOSE';
+  }
+
+  if (diffCloseToNow <= 0 && dayjs(openAt).isAfter(now)) {
     return 'CLOSED';
   }
+
   return 'OPEN';
 };

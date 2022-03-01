@@ -1,4 +1,5 @@
 import { api } from 'const/api';
+import { filterNextBridgeEvents } from 'const/filterNextBridgeEvents';
 import { getNotificationPermission, scheduleNewEventNotification } from 'const/notifications';
 import { storage } from 'const/storage';
 import 'dayjs/locale/fr';
@@ -28,7 +29,7 @@ export default function App() {
         const hasPermission = await getNotificationPermission(enableNotificationsStorage === 'true');
         const fetchedDatas = await api.get();
         if (fetchedDatas) {
-          setDatas(fetchedDatas.filter((reccord: BridgeEvent) => reccord.openAt.getTime() > new Date().getTime()));
+          setDatas(fetchedDatas.filter(filterNextBridgeEvents(new Date())));
         }
         if (hasPermission) {
           setEnableNotifications(true);

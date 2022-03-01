@@ -3,9 +3,9 @@ import { useState } from 'react';
 import useInterval from './useInterval';
 
 const useCurrentStatus = (closeAt?: Date, openAt?: Date) => {
-  const [status, setStatus] = useState<ReturnType<typeof getStatus>>(getStatus(new Date(), openAt, closeAt));
+  const [status, setStatus] = useState<ReturnType<typeof getStatus>>(getStatus(new Date(), closeAt, openAt));
   useInterval(() => {
-    const nextStatus = getStatus(new Date(), openAt, closeAt);
+    const nextStatus = getStatus(new Date(), closeAt, openAt);
     if (nextStatus !== status) {
       setStatus(nextStatus);
     }
