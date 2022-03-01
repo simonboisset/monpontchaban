@@ -5,6 +5,8 @@
   "license": "",
   "scripts": {
     "build": "yarn build:css && remix build",
+    "preview": "yarn build:css && netlify build --context deploy-preview && netlify deploy",
+    "deploy": "yarn build:css && netlify build && netlify deploy --prod",
     "test": "jest",
     "build:css": "tailwindcss -o ./app/tailwind.css",
     "dev": "concurrently \"tailwindcss -o ./app/tailwind.css --watch\" \"cross-env NODE_ENV=development netlify dev\"",
