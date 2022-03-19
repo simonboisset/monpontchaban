@@ -4,7 +4,7 @@ import styles from '~/styles/root.css';
 import tailwind from './tailwind.css';
 
 export const meta: MetaFunction = () => {
-  return { title: 'Mon pont chaban' };
+  return { title: 'Mon pont chaban', description: 'Horaires de fermeture du pont Chaban Delmas' };
 };
 export function links() {
   return [
