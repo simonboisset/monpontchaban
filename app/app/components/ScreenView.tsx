@@ -33,17 +33,17 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
         <div className='flex grow h-screen justify-center absolute md:static'>
           <div className={'flex flex-col w-full md:max-w-2xl max-w-md'}>
             <Header />
-            <div
+            <main
               className={
                 opacity +
                 ' md:opacity-100 transition-opacity duration-500 flex grow flex-col items-center justify-center'
               }>
               <BridgeStatus event={datas[0]} />
-            </div>
+            </main>
           </div>
         </div>
 
-        <div className='overflow-y-scroll md:max-w-md w-full h-screen z-10' onScroll={handleScroll}>
+        <nav className='overflow-y-scroll md:max-w-md w-full h-screen z-10' onScroll={handleScroll}>
           <div
             className={
               (status === 'OPEN'
@@ -73,7 +73,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
               ))}
             </div>
           </div>
-        </div>
+        </nav>
       </div>
     </div>
   );

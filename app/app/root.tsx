@@ -4,7 +4,7 @@ import styles from '~/styles/root.css';
 import tailwind from './tailwind.css';
 
 export const meta: MetaFunction = () => {
-  return { title: 'Mon pont chaban', description: 'Horaires de fermeture du pont Chaban Delmas' };
+  return { title: 'Horaires pont Chaban Delmas', description: 'Horaires de fermeture du pont Chaban Delmas' };
 };
 export function links() {
   return [
@@ -28,7 +28,6 @@ export default function App() {
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
-        <meta name='description' content='Les horaires de fermeture du pont Chaban Delmas' />
         <Meta />
         <Links />
       </head>
