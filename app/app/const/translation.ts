@@ -1,6 +1,6 @@
 export const fr = {
   loading: 'Chargement ...',
-  MyChaban: 'Horaires Pont Chaban',
+  MyChaban: 'Horaires du Pont Chaban',
   opened: 'Ouvert',
   closeIn: 'Ferme dans',
   reopenIn: 'Réouvre dans',
