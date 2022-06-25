@@ -1,7 +1,7 @@
 import React from 'react';
 import { fr } from '~/const/translation';
 import useCurrentStatus from '~/hooks/useCurrentStatus';
-import { BridgeEvent } from './BridgeEventItem';
+import type { BridgeEvent } from './BridgeEventItem';
 import { ClosedLogo } from './ClosedLogo';
 import { OpenedLogo } from './OpenedLogo';
 import { Timer } from './Timer';

@@ -1,7 +1,6 @@
 node_modules
+tailwind.css
 /.cache
-/netlify/functions/server/build
 /public/build
 /.netlify
-/app/tailwind.css
-coverage
+.env

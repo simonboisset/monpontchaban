@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  mongodb_migrate:
+    image: mongo:4
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: garcon
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: garcon
+    ports:
+      - '27017:27017'
+  mongo:
+    build: ./mongo_replica
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: garcon
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_REPLICA_HOST: localhost
+      MONGO_REPLICA_PORT: 27018
+    ports:
+      - '27018:27018'
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis
+  #   ports:
+  #     - 127.0.0.1:6379:6379

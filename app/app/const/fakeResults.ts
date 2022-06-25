@@ -1,4 +1,4 @@
-import { BridgeEvent } from '~/components/BridgeEventItem';
+import type { BridgeEvent } from '~/components/BridgeEventItem';
 
 export const fakeResult: BridgeEvent[] = [
   { closeAt: '2022-01-16T22:00:00.000Z', openAt: '2022-01-17T04:00:00.000Z' },

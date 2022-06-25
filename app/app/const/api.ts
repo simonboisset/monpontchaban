@@ -1,8 +1,7 @@
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import fetch from 'node-fetch';
-import { BridgeEvent } from '~/components/BridgeEventItem';
+import type { BridgeEvent } from '~/components/BridgeEventItem';
 
 type Data = {
   fields: {

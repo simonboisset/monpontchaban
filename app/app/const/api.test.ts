@@ -1,12 +1,9 @@
-jest.mock('node-fetch');
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import fetch from 'node-fetch';
 import { api, getBridgeEvents } from './api';
 import { fakeResponse } from './fakeResponse';
 import { fakeResult } from './fakeResults';
-const { Response } = jest.requireActual('node-fetch');
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

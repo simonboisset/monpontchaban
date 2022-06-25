@@ -1,4 +1,4 @@
-import { useLoaderData } from 'remix';
+import { useLoaderData } from '@remix-run/react';
 import { ScreenView } from '~/components/ScreenView';
 import { api } from '~/const/api';
 import { filterNextBridgeEvents } from '~/const/filterNextBridgeEvents';

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import useCurrentStatus from '~/hooks/useCurrentStatus';
 import { Android } from './Android';
-import { BridgeEvent, BridgeEventItem } from './BridgeEventItem';
+import type { BridgeEvent } from './BridgeEventItem';
+import { BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
 import { GithubLogo } from './GithubLogo';
 import { Header } from './Header';

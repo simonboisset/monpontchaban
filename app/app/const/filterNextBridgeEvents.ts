@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { BridgeEvent } from '~/components/BridgeEventItem';
+import type { BridgeEvent } from '~/components/BridgeEventItem';
 
 export const filterNextBridgeEvents =
   (now: Date) =>
