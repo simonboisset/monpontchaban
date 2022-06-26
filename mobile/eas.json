@@ -21,5 +21,8 @@
         "track": "production"
       }
     }
+  },
+  "cli": {
+    "version": ">= 0.53.1"
   }
 }
