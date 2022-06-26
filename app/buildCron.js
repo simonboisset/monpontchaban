@@ -1,10 +1,8 @@
 const esbuild = require('esbuild');
 require('dotenv').config();
 
-const env = { 'process.env.NODE_ENV': `'production'` };
-for (const key in process.env) {
-  env[`process.env.${key}`] = `'${process.env[key]}'`;
-}
+let env = { 'process.env.NODE_ENV': `'production'` };
+env[`process.env.SEND_NOTIFICATION_TOKEN`] = `'${process.env.SEND_NOTIFICATION_TOKEN}'`;
 
 esbuild
   .build({

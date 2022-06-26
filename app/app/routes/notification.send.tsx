@@ -62,23 +62,28 @@ const sendNotification = async (tokens: ExpoPushToken[], title: string, message:
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  if (request.headers.get('token') === process.env.SENT_NOTIFICATION_TOKEN) {
-    const now = new Date();
-    const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date())) || [])[0];
-    if (nextEvent) {
-      const devices = await db.device.findMany({ where: { active: true }, select: { token: true } });
-      try {
-        await sendNotification(
-          devices.map((d) => d.token),
-          'Fermeture du pont Chaban-Delmas',
-          `Le pont sera fermé de ${dayjs(nextEvent.closeAt).hour()}h${dayjs(nextEvent.closeAt).format('mm')} à ${dayjs(
-            nextEvent.openAt,
-          ).hour()}h${dayjs(nextEvent.openAt).format('mm')}`,
-        );
-      } catch (error) {
-        return json({ error: '[Send Notification] Error' }, { status: 400 });
-      }
-      return json({ success: '[Send Notification] Success' }, { status: 200 });
+  const data = await request.json();
+  const token = data.token;
+  if (token !== process.env.SENT_NOTIFICATION_TOKEN) {
+    console.error('[Send Notification] Invalid token');
+    return json({ error: '[Send Notification] Invalid token' }, { status: 400 });
+  }
+  const now = new Date();
+  const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date())) || [])[0];
+  if (nextEvent) {
+    const devices = await db.device.findMany({ where: { active: true }, select: { token: true } });
+    try {
+      await sendNotification(
+        devices.map((d) => d.token),
+        'Fermeture du pont Chaban-Delmas',
+        `Le pont sera fermé de ${dayjs(nextEvent.closeAt).hour()}h${dayjs(nextEvent.closeAt).format('mm')} à ${dayjs(
+          nextEvent.openAt,
+        ).hour()}h${dayjs(nextEvent.openAt).format('mm')}`,
+      );
+    } catch (error) {
+      console.error('[Send Notification] Error', error);
+      return json({ error: '[Send Notification] Error' }, { status: 400 });
     }
+    return json({ success: '[Send Notification] Success' }, { status: 200 });
   }
 };
