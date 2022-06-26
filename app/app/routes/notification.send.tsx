@@ -8,11 +8,11 @@ import db from '~/const/db.server';
 import { filterNextBridgeEvents } from '~/const/filterNextBridgeEvents';
 
 const sendNotification = async (tokens: ExpoPushToken[], title: string, message: string, data?: any) => {
-  const { SEND_NOTIFICATION_TOKEN } = process.env;
-  if (!SEND_NOTIFICATION_TOKEN) {
-    return json({ error: '[Send notification] Token is not defined' }, { status: 400 });
+  const { EXPO_ACCESS_TOKEN } = process.env;
+  if (!EXPO_ACCESS_TOKEN) {
+    return json({ error: '[Send notification] Expo access token is not defined' }, { status: 400 });
   }
-  let expo = new Expo({ accessToken: SEND_NOTIFICATION_TOKEN });
+  let expo = new Expo({ accessToken: EXPO_ACCESS_TOKEN });
   let messages: ExpoPushMessage[] = [];
   for (let pushToken of tokens) {
     if (!Expo.isExpoPushToken(pushToken)) {
@@ -63,8 +63,15 @@ const sendNotification = async (tokens: ExpoPushToken[], title: string, message:
 
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
+  console.log('Data', data);
+
   const token = data.token;
-  if (token !== process.env.SENT_NOTIFICATION_TOKEN) {
+  const { SEND_NOTIFICATION_TOKEN } = process.env;
+  if (!SEND_NOTIFICATION_TOKEN) {
+    return json({ error: '[Send notification] Token is not defined' }, { status: 400 });
+  }
+  console.log('Token', SEND_NOTIFICATION_TOKEN);
+  if (token !== SEND_NOTIFICATION_TOKEN) {
     console.error('[Send Notification] Invalid token');
     return json({ error: '[Send Notification] Invalid token' }, { status: 400 });
   }
