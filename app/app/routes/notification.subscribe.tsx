@@ -13,7 +13,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   try {
     if (request.method === 'DELETE') {
-      await db.device.upsert({ where: { token }, create: { token, active: false }, update: { active: false } });
+      await db.device.delete({ where: { token } });
     } else {
       await db.device.upsert({ where: { token }, create: { token, active: true }, update: { active: true } });
     }
