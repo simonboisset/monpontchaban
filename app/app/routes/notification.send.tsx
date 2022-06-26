@@ -1,4 +1,4 @@
-import type { ActionFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
@@ -86,6 +86,36 @@ export const action: ActionFunction = async ({ request }) => {
     try {
       await sendNotification(
         devices.map((d) => d.token),
+        'Fermeture du pont Chaban-Delmas',
+        `Le pont sera fermé de ${dayjs(nextEvent.closeAt).tz('Europe/Paris').hour()}h${dayjs(nextEvent.closeAt)
+          .tz('Europe/Paris')
+          .format('mm')} à ${dayjs(nextEvent.openAt).tz('Europe/Paris').hour()}h${dayjs(nextEvent.openAt)
+          .tz('Europe/Paris')
+          .format('mm')}`,
+      );
+    } catch (error) {
+      console.error('[Send Notification] Error', error);
+      return json({ error: '[Send Notification] Error' }, { status: 400 });
+    }
+    return json({ success: '[Send Notification] Success' }, { status: 200 });
+  }
+  return json({ success: '[Send Notification] No notification to send' }, { status: 200 });
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+  // Local test for push notification
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  const { MY_PUSH_TOKEN } = process.env;
+  if (!MY_PUSH_TOKEN) {
+    return json({ error: '[Send notification test] My Token is not defined' }, { status: 400 });
+  }
+
+  const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date())) || [])[0];
+  if (nextEvent) {
+    try {
+      await sendNotification(
+        [MY_PUSH_TOKEN],
         'Fermeture du pont Chaban-Delmas',
         `Le pont sera fermé de ${dayjs(nextEvent.closeAt).tz('Europe/Paris').hour()}h${dayjs(nextEvent.closeAt)
           .tz('Europe/Paris')
