@@ -8,10 +8,11 @@ for (const key in process.env) {
 
 esbuild
   .build({
-    entryPoints: ['./cron'],
-    outdir: '.netlify/functions',
+    entryPoints: ['./cron/send-notifications.ts'],
+    outdir: '.netlify/functions-internal',
     minify: true,
     treeShaking: true,
+    sourcemap: true,
     platform: 'node',
     format: 'cjs',
     define: env,
