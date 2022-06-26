@@ -1,4 +1,5 @@
 import { schedule } from '@netlify/functions';
+import fetch from 'node-fetch';
 
 export const handler = schedule('@hourly', async function (event) {
   console.log('Received event:', event);
