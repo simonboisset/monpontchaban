@@ -3,9 +3,10 @@ import { json } from '@remix-run/node';
 import db from '~/const/db.server';
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const entries = Object.fromEntries(formData) as Record<string, string | undefined>;
-  const token = entries.token;
+  const data = await request.json();
+  console.log(data);
+
+  const token = data.token;
   if (!token) {
     return json({ error: '[Notification Subscribe] Token not found' }, { status: 400 });
   }
