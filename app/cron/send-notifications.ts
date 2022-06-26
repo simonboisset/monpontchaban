@@ -2,9 +2,7 @@ import { schedule } from '@netlify/functions';
 import fetch from 'node-fetch';
 
 export const handler = schedule('@hourly', async function (event) {
-  console.log('Received event:', event);
   const SEND_NOTIFICATION_TOKEN = process.env.SEND_NOTIFICATION_TOKEN;
-  console.log(SEND_NOTIFICATION_TOKEN);
 
   if (!SEND_NOTIFICATION_TOKEN) {
     console.error('[Send notification] Token is not defined');
@@ -19,7 +17,6 @@ export const handler = schedule('@hourly', async function (event) {
     },
     body: JSON.stringify({ token: SEND_NOTIFICATION_TOKEN }),
   });
-  console.log(req.status);
 
   return {
     statusCode: req.status,

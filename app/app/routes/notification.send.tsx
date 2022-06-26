@@ -66,16 +66,15 @@ const sendNotification = async (tokens: ExpoPushToken[], title: string, message:
 export const action: ActionFunction = async ({ request }) => {
   dayjs.extend(utc);
   dayjs.extend(timezone);
-  dayjs.tz.setDefault('Europe/Paris');
+
   const data = await request.json();
-  console.log('Data', data);
 
   const token = data.token;
   const { SEND_NOTIFICATION_TOKEN } = process.env;
   if (!SEND_NOTIFICATION_TOKEN) {
     return json({ error: '[Send notification] Token is not defined' }, { status: 400 });
   }
-  console.log('Token', SEND_NOTIFICATION_TOKEN);
+
   if (token !== SEND_NOTIFICATION_TOKEN) {
     console.error('[Send Notification] Invalid token');
     return json({ error: '[Send Notification] Invalid token' }, { status: 400 });
@@ -88,9 +87,11 @@ export const action: ActionFunction = async ({ request }) => {
       await sendNotification(
         devices.map((d) => d.token),
         'Fermeture du pont Chaban-Delmas',
-        `Le pont sera fermé de ${dayjs(nextEvent.closeAt).hour()}h${dayjs(nextEvent.closeAt).format('mm')} à ${dayjs(
-          nextEvent.openAt,
-        ).hour()}h${dayjs(nextEvent.openAt).format('mm')}`,
+        `Le pont sera fermé de ${dayjs(nextEvent.closeAt).tz('Europe/Paris').hour()}h${dayjs(nextEvent.closeAt)
+          .tz('Europe/Paris')
+          .format('mm')} à ${dayjs(nextEvent.openAt).tz('Europe/Paris').hour()}h${dayjs(nextEvent.openAt)
+          .tz('Europe/Paris')
+          .format('mm')}`,
       );
     } catch (error) {
       console.error('[Send Notification] Error', error);

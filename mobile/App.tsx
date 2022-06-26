@@ -49,7 +49,6 @@ export default function App() {
             setEnableNotifications(true);
           } else {
             const sent = await registerForPushNotifications();
-            console.log(sent.status, sent.statusText);
 
             if (sent.status === 200) {
               storage.setPushTokenSent();
@@ -68,7 +67,7 @@ export default function App() {
     try {
       if (enableNotifications) {
         const sent = await registerForPushNotifications(false);
-        console.log(sent.status, sent.statusText);
+
         if (sent.status === 200) {
           setEnableNotifications(false);
           storage.desableNotification();
@@ -79,7 +78,6 @@ export default function App() {
         const hasPermission = await getNotificationPermission(true);
         if (hasPermission) {
           const sent = await registerForPushNotifications();
-          console.log(sent.status, sent.statusText);
           if (sent.status === 200) {
             await storage.setPushTokenSent();
             await storage.enableNotification();
