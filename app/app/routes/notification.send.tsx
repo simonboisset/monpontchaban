@@ -81,7 +81,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
   const now = new Date();
   const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date())) || [])[0];
-  if (nextEvent) {
+  if (nextEvent && dayjs(nextEvent.closeAt).isAfter(now) && dayjs(nextEvent.closeAt).diff(now, 'hour') === 1) {
     const devices = await db.device.findMany({ where: { active: true }, select: { token: true } });
     try {
       await sendNotification(
@@ -99,4 +99,5 @@ export const action: ActionFunction = async ({ request }) => {
     }
     return json({ success: '[Send Notification] Success' }, { status: 200 });
   }
+  return json({ success: '[Send Notification] No notification to send' }, { status: 200 });
 };
