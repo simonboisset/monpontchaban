@@ -1,6 +1,6 @@
 import { api } from 'const/api';
 import { filterNextBridgeEvents } from 'const/filterNextBridgeEvents';
-import { getNotificationPermission, scheduleNewEventNotification } from 'const/notifications';
+import { getNotificationPermission } from 'const/notifications';
 import { storage } from 'const/storage';
 import 'dayjs/locale/fr';
 import * as Notifications from 'expo-notifications';
@@ -18,6 +18,18 @@ const AppContainer = styled.View`
   flex: 1;
 `;
 
+export async function registerForPushNotifications(active = true) {
+  const token = await Notifications.getExpoPushTokenAsync();
+
+  return fetch('https://horaires-pont-chaban-delmas.simonboisset.com/notification/register', {
+    method: active ? 'POST' : 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ token }),
+  });
+}
+
 export default function App() {
   const [datas, setDatas] = useState<BridgeEvent[]>();
   const [enableNotifications, setEnableNotifications] = useState(false);
@@ -25,15 +37,23 @@ export default function App() {
     const fetchData = async () => {
       try {
         await SplashScreen.preventAutoHideAsync();
-        const enableNotificationsStorage = await storage.getItem();
-        const hasPermission = await getNotificationPermission(enableNotificationsStorage === 'true');
+        const hasNotification = await storage.hasNotification();
+        const hasPermission = await getNotificationPermission(hasNotification);
         const fetchedDatas = await api.get();
         if (fetchedDatas) {
           setDatas(fetchedDatas.filter(filterNextBridgeEvents(new Date())));
         }
         if (hasPermission) {
-          setEnableNotifications(true);
-          scheduleNewEventNotification(fetchedDatas);
+          const hasTokenSent = await storage.hasPushTokenSent();
+          if (hasTokenSent) {
+            setEnableNotifications(true);
+          } else {
+            const sent = await registerForPushNotifications();
+            if (sent.status === 200) {
+              storage.setPushTokenSent();
+              setEnableNotifications(true);
+            }
+          }
         } else {
           Notifications.cancelAllScheduledNotificationsAsync();
         }
@@ -45,23 +65,29 @@ export default function App() {
   const handleToggleNotifications = async () => {
     try {
       if (enableNotifications) {
-        setEnableNotifications(false);
-        storage.setItem('false');
+        const sent = await registerForPushNotifications(false);
+        if (sent.status === 200) {
+          setEnableNotifications(false);
+          storage.desableNotification();
+        }
+
         Notifications.cancelAllScheduledNotificationsAsync();
       } else {
         const hasPermission = await getNotificationPermission(true);
         if (hasPermission) {
-          await storage.setItem('true');
-          Notifications.scheduleNotificationAsync({
-            content: {
-              title: 'Notifications activées',
-              body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
-            },
-            trigger: { seconds: 1 },
-          });
-          setEnableNotifications(true);
-
-          scheduleNewEventNotification(datas);
+          const sent = await registerForPushNotifications();
+          if (sent.status === 200) {
+            await storage.setPushTokenSent();
+            await storage.enableNotification();
+            setEnableNotifications(true);
+            Notifications.scheduleNotificationAsync({
+              content: {
+                title: 'Notifications activées',
+                body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
+              },
+              trigger: { seconds: 1 },
+            });
+          }
         }
       }
     } catch (error) {}

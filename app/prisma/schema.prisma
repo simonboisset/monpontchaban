@@ -8,6 +8,7 @@ generator client {
 }
 
 model Device {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  token String
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  token  String  @unique()
+  active Boolean
 }
