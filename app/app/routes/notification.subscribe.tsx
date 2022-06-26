@@ -6,7 +6,7 @@ export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
   console.log(data);
 
-  const token = data.token;
+  const token = data.token.data;
   if (!token) {
     console.error('[Notification Subscribe] Token not found');
     return json({ error: '[Notification Subscribe] Token not found' }, { status: 400 });
