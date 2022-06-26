@@ -1,6 +1,8 @@
 import type { ActionFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import type { ExpoPushMessage, ExpoPushTicket, ExpoPushToken } from 'expo-server-sdk';
 import { Expo } from 'expo-server-sdk';
 import { api } from '~/const/api';
@@ -62,6 +64,9 @@ const sendNotification = async (tokens: ExpoPushToken[], title: string, message:
 };
 
 export const action: ActionFunction = async ({ request }) => {
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  dayjs.tz.setDefault('Europe/Paris');
   const data = await request.json();
   console.log('Data', data);
 
