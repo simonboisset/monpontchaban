@@ -65,7 +65,7 @@ export const action: ActionFunction = async ({ request }) => {
   if (request.headers.get('token') === process.env.SENT_NOTIFICATION_TOKEN) {
     const now = new Date();
     const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date())) || [])[0];
-    if (dayjs(nextEvent.closeAt).isAfter(now) && dayjs(nextEvent.closeAt).diff(now, 'hour') === 1) {
+    if (nextEvent) {
       const devices = await db.device.findMany({ where: { active: true }, select: { token: true } });
       try {
         await sendNotification(
