@@ -10,7 +10,7 @@ export const handler = schedule('@hourly', async function (event) {
       statusCode: 400,
     };
   }
-  const req = await fetch('https://horaires-pont-chaban-delmas.simonboisset.com/notification/send', {
+  const req = await fetch('https://pont-chaban-delmas.com/notification/send', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

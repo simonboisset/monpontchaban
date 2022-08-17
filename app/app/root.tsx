@@ -7,9 +7,9 @@ export const meta: MetaFunction = () => {
   return {
     charset: 'utf-8',
     viewport: 'width=device-width,initial-scale=1',
-    title: 'Horaires pont Chaban Delmas',
+    title: 'Horaires pont Chaban-Delmas',
     description:
-      "Consultez les dates et les horaires d'ouverture et de fermeture du pont Chaban Delmas de Bordeaux. Pour savoir si le pont Chaban est ouvert ou fermé instantanément, la couleur de cette page vous l'indique.",
+      "Consultez les dates et les horaires d'ouverture et de fermeture du pont Chaban-Delmas de Bordeaux. Pour savoir si le pont Chaban est ouvert ou fermé instantanément, la couleur de cette page vous l'indique.",
   };
 };
 export function links() {

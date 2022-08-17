@@ -5,7 +5,7 @@ export const loader = () => {
         User-agent: *
         Allow: /
     
-        Sitemap: https://horaires-pont-chaban-delmas.simonboisset.com/sitemap.xml
+        Sitemap: https://pont-chaban-delmas.com/sitemap.xml
         `;
 
   return new Response(robotText, {

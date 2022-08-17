@@ -21,7 +21,7 @@ const AppContainer = styled.View`
 export async function registerForPushNotifications(active = true) {
   const token = await Notifications.getExpoPushTokenAsync();
 
-  return fetch('https://horaires-pont-chaban-delmas.simonboisset.com/notification/subscribe', {
+  return fetch('https://pont-chaban-delmas.com/notification/subscribe', {
     method: active ? 'POST' : 'DELETE',
     headers: {
       'Content-Type': 'application/json',

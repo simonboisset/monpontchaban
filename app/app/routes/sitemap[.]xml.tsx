@@ -2,7 +2,7 @@ export const loader = async () => {
   const content = `
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             <url>
-              <loc>https://horaires-pont-chaban-delmas.simonboisset.com/</loc>
+              <loc>https://pont-chaban-delmas.com/</loc>
               <lastmod>2022-06-24</lastmod>
               <changefreq>monthly</changefreq>
               <priority>1.0</priority>
