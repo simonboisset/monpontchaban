@@ -4,7 +4,6 @@ import { Android } from './Android';
 import type { BridgeEvent } from './BridgeEventItem';
 import { BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
-import { GithubLogo } from './GithubLogo';
 import { Header } from './Header';
 
 type ScreenViewProps = { datas: BridgeEvent[] };
@@ -57,14 +56,9 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
             }
           />
           <a
-            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-5 right-12 sm:right-16 z-40'
+            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-5 right-3 sm:right-4 z-40'
             href='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban'>
             <Android />
-          </a>
-          <a
-            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-5 right-3 sm:right-4 z-40'
-            href='https://github.com/simonboisset/chaban-delmas-bridge'>
-            <GithubLogo />
           </a>
           <div className='h-full md:h-0' />
           <div className='flex flex-col items-center'>
