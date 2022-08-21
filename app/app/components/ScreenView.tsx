@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import useCurrentStatus from '~/hooks/useCurrentStatus';
+import type { Theme } from '~/hooks/useDarkMode';
 import { Android } from './Android';
 import type { BridgeEvent } from './BridgeEventItem';
 import { BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
 import { Header } from './Header';
+import { Moon } from './Moon';
+import { Sun } from './Sun';
 
-type ScreenViewProps = { datas: BridgeEvent[] };
+type ScreenViewProps = { datas: BridgeEvent[]; toggleTheme: () => void; theme: Theme };
 
-export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
+export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, theme }) => {
   const status = useCurrentStatus(datas[0]?.closeAt, datas[0]?.openAt);
   const [opacity, setOpacity] = useState('opacity-100');
 
@@ -56,10 +59,15 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas }) => {
             }
           />
           <a
-            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-5 right-3 sm:right-4 z-40'
+            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-5 right-12 sm:right-16 z-40'
             href='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban'>
             <Android />
           </a>
+          <button
+            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-5 right-3 sm:right-4 z-40'
+            onClick={toggleTheme}>
+            {theme === 'dark' ? <Moon /> : <Sun />}
+          </button>
           <div className='h-full md:h-0' />
           <div className='flex flex-col items-center'>
             <div className='flex w-full flex-col p-5 space-y-5 -mt-40 md:mt-20 max-w-md'>

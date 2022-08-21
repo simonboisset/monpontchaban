@@ -1,6 +1,8 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import styles from '~/styles/root.css';
+import cookie from './hooks/cookie';
+import { useDarkMode } from './hooks/useDarkMode';
 import tailwind from './styles/tailwind.css';
 
 export const meta: MetaFunction = () => {
@@ -28,7 +30,13 @@ export function links() {
     },
   ];
 }
+
+export const loader: LoaderFunction = ({ request }) => {
+  return cookie.node.get(request.headers.get('Cookie'), 'theme');
+};
+
 export default function App() {
+  const { theme, toggle } = useDarkMode();
   return (
     <html lang='en'>
       <head>
@@ -37,8 +45,8 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <Outlet />
+      <body className={theme}>
+        <Outlet context={{ toggleTheme: toggle, theme }} />
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
