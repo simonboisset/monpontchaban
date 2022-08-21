@@ -32,7 +32,7 @@ export function links() {
 }
 
 export const loader: LoaderFunction = ({ request }) => {
-  return cookie.node.get(request.headers.get('Cookie'), 'theme');
+  return cookie.node.get(request.headers.get('Cookie'), 'theme') || 'light';
 };
 
 export default function App() {
