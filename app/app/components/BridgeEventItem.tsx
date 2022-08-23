@@ -16,28 +16,28 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openA
   return (
     <div className='flex flex-col p-5 bg-white dark:bg-slate-800 rounded-3xl drop-shadow-lg space-y-1 dark:text-slate-400 text-slate-600'>
       <div className='flex flex-row items-center '>
-        {dayjs(closeAt).tz('Europe/Paris').isTomorrow()
+        {dayjs(closeAt).isTomorrow()
           ? 'Demain '
-          : dayjs(closeAt).tz('Europe/Paris').isToday()
+          : dayjs(closeAt).isToday()
           ? "Aujourd'hui "
-          : fr.weekDays[Number(dayjs(closeAt).tz('Europe/Paris').format('d'))] +
+          : fr.weekDays[Number(dayjs(closeAt).format('d'))] +
             ' ' +
-            dayjs(closeAt).tz('Europe/Paris').format('DD') +
+            dayjs(closeAt).format('DD') +
             ' ' +
-            fr.month[dayjs(closeAt).tz('Europe/Paris').month()] +
+            fr.month[dayjs(closeAt).month()] +
             ' '}
       </div>
       <div className='flex flex-row items-center'>
         <div className='w-6 mr-4 text-red'>
           <ClosedLogo />
         </div>
-        {dayjs(closeAt).tz('Europe/Paris').hour()}h{dayjs(closeAt).tz('Europe/Paris').format('mm')}
+        {dayjs(closeAt).hour()}h{dayjs(closeAt).format('mm')}
       </div>
       <div className='flex flex-row items-center'>
         <div className='w-6 mr-4 text-green'>
           <OpenedLogo />
         </div>
-        {dayjs(openAt).tz('Europe/Paris').hour()}h{dayjs(openAt).tz('Europe/Paris').format('mm')}
+        {dayjs(openAt).hour()}h{dayjs(openAt).format('mm')}
       </div>
     </div>
   );
