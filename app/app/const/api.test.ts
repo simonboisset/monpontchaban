@@ -1,12 +1,7 @@
 import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
 import { api, getBridgeEvents } from './api';
 import { fakeResponse } from './fakeResponse';
 import { fakeResult } from './fakeResults';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 describe('Api', () => {
   test('Should map data to BridgeEvents', () => {

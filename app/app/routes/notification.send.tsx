@@ -1,8 +1,6 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
 import type { ExpoPushMessage, ExpoPushTicket, ExpoPushToken } from 'expo-server-sdk';
 import { Expo } from 'expo-server-sdk';
 import { api } from '~/const/api';
@@ -10,6 +8,8 @@ import db from '~/const/db.server';
 import { filterNextBridgeEvents } from '~/const/filterNextBridgeEvents';
 
 const sendNotification = async (tokens: ExpoPushToken[], title: string, message: string, data?: any) => {
+  // const localExpoToken = await db.device.findFirst();
+
   const { EXPO_ACCESS_TOKEN } = process.env;
   if (!EXPO_ACCESS_TOKEN) {
     return json({ error: '[Send notification] Expo access token is not defined' }, { status: 400 });
@@ -64,9 +64,6 @@ const sendNotification = async (tokens: ExpoPushToken[], title: string, message:
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
-
   const data = await request.json();
 
   const token = data.token;
@@ -87,11 +84,9 @@ export const action: ActionFunction = async ({ request }) => {
       await sendNotification(
         devices.map((d) => d.token),
         'Fermeture du pont Chaban-Delmas',
-        `Le pont sera fermé de ${dayjs(nextEvent.closeAt).tz('Europe/Paris').hour()}h${dayjs(nextEvent.closeAt)
-          .tz('Europe/Paris')
-          .format('mm')} à ${dayjs(nextEvent.openAt).tz('Europe/Paris').hour()}h${dayjs(nextEvent.openAt)
-          .tz('Europe/Paris')
-          .format('mm')}`,
+        `Le pont sera fermé de ${dayjs(nextEvent.closeAt).hour()}h${dayjs(nextEvent.closeAt).format('mm')} à ${dayjs(
+          nextEvent.openAt,
+        ).hour()}h${dayjs(nextEvent.openAt).format('mm')}`,
       );
     } catch (error) {
       console.error('[Send Notification] Error', error);
@@ -103,9 +98,6 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  // Local test for push notification
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
   const { MY_PUSH_TOKEN } = process.env;
   if (!MY_PUSH_TOKEN) {
     return json({ error: '[Send notification test] My Token is not defined' }, { status: 400 });
@@ -117,11 +109,9 @@ export const loader: LoaderFunction = async ({ request }) => {
       await sendNotification(
         [MY_PUSH_TOKEN],
         'Fermeture du pont Chaban-Delmas',
-        `Le pont sera fermé de ${dayjs(nextEvent.closeAt).tz('Europe/Paris').hour()}h${dayjs(nextEvent.closeAt)
-          .tz('Europe/Paris')
-          .format('mm')} à ${dayjs(nextEvent.openAt).tz('Europe/Paris').hour()}h${dayjs(nextEvent.openAt)
-          .tz('Europe/Paris')
-          .format('mm')}`,
+        `Le pont sera fermé de ${dayjs(nextEvent.closeAt).hour()}h${dayjs(nextEvent.closeAt).format('mm')} à ${dayjs(
+          nextEvent.openAt,
+        ).hour()}h${dayjs(nextEvent.openAt).format('mm')}`,
       );
     } catch (error) {
       console.error('[Send Notification] Error', error);

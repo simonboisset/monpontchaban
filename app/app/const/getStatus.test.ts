@@ -1,11 +1,6 @@
 import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
 import { fakeResult } from './fakeResults';
 import { getStatus } from './getStatus';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 describe('Api', () => {
   test('Should be opened without event', () => {
