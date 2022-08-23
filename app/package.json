@@ -2,7 +2,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "prisma generate --data-proxy && tailwindcss -o ./app/styles/tailwind.css && remix build && cp cron/send-notifications.ts  .netlify/functions-internal/send-notifications.ts",
+    "build": "prisma generate && tailwindcss -o ./app/styles/tailwind.css && remix build && cp cron/send-notifications.ts  .netlify/functions-internal/send-notifications.ts",
     "dev": "concurrently \"tailwindcss -o ./app/styles/tailwind.css --watch\" \"cross-env NODE_ENV=development netlify dev\" \"tsc --noEmit --watch\"",
     "start": "cross-env NODE_ENV=production netlify dev",
     "story": "concurrently \"tailwindcss -o ./app/styles/tailwind.css --watch\" \"ladle serve\"",
