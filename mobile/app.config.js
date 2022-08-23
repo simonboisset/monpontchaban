@@ -30,6 +30,7 @@ export default {
   },
   updates: {
     fallbackToCacheTimeout: 0,
+    url: 'https://u.expo.dev/f4033f91-933d-4f91-ae6d-6f8483abf08e',
   },
   assetBundlePatterns: ['**/*'],
   ios: {
