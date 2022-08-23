@@ -59,12 +59,12 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
             }
           />
           <a
-            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-5 right-12 sm:right-16 z-40'
+            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-4 right-auto left-2 sm:left-auto sm:right-16 z-40 flex items-center justify-center'
             href='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban'>
             <Android />
           </a>
           <button
-            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-5 right-3 sm:right-4 z-40'
+            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-4 right-3 sm:right-4 z-40 flex items-center justify-center'
             onClick={toggleTheme}>
             {theme === 'dark' ? <Moon /> : <Sun />}
           </button>
