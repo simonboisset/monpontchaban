@@ -54,23 +54,23 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openA
           ? 'Demain '
           : dayjs(closeAt).isToday()
           ? "Aujourd'hui "
-          : fr.weekDays[Number(dayjs(closeAt).tz('Europe/Paris').format('d'))] +
+          : fr.weekDays[Number(dayjs(closeAt).format('d'))] +
             ' ' +
-            dayjs(closeAt).tz('Europe/Paris').format('DD') +
+            dayjs(closeAt).format('DD') +
             ' ' +
-            fr.month[dayjs(closeAt).tz('Europe/Paris').month()] +
+            fr.month[dayjs(closeAt).month()] +
             ' '}
       </Text>
       <Row>
         <Dot color="error" />
         <Text dark={dark}>
-          {dayjs(closeAt).tz('Europe/Paris').hour()}h{dayjs(closeAt).tz('Europe/Paris').format('mm')}
+          {dayjs(closeAt).hour()}h{dayjs(closeAt).format('mm')}
         </Text>
       </Row>
       <Row>
         <Dot />
         <Text dark={dark}>
-          {dayjs(openAt).tz('Europe/Paris').hour()}h{dayjs(openAt).tz('Europe/Paris').format('mm')}
+          {dayjs(openAt).hour()}h{dayjs(openAt).format('mm')}
         </Text>
       </Row>
     </Item>
