@@ -80,7 +80,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: '[Send Notification] Invalid token' }, { status: 400 });
   }
   const now = new Date();
-  const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date().toISOString())) || [])[0];
+  const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date())) || [])[0];
   if (nextEvent && dayjs(nextEvent.closeAt).isAfter(now) && dayjs(nextEvent.closeAt).diff(now, 'hour') === 1) {
     const devices = await db.device.findMany({ where: { active: true }, select: { token: true } });
     try {
@@ -111,7 +111,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return json({ error: '[Send notification test] My Token is not defined' }, { status: 400 });
   }
 
-  const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date().toISOString())) || [])[0];
+  const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date())) || [])[0];
   if (nextEvent) {
     try {
       await sendNotification(

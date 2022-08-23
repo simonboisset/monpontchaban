@@ -24,8 +24,8 @@ export const getBridgeEvents = (datas: Data[]): BridgeEvent[] =>
       openAt = dayjs(openAt).add(1, 'day').toDate();
     }
     return {
-      closeAt: dayjs(closeAt.setMinutes(mClose)).tz('Europe/Paris', true).toDate().toISOString(),
-      openAt: dayjs(openAt.setMinutes(mOpen)).tz('Europe/Paris', true).toDate().toISOString(),
+      closeAt: dayjs(closeAt.setMinutes(mClose)).tz('Europe/Paris', true).toDate(),
+      openAt: dayjs(openAt.setMinutes(mOpen)).tz('Europe/Paris', true).toDate(),
     };
   });
 

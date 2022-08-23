@@ -90,4 +90,4 @@ export const fakeResult: BridgeEvent[] = [
   { closeAt: '2022-10-28T15:04:00.000Z', openAt: '2022-10-28T16:27:00.000Z' },
   { closeAt: '2022-11-20T22:00:00.000Z', openAt: '2022-11-21T04:00:00.000Z' },
   { closeAt: '2022-12-11T22:00:00.000Z', openAt: '2022-12-12T04:00:00.000Z' },
-];
+].map(({ closeAt, openAt }) => ({ closeAt: new Date(closeAt), openAt: new Date(openAt) }));

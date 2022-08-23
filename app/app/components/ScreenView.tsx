@@ -72,7 +72,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
           <div className='flex flex-col items-center'>
             <div className='flex w-full flex-col p-5 space-y-5 -mt-40 md:mt-20 max-w-md'>
               {datas.map((data) => (
-                <BridgeEventItem key={data.closeAt} {...data} />
+                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
               ))}
             </div>
           </div>
