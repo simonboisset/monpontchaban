@@ -20,6 +20,9 @@ const versionCode = getAndroidVersionCode(packages.version);
 export default {
   name: 'Horaire Pont Chaban-Delmas',
   slug: 'mon-pont-chaban',
+  runtimeVersion: {
+    policy: 'sdkVersion',
+  },
   orientation: 'portrait',
   userInterfaceStyle: 'automatic',
   icon: './assets/icon.png',
