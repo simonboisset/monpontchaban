@@ -1,10 +1,10 @@
+import { PrismaClient } from '@prisma/client';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import dayjs from 'dayjs';
 import type { ExpoPushMessage, ExpoPushTicket, ExpoPushToken } from 'expo-server-sdk';
 import { Expo } from 'expo-server-sdk';
 import { api } from '~/const/api';
-import db from '~/const/db.server';
 import { filterNextBridgeEvents } from '~/const/filterNextBridgeEvents';
 
 const sendNotification = async (tokens: ExpoPushToken[], title: string, message: string, data?: any) => {
@@ -79,7 +79,9 @@ export const action: ActionFunction = async ({ request }) => {
   const now = new Date();
   const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date())) || [])[0];
   if (nextEvent && dayjs(nextEvent.closeAt).isAfter(now) && dayjs(nextEvent.closeAt).diff(now, 'hour') === 1) {
+    const db = new PrismaClient();
     const devices = await db.device.findMany({ where: { active: true }, select: { token: true } });
+    await db.$disconnect();
     try {
       await sendNotification(
         devices.map((d) => d.token),
