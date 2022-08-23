@@ -1,11 +1,6 @@
 import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
 import { fakeResult } from './fakeResults';
 import { filterNextBridgeEvents } from './filterNextBridgeEvents';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 describe('Filter futur bridge events', () => {
   test('Should filter data of the day', () => {
