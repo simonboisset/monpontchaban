@@ -3,6 +3,7 @@ import { filterNextBridgeEvents } from 'const/filterNextBridgeEvents';
 import { getNotificationPermission } from 'const/notifications';
 import { storage } from 'const/storage';
 import 'dayjs/locale/fr';
+import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -20,8 +21,11 @@ const AppContainer = styled.View`
 
 export async function registerForPushNotifications(active = true) {
   const token = await Notifications.getExpoPushTokenAsync();
-
-  return fetch('https://pont-chaban-delmas.com/notification/subscribe', {
+  const url =
+    process.env.NODE_ENV !== 'production' && Constants.manifest?.debuggerHost
+      ? `http://${Constants.manifest.debuggerHost.split(':')[0]}:3000`
+      : 'https://pont-chaban-delmas.com';
+  return fetch(`${url}/notification/subscribe`, {
     method: active ? 'POST' : 'DELETE',
     headers: {
       'Content-Type': 'application/json',
