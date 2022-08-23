@@ -6,7 +6,7 @@ import { fr } from '~/const/translation';
 import { ClosedLogo } from './ClosedLogo';
 import { OpenedLogo } from './OpenedLogo';
 
-export type BridgeEvent = { closeAt: Date; openAt: Date };
+export type BridgeEvent = { closeAt: string; openAt: string };
 
 type BridgeEventItemProps = BridgeEvent;
 dayjs.extend(isToday);

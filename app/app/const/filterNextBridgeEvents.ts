@@ -2,6 +2,6 @@ import dayjs from 'dayjs';
 import type { BridgeEvent } from '~/components/BridgeEventItem';
 
 export const filterNextBridgeEvents =
-  (now: Date) =>
+  (now: string) =>
   ({ openAt }: BridgeEvent): boolean =>
     dayjs(now).isBefore(openAt);

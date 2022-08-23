@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-export const getStatus = (now: Date, closeAt?: Date, openAt?: Date) => {
+export const getStatus = (now: string, closeAt?: string, openAt?: string) => {
   if (!openAt || !closeAt) {
     return 'OPEN';
   }
