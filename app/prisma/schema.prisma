@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mongodb"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
@@ -8,7 +8,7 @@ generator client {
 }
 
 model Device {
-  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   token  String  @unique()
   active Boolean
 }
