@@ -9,23 +9,29 @@ type Data = {
   };
 };
 export const getBridgeEvents = (datas: Data[]): BridgeEvent[] =>
-  datas.map((record) => {
-    const date = record.fields.date_passage;
-    const [hClose, mClose] = record.fields.fermeture_a_la_circulation.split(':').map((value: string) => Number(value));
-    const [hOpen, mOpen] = record.fields.re_ouverture_a_la_circulation.split(':').map((value: string) => Number(value));
+  datas
+    .map((record) => {
+      const date = record.fields.date_passage;
+      const [hClose, mClose] = record.fields.fermeture_a_la_circulation
+        .split(':')
+        .map((value: string) => Number(value));
+      const [hOpen, mOpen] = record.fields.re_ouverture_a_la_circulation
+        .split(':')
+        .map((value: string) => Number(value));
 
-    const closeAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
-    closeAt.setHours(hClose);
-    let openAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
-    openAt.setHours(hOpen);
-    if (dayjs(closeAt).isAfter(openAt)) {
-      openAt = dayjs(openAt).add(1, 'day').toDate();
-    }
-    return {
-      closeAt: dayjs(closeAt.setMinutes(mClose)).toDate(),
-      openAt: dayjs(openAt.setMinutes(mOpen)).toDate(),
-    };
-  });
+      const closeAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
+      closeAt.setHours(hClose);
+      let openAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
+      openAt.setHours(hOpen);
+      if (dayjs(closeAt).isAfter(openAt)) {
+        openAt = dayjs(openAt).add(1, 'day').toDate();
+      }
+      return {
+        closeAt: dayjs(closeAt.setMinutes(mClose)).toDate(),
+        openAt: dayjs(openAt.setMinutes(mOpen)).toDate(),
+      };
+    })
+    .sort((a, b) => a.closeAt.getTime() - b.closeAt.getTime());
 
 const get = async () => {
   try {
