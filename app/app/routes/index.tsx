@@ -1,4 +1,6 @@
+import { json } from '@remix-run/node';
 import { useLoaderData, useOutletContext } from '@remix-run/react';
+import type { BridgeEvent } from '~/components/BridgeEventItem';
 import { ScreenView } from '~/components/ScreenView';
 import { api } from '~/const/api';
 import { filterNextBridgeEvents } from '~/const/filterNextBridgeEvents';
@@ -11,7 +13,11 @@ export const loader = async () => {
     if (redisData) {
       const data = JSON.parse(redisData);
       if (Array.isArray(data)) {
-        return data.filter(filterNextBridgeEvents(new Date())) || [];
+        return json(data.filter(filterNextBridgeEvents(new Date())) || [], {
+          headers: {
+            'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+          },
+        });
       }
     }
   } catch (error) {
@@ -23,10 +29,8 @@ export const loader = async () => {
   return fetchedDatas?.filter(filterNextBridgeEvents(new Date())) || [];
 };
 
-type Data = Awaited<ReturnType<typeof loader>>;
-
 export default function Index() {
-  const datas = useLoaderData<Data>();
+  const datas = useLoaderData<BridgeEvent[]>();
   const { toggleTheme, theme } = useOutletContext<{ toggleTheme: () => void; theme: Theme }>();
 
   return (
