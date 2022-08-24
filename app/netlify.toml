@@ -18,3 +18,6 @@
 
 [functions."send-notifications"]
 schedule = "@hourly"
+
+[functions."update-cache"]
+schedule = "@daily"
