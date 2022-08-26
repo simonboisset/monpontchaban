@@ -3,7 +3,7 @@ export const loader = async () => {
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             <url>
               <loc>https://pont-chaban-delmas.com/</loc>
-              <lastmod>2022-06-24</lastmod>
+              <lastmod>2022-08-26</lastmod>
               <changefreq>monthly</changefreq>
               <priority>1.0</priority>
             </url>
