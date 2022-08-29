@@ -6,6 +6,6 @@ esbuild
     minify: true,
     treeShaking: true,
     platform: 'node',
-    format: 'cjs',
+    format: 'esm',
   })
   .catch(() => process.exit(1));
