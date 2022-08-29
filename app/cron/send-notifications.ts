@@ -1,5 +1,4 @@
 import { schedule } from '@netlify/functions';
-import fetch from 'node-fetch';
 
 export const handler = schedule('@hourly', async function (event) {
   const SEND_NOTIFICATION_TOKEN = process.env.SEND_NOTIFICATION_TOKEN;
