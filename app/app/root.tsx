@@ -17,6 +17,14 @@ export const meta: MetaFunction = () => {
 export function links() {
   return [
     {
+      rel: 'preconnect',
+      href: 'href="https://fonts.googleapis.com',
+    },
+    {
+      rel: 'preconnect',
+      href: 'href="https://fonts.gstatic.com',
+    },
+    {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap',
     },
