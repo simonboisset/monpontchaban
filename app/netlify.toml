@@ -16,10 +16,6 @@
   [headers.values]
     "Cache-Control" = "public, max-age=31536000, s-maxage=31536000"
 
-[functions]
-  node_bundler = "esbuild"
-  external_node_modules = ["node-fetch"]
-
 [functions."send-notifications"]
 schedule = "@hourly"
 
