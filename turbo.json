@@ -2,13 +2,25 @@
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "dependsOn": ["generate", "^build"],
+      "outputs": ["dist/**", ".netlify/**"]
     },
     "lint": {
       "outputs": []
     },
     "dev": {
+      "cache": false
+    },
+    "test": {
+      "cache": false
+    },
+    "kill": {
+      "cache": false
+    },
+    "docker": {
+      "cache": false
+    },
+    "seed": {
       "cache": false
     },
     "generate": {
