@@ -1,0 +1,33 @@
+{
+  "name": "chaban",
+  "version": "1.2.2",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "generate": "turbo run generate",
+    "core": "turbo run build --filter=core",
+    "mobile": "turbo run dev --filter=mobile",
+    "app": "turbo run dev --filter=app",
+    "dev": "turbo run dev --parallel",
+    "test": "jest",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@swc/core": "^1.2.197",
+    "@swc/jest": "^0.2.21",
+    "@types/jest": "^29.0.0",
+    "jest": "^29.0.1",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=14.0.0"
+  },
+  "packageManager": "yarn@1.22.5"
+}
