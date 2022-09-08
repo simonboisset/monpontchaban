@@ -1,5 +1,5 @@
 [build]
-  command = "turbo run build --filter=app"
+  command = "cd ../../ && turbo run build --filter=app && cd apps/app"
   publish = "public"
 
 [dev]
