@@ -1,0 +1,32 @@
+{
+  "name": "chaban",
+  "version": "1.2.2",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "mobile": "turbo run dev --filter=mobile",
+    "app": "turbo run dev --filter=app",
+    "dev": "turbo run dev --parallel",
+    "generate": "turbo run generate",
+    "seed": "turbo run seed --parallel",
+    "kill": "turbo run kill --parallel",
+    "docker": "turbo run docker --parallel",
+    "test": "turbo run test --parallel",
+    "push": "turbo run push",
+    "deploy:major": "turbo run version:major && turbo run deploy",
+    "deploy:minor": "turbo run version:minor && turbo run deploy",
+    "deploy:patch": "turbo run version:patch && turbo run deploy"
+  },
+  "devDependencies": {
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=14.0.0"
+  },
+  "packageManager": "yarn@1.22.5"
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["generate", "^build"],
+      "outputs": ["dist/**", ".netlify/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "dev": {
+      "dependsOn": ["generate", "^build"],
+      "cache": false
+    },
+    "push": {
+      "dependsOn": ["^build"],
+      "outputs": [".expo/**", "dist/**", ""]
+    },
+    "deploy": {
+      "dependsOn": ["^build"],
+      "outputs": [".expo/**", "dist/**", ""]
+    },
+    "test": {
+      "cache": false
+    },
+    "kill": {
+      "cache": false
+    },
+    "docker": {
+      "cache": false
+    },
+    "seed": {
+      "cache": false
+    },
+
+    "generate": {
+      "dependsOn": ["^generate"]
+    },
+    "version:major": {
+      "dependsOn": []
+    },
+    "version:minor": {
+      "dependsOn": []
+    },
+    "version:patch": {
+      "dependsOn": []
+    }
+  }
+}
