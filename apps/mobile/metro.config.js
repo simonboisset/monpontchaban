@@ -1,5 +1,6 @@
 const { getDefaultConfig } = require('expo/metro-config');
 const path = require('path');
+const metro = require('metro-cache');
 
 const projectRoot = __dirname;
 const workspaceRoot = path.resolve(projectRoot, '../..');
@@ -12,5 +13,5 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 config.resolver.disableHierarchicalLookup = true;
-config.resolver.cacheStores = [new metro.FileStore({ root: 'metro-cache' })];
+config.cacheStores = [new metro.FileStore({ root: path.resolve(projectRoot, 'metro-cache') })];
 module.exports = config;
