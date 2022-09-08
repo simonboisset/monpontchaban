@@ -9,6 +9,7 @@
     },
     "release": {
       "distribution": "internal",
+      "channel": "dev",
       "android": {
         "buildType": "apk"
       }

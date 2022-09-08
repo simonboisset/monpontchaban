@@ -1,0 +1,57 @@
+name: 📱 Mobile Deploy
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'major | minor | patch'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  mobile-deploy:
+    name: 📱 Mobile Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔌 Checkout
+        uses: actions/checkout@v2
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - name: 📱 Setup Expo
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: 💾 Restore Turbo
+        uses: actions/cache@v3
+        with:
+          path: node_modules/.cache/turbo
+          key: ${{ runner.os }}-turbo
+      - name: 💾 Restore Metro
+        uses: actions/cache@v3
+        id: metro-cache
+        with:
+          path: |
+            apps/mobile/metro-cache
+            apps/mobile/.expo
+            apps/mobile/dist
+          key: ${{ runner.os }}-metro
+      - name: ⏳ Yarn install
+        run: yarn
+      - name: 🚀 EAS Build
+        run: |
+          echo '${{secrets.PLAY_STORE_API_KEY}}' > apps/mobile/api-key.json
+          git config --local user.email "simonboisset.dev@gmail.com"
+          git config --local user.name "simonboisset"
+          yarn deploy:${{github.event.inputs.release}}
+          yarn version --new-version ${{github.event.inputs.release}} --no-git-tag-version
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          git commit -a -m "v${PACKAGE_VERSION}"
+          git push

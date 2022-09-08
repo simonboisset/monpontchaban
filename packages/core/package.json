@@ -8,7 +8,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && node ./build.js && tsc"
+    "build": "rm -rf dist && node ./build.js && tsc",
+    "version:major": "yarn version --new-version major --no-git-tag-version",
+    "version:minor": "yarn version --new-version minor --no-git-tag-version",
+    "version:patch": "yarn version --new-version patch --no-git-tag-version"
   },
   "prettier": {
     "singleQuote": true,

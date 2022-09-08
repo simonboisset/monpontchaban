@@ -7,8 +7,6 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "core": "turbo run build --filter=core",
     "mobile": "turbo run dev --filter=mobile",
     "app": "turbo run dev --filter=app",
     "dev": "turbo run dev --parallel",
@@ -17,8 +15,10 @@
     "kill": "turbo run kill --parallel",
     "docker": "turbo run docker --parallel",
     "test": "turbo run test --parallel",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "push": "turbo run push",
+    "deploy:major": "turbo run version:major && turbo run deploy",
+    "deploy:minor": "turbo run version:minor && turbo run deploy",
+    "deploy:patch": "turbo run version:patch && turbo run deploy"
   },
   "devDependencies": {
     "prettier": "latest",
