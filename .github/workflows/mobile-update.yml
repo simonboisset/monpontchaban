@@ -31,7 +31,7 @@ jobs:
         with:
           path: node_modules/.cache/turbo
           restore-keys: ${{ runner.os }}-turbo-
-          keys: |
+          key: |
             ${{ runner.os }}-turbo-${{ hashFiles('**/yarn.lock') }}
       - name: 💾 Restore Metro
         uses: actions/cache@v3
@@ -42,7 +42,7 @@ jobs:
             apps/mobile/.expo
             apps/mobile/dist
           restore-keys: ${{ runner.os }}-metro-
-          keys: |
+          key: |
             ${{ runner.os }}-metro-${{ hashFiles('**/yarn.lock') }}
       - name: ⏳ Yarn install
         run: yarn
