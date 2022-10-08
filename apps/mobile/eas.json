@@ -2,12 +2,12 @@
   "build": {
     "production": {
       "distribution": "store",
-      "channel": "production",
+      "channel": "main",
       "android": {
         "buildType": "app-bundle"
       }
     },
-    "release": {
+    "dev": {
       "distribution": "internal",
       "channel": "dev",
       "android": {

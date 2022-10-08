@@ -1,0 +1,39 @@
+name: Link dev mobile channel
+on: workflow_dispatch
+
+jobs:
+  link-mobile:
+    name: Link dev mobile channel on branch ${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set branch_name environment variable
+        run: |
+          REPO=${{github.ref}}
+          BRANCH_NAME="${REPO/'refs/heads/'/''}"
+          BRANCH_NAME="${BRANCH_NAME////-}"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
+      - name: 🔌 Checkout
+        uses: actions/checkout@v3
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+      - name: 📱 Setup Expo
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: 💾 Restore Turbo
+        uses: actions/cache@v3
+        with:
+          path: node_modules/.cache/turbo
+          restore-keys: ${{ runner.os }}-turbo-
+          key: |
+            ${{ runner.os }}-turbo-${{ hashFiles('**/yarn.lock') }}
+      - name: ⏳ Yarn install
+        run: yarn
+      - name: EAS link
+        working-directory: ./app/mobile
+        run: eas channel:edit dev --branch ${{ env.branch_name }}

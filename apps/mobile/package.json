@@ -12,7 +12,7 @@
     "ios": "expo start --ios",
     "up": "yarn upgrade-interactive --latest",
     "doctor": "expo-cli doctor --fix-dependencies",
-    "apk": "eas build --profile release --platform android --no-wait --non-interactive",
+    "apk": "eas build --profile dev --platform android --no-wait --non-interactive",
     "deploy": "eas build --profile production --platform android --no-wait --auto-submit --non-interactive",
     "push": "eas update --auto"
   },
