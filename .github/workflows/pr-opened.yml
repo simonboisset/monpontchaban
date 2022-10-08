@@ -30,4 +30,4 @@ jobs:
         working-directory: packages/db
         run: |
           yarn build
-          DATABASE_URL=${{ secrets.DATABASE_URL_PREVIEW }} | sed "s/preview/pr-${{ github.event.number }}/" yarn migrate
+          DATABASE_URL=$(node ./getDbUrl.js ${{ secrets.DATABASE_URL_PREVIEW }} ${{ github.event.number }}) yarn migrate
