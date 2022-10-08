@@ -56,6 +56,7 @@ export default {
     eas: {
       projectId: 'f4033f91-933d-4f91-ae6d-6f8483abf08e',
     },
+    API_URL: process.env.API_URL || null,
   },
   plugins: [
     [

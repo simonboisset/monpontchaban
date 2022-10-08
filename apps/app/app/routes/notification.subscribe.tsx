@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
 import type { ActionFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
+import { PrismaClient } from 'db';
 
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
@@ -12,7 +12,11 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   try {
-    const db = new PrismaClient();
+    const DATABASE_URL = process.env.DATABASE_URL;
+    if (!DATABASE_URL) {
+      throw new Error('[Notification Subscribe] DATABASE_URL is not defined');
+    }
+    const db = new PrismaClient({ datasources: { db: { url: process.env.DATABASE_URL } } });
     if (request.method === 'DELETE') {
       const existingToken = await db.device.findUnique({ where: { token } });
       if (existingToken) {

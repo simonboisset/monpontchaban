@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { api, filterNextBridgeEvents } from 'core';
 import dayjs from 'dayjs';
+import { PrismaClient } from 'db';
 import type { ExpoPushMessage, ExpoPushTicket, ExpoPushToken } from 'expo-server-sdk';
 import { Expo } from 'expo-server-sdk';
 
@@ -78,7 +78,11 @@ export const action: ActionFunction = async ({ request }) => {
   const now = new Date();
   const nextEvent = ((await api.get())?.filter(filterNextBridgeEvents(new Date())) || [])[0];
   if (nextEvent && dayjs(nextEvent.closeAt).isAfter(now) && dayjs(nextEvent.closeAt).diff(now, 'hour') === 1) {
-    const db = new PrismaClient();
+    const DATABASE_URL = process.env.DATABASE_URL;
+    if (!DATABASE_URL) {
+      throw new Error('[Notification Subscribe] DATABASE_URL is not defined');
+    }
+    const db = new PrismaClient({ datasources: { db: { url: process.env.DATABASE_URL } } });
     const devices = await db.device.findMany({ where: { active: true }, select: { token: true } });
     await db.$disconnect();
     try {

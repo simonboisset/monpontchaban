@@ -1,0 +1,13 @@
+{
+  "name": "infra-local",
+  "version": "1.2.2",
+  "private": true,
+  "scripts": {
+    "kill": "docker stop $(docker ps -aq) && docker rm $(docker ps -aq)",
+    "docker": "docker-compose up -d",
+    "restart": "yarn kill && yarn docker",
+    "version:major": "yarn version --new-version major --no-git-tag-version",
+    "version:minor": "yarn version --new-version minor --no-git-tag-version",
+    "version:patch": "yarn version --new-version patch --no-git-tag-version"
+  }
+}

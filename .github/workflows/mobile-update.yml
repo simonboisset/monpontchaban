@@ -52,6 +52,11 @@ jobs:
             ${{ runner.os }}-metro-${{ hashFiles('**/yarn.lock') }}
       - name: ⏳ Yarn install
         run: yarn
-      - name: 🚀 EAS Update
+      - name: 🚀 EAS Update production
+        if: ${{ env.branch_name == 'main' }}
         working-directory: apps/mobile
-        run: eas update --branch ${{ env.branch_name }} --message "Push update branch"
+        run: API_URL=https://pont-chaban-delmas.com eas update --branch main --message "${{ github.event.head_commit.message }}"
+      - name: 🚀 EAS Update Peview
+        if: ${{ env.branch_name != 'main' }}
+        working-directory: apps/mobile
+        run: API_URL=https://deploy-preview-${{ github.event.number }}--pontchaban.netlify.app eas update --branch pr-${{ github.event.number }} --message "Push update branch"

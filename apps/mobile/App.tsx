@@ -20,13 +20,7 @@ const AppContainer = styled.View`
 
 export async function registerForPushNotifications(active = true) {
   const token = await Notifications.getExpoPushTokenAsync();
-
-  const url =
-    process.env.NODE_ENV !== 'production'
-      ? Constants.manifest2?.extra?.expoGo?.debuggerHost
-        ? `http://${Constants.manifest2?.extra?.expoGo?.debuggerHost.split(':')[0]}:3000`
-        : undefined
-      : 'https://pont-chaban-delmas.com';
+  const url = Constants.expoConfig?.extra?.API_URL;
 
   if (!url) {
     throw new Error('[Register Push Notification] Url is not defined');

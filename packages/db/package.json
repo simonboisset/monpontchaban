@@ -1,0 +1,33 @@
+{
+  "name": "db",
+  "version": "1.2.2",
+  "private": true,
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && prisma generate",
+    "dev": "prisma generate --watch",
+    "seed": "prisma db seed",
+    "migrate": "prisma migrate dev",
+    "studio": "prisma studio",
+    "reset": "prisma migrate reset --force",
+    "version:major": "yarn version --new-version major --no-git-tag-version",
+    "version:minor": "yarn version --new-version minor --no-git-tag-version",
+    "version:patch": "yarn version --new-version patch --no-git-tag-version",
+    "test": "yarn jest"
+  },
+  "devDependencies": {
+    "@swc-node/register": "^1.5.1",
+    "prisma": "^4.2.1",
+    "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.2.1"
+  },
+  "prisma": {
+    "seed": "node -r @swc-node/register ./prisma/seed.ts"
+  }
+}
