@@ -8,13 +8,7 @@
     "version:patch": "yarn version --new-version patch --no-git-tag-version",
     "dev": "expo start",
     "test": "jest",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "up": "yarn upgrade-interactive --latest",
-    "doctor": "expo-cli doctor --fix-dependencies",
-    "apk": "eas build --profile dev --platform android --no-wait --non-interactive",
-    "deploy": "eas build --profile production --platform android --no-wait --auto-submit --non-interactive",
-    "push": "eas update --auto"
+    "apk": "eas build --profile dev --platform android --no-wait --non-interactive"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.17.9",

@@ -7,6 +7,7 @@
     "packages/*"
   ],
   "scripts": {
+    "up": "yarn upgrade-interactive --latest",
     "mobile": "turbo run dev --filter=mobile",
     "app": "turbo run dev --filter=app",
     "dev": "turbo run dev --parallel",
@@ -15,12 +16,6 @@
     "kill": "turbo run kill --parallel",
     "docker": "turbo run docker --parallel",
     "test": "turbo run test --parallel",
-    "apk": "turbo run apk",
-    "deploy": "turbo run deploy",
-    "push": "turbo run push",
-    "deploy:major": "turbo run version:major && turbo run deploy",
-    "deploy:minor": "turbo run version:minor && turbo run deploy",
-    "deploy:patch": "turbo run version:patch && turbo run deploy",
     "postinstall": "turbo run build --filter=core"
   },
   "devDependencies": {

@@ -12,13 +12,6 @@
       "dependsOn": ["generate", "^build"],
       "cache": false
     },
-    "push": {
-      "dependsOn": ["^build"],
-      "outputs": [".expo/**", "dist/**"]
-    },
-    "deploy": {
-      "cache": false
-    },
     "test": {
       "cache": false
     },
@@ -29,9 +22,6 @@
       "cache": false
     },
     "seed": {
-      "cache": false
-    },
-    "apk": {
       "cache": false
     },
     "generate": {

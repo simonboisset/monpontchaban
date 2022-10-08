@@ -50,13 +50,16 @@ jobs:
             ${{ runner.os }}-metro-${{ hashFiles('**/yarn.lock') }}
       - name: ⏳ Yarn install
         run: yarn
-      - name: 🚀 EAS Build
+      - name: 🚀 Upgrade packages version
         run: |
           echo '${{secrets.PLAY_STORE_API_KEY}}' > apps/mobile/api-key.json
           git config --local user.email "simonboisset.dev@gmail.com"
           git config --local user.name "simonboisset"
-          yarn deploy:${{github.event.inputs.release}}
+          turbo run version:${{github.event.inputs.release}}
           yarn version --new-version ${{github.event.inputs.release}} --no-git-tag-version
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           git commit -a -m "v${PACKAGE_VERSION}"
           git push
+      - name: 🚀 EAS Build
+        working-directory: apps/mobile
+        run: eas build --profile production --platform android --no-wait --auto-submit --non-interactive
