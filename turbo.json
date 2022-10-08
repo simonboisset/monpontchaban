@@ -14,11 +14,10 @@
     },
     "push": {
       "dependsOn": ["^build"],
-      "outputs": [".expo/**", "dist/**", ""]
+      "outputs": [".expo/**", "dist/**"]
     },
     "deploy": {
-      "dependsOn": ["^build"],
-      "outputs": [".expo/**", "dist/**", ""]
+      "cache": false
     },
     "test": {
       "cache": false
@@ -32,7 +31,9 @@
     "seed": {
       "cache": false
     },
-
+    "apk": {
+      "cache": false
+    },
     "generate": {
       "dependsOn": ["^generate"]
     },
