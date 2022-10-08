@@ -20,10 +20,17 @@ const AppContainer = styled.View`
 
 export async function registerForPushNotifications(active = true) {
   const token = await Notifications.getExpoPushTokenAsync();
+
   const url =
-    process.env.NODE_ENV !== 'production' && Constants.manifest?.debuggerHost
-      ? `http://${Constants.manifest.debuggerHost.split(':')[0]}:3000`
+    process.env.NODE_ENV !== 'production'
+      ? Constants.manifest2?.extra?.expoGo?.debuggerHost
+        ? `http://${Constants.manifest2?.extra?.expoGo?.debuggerHost.split(':')[0]}:3000`
+        : undefined
       : 'https://pont-chaban-delmas.com';
+
+  if (!url) {
+    throw new Error('[Register Push Notification] Url is not defined');
+  }
   return fetch(`${url}/notification/subscribe`, {
     method: active ? 'POST' : 'DELETE',
     headers: {
@@ -35,6 +42,7 @@ export async function registerForPushNotifications(active = true) {
 
 export default function App() {
   const [datas, setDatas] = useState<BridgeEvent[]>();
+  const [loading, setLoading] = useState(false);
   const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -61,12 +69,15 @@ export default function App() {
         } else {
           Notifications.cancelAllScheduledNotificationsAsync();
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, []);
 
   const handleToggleNotifications = async () => {
+    setLoading(true);
     try {
       if (enableNotifications) {
         const sent = await registerForPushNotifications(false);
@@ -95,7 +106,10 @@ export default function App() {
           }
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
   };
 
   const onLayoutRootView = useCallback(async () => {
@@ -112,8 +126,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <AppContainer onLayout={onLayoutRootView}>
-          <StatusBar barStyle="light-content" translucent={true} backgroundColor="transparent" />
+          <StatusBar barStyle='light-content' translucent={true} backgroundColor='transparent' />
           <ScreenView
+            loading={loading}
             onToggleNotifications={handleToggleNotifications}
             enableNotifications={enableNotifications}
             datas={datas}

@@ -1,6 +1,6 @@
 import { fr } from 'core';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import Notification from './Notification';
@@ -23,23 +23,22 @@ const Text = styled.Text<{ dark: boolean }>`
   font-size: ${({ theme }) => theme.typography.h2.size}px;
   color: ${({ theme, dark }) => (dark ? theme.colors.background.main : 'white')};
 `;
-
-export const Header: React.FC<{ onToggleNotifications: () => void; enableNotifications: boolean; dark: boolean }> = ({
-  onToggleNotifications,
-  enableNotifications,
-  dark,
-}) => {
+type HeaderProps = { onToggleNotifications: () => void; enableNotifications: boolean; dark: boolean; loading: boolean };
+export const Header: React.FC<HeaderProps> = ({ onToggleNotifications, enableNotifications, dark, loading }) => {
   return (
     <Container>
       <SafeAreaView
         edges={['top']}
-        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingRight: 24, paddingLeft: 24 }}
-      >
+        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingRight: 24, paddingLeft: 24 }}>
         <FakeIcon />
         <Text dark={dark}>{fr.MyChaban}</Text>
-        <TouchableOpacity onPress={onToggleNotifications}>
-          {enableNotifications ? <Notification dark={dark} /> : <NotificationOFF dark={dark} />}
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator color='white' />
+        ) : (
+          <TouchableOpacity onPress={onToggleNotifications}>
+            {enableNotifications ? <Notification dark={dark} /> : <NotificationOFF dark={dark} />}
+          </TouchableOpacity>
+        )}
       </SafeAreaView>
     </Container>
   );

@@ -14,7 +14,10 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     const db = new PrismaClient();
     if (request.method === 'DELETE') {
-      await db.device.delete({ where: { token } });
+      const existingToken = await db.device.findUnique({ where: { token } });
+      if (existingToken) {
+        await db.device.delete({ where: { token } });
+      }
     } else {
       await db.device.upsert({ where: { token }, create: { token, active: true }, update: { active: true } });
     }

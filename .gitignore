@@ -30,3 +30,5 @@ yarn-error.log*
 
 dist
 build
+# Local Netlify folder
+.netlify
