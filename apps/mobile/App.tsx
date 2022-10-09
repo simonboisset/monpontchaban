@@ -1,3 +1,4 @@
+import Alert from 'components/Alert';
 import { getNotificationPermission } from 'const/notifications';
 import { storage } from 'const/storage';
 import { api, filterNextBridgeEvents } from 'core';
@@ -25,18 +26,24 @@ export async function registerForPushNotifications(active = true) {
   if (!url) {
     throw new Error('[Register Push Notification] Url is not defined');
   }
-  return fetch(`${url}/notification/subscribe`, {
-    method: active ? 'POST' : 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ token }),
-  });
+  try {
+    const response = await fetch(`${url}/notification/subscribe`, {
+      method: active ? 'POST' : 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+    return response;
+  } catch (error) {
+    throw new Error(`[Register Push Notification] Fetch error url: ${url}/notification/subscribe};`);
+  }
 }
 
 export default function App() {
   const [datas, setDatas] = useState<BridgeEvent[]>();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
   const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +71,7 @@ export default function App() {
           Notifications.cancelAllScheduledNotificationsAsync();
         }
       } catch (error) {
-        console.log(error);
+        setError(JSON.stringify(error));
       }
     };
     fetchData();
@@ -101,7 +108,7 @@ export default function App() {
         }
       }
     } catch (error) {
-      console.log(error);
+      setError(JSON.stringify(error));
     }
     setLoading(false);
   };
@@ -127,6 +134,7 @@ export default function App() {
             enableNotifications={enableNotifications}
             datas={datas}
           />
+          <Alert text={error || ''} visible={!!error} onAnimationEnd={() => setError(undefined)} />
         </AppContainer>
       </SafeAreaProvider>
     </ThemeProvider>
