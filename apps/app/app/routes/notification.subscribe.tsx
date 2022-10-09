@@ -18,7 +18,7 @@ export const action: ActionFunction = async ({ request }) => {
       throw new Error('[Notification Subscribe] DATABASE_URL is not defined');
     }
     const prNumber = getPrNumberFromUrl(request.url);
-    const url = prNumber ? DATABASE_URL.replace('preview', `pr-${prNumber}`) : DATABASE_URL;
+    const url = prNumber ? DATABASE_URL.replace('preview', `pr${prNumber}`) : DATABASE_URL;
     const db = new PrismaClient({ datasources: { db: { url } } });
     if (request.method === 'DELETE') {
       const existingToken = await db.device.findUnique({ where: { token } });
