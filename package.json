@@ -15,12 +15,13 @@
     "seed": "turbo run seed --parallel",
     "kill": "turbo run kill --parallel",
     "docker": "turbo run docker --parallel",
-    "test": "turbo run test --parallel",
+    "test": "vitest",
     "postinstall": "turbo run build --filter=core"
   },
   "devDependencies": {
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "latest",
+    "vitest": "^0.24.0"
   },
   "engines": {
     "npm": ">=7.0.0",

@@ -16,8 +16,7 @@
     "reset": "prisma migrate reset --force",
     "version:major": "yarn version --new-version major --no-git-tag-version",
     "version:minor": "yarn version --new-version minor --no-git-tag-version",
-    "version:patch": "yarn version --new-version patch --no-git-tag-version",
-    "test": "yarn jest"
+    "version:patch": "yarn version --new-version patch --no-git-tag-version"
   },
   "devDependencies": {
     "@swc-node/register": "^1.5.1",

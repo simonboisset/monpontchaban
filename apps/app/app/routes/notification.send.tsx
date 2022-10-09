@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { PrismaClient } from 'db';
 import type { ExpoPushMessage, ExpoPushTicket, ExpoPushToken } from 'expo-server-sdk';
 import { Expo } from 'expo-server-sdk';
+import { getPrNumberFromUrl } from '~/dev/getPrNumberFromUrl';
 
 const sendNotification = async (tokens: ExpoPushToken[], title: string, message: string, data?: any) => {
   // const localExpoToken = await db.device.findFirst();
@@ -82,7 +83,9 @@ export const action: ActionFunction = async ({ request }) => {
     if (!DATABASE_URL) {
       throw new Error('[Notification Subscribe] DATABASE_URL is not defined');
     }
-    const db = new PrismaClient({ datasources: { db: { url: process.env.DATABASE_URL } } });
+    const prNumber = getPrNumberFromUrl(request.url);
+    const url = prNumber ? DATABASE_URL.replace('preview', `pr-${prNumber}`) : DATABASE_URL;
+    const db = new PrismaClient({ datasources: { db: { url } } });
     const devices = await db.device.findMany({ where: { active: true }, select: { token: true } });
     await db.$disconnect();
     try {
