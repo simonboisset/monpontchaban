@@ -1,12 +1,9 @@
-import { PrismaClient } from '../dist';
+const { PrismaClient } = require('../dist');
 
 const prisma = new PrismaClient();
 
 async function seed() {
-  // cleanup the existing database
-
   await prisma.device.deleteMany();
-
   await prisma.device.create({ data: { active: true, token: 'test' } });
   console.log(`Database has been seeded. 🌱`);
 }
