@@ -1,6 +1,7 @@
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import { json, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import styles from '~/styles/root.css';
+import { getConfig } from './domain/config/getConfig';
 import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
 import cookie from './hooks/cookie';
 import { useDarkMode } from './hooks/useDarkMode';
@@ -41,7 +42,11 @@ export function links() {
 }
 
 export const loader: LoaderFunction = ({ request }) => {
-  return cookie.node.get(request.headers.get('Cookie'), 'theme') || 'light';
+  const { KAFKA_PASSWORD, KAFKA_URL, KAFKA_USERNAME } = getConfig();
+  return json({
+    ENV: { KAFKA_PASSWORD, KAFKA_URL, KAFKA_USERNAME },
+    data: cookie.node.get(request.headers.get('Cookie'), 'theme') || 'light',
+  });
 };
 
 export default function App() {

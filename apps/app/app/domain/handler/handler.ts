@@ -1,4 +1,8 @@
 import { json, LoaderFunction, redirect } from '@remix-run/node';
+import crypto from 'crypto';
+import monitor from 'monitor';
+import { getConfig } from '../config/getConfig';
+import { createSessionStorage } from './utils/createSessionStorage';
 
 export type Handler<R = any, E = any> = (request: RequestHandler) => Promise<ResponseHandler<R, E>>;
 
@@ -54,16 +58,51 @@ type ResponseHandler<R = any, E = any> = {
   redirect?: string;
 };
 
+export const chabanMonitor = () => {
+  const { KAFKA_PASSWORD, KAFKA_URL, KAFKA_USERNAME, CHANNEL } = getConfig();
+  return monitor({
+    url: KAFKA_URL,
+    username: KAFKA_USERNAME,
+    password: KAFKA_PASSWORD,
+    topic: 'CHABAN',
+    application: 'web app',
+    channel: CHANNEL,
+    platform: 'NODE',
+  });
+};
+
 export const createHandler =
   <R = any, E = any>(name: string, handler: Handler<R, E>): LoaderFunction =>
   async ({ params, request }) => {
+    let newVisitor: string | undefined = undefined;
+    let visitor = await (await createSessionStorage().getSession(request.headers.get('Cookie'))).get('visitor');
+
+    if (!visitor) {
+      visitor = crypto.randomUUID();
+      newVisitor = await generateVisitorSession(request.headers, visitor);
+    }
+
+    chabanMonitor().request(name, visitor, params);
     try {
       const { data, status, headers, redirect: redirectTo } = await handler({ request, params });
+
       if (redirectTo) {
-        return redirect(redirectTo, { status, headers });
+        return redirect(redirectTo, {
+          status,
+          headers: newVisitor ? { ...headers, 'Set-Cookie': newVisitor } : headers,
+        });
       }
-      return json(data, { status, headers });
+      return json(data, { status, headers: newVisitor ? { ...headers, 'Set-Cookie': newVisitor } : headers });
     } catch (error) {
-      return json(error as E, { status: 500 });
+      chabanMonitor().error(name, error);
+      return json(error as E, { status: 500, headers: newVisitor ? { 'Set-Cookie': newVisitor } : undefined });
     }
   };
+
+const generateVisitorSession = async (headers: Headers, id: string) => {
+  const cookie = headers.get('Cookie');
+  const sessionStore = createSessionStorage();
+  const session = await sessionStore.getSession(cookie);
+  session.set('visitor', id);
+  return sessionStore.commitSession(session);
+};

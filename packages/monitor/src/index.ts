@@ -5,6 +5,9 @@ type MonitorConfig = {
   url: string;
   username: string;
   password: string;
+  platform: Platform;
+  application: string;
+  channel: string;
   topic?: string;
 };
 
@@ -17,10 +20,26 @@ const monitor = (config: MonitorConfig) => {
 
   const topic = config.topic || 'CHABAN';
 
-  const send = (level: Level, title: string, data?: any, user?: string) => {
-    const producer = kafka.producer();
-    const message = validate({ createdAt: new Date(), level, title, user, data }, messageSchema);
-    return producer.produce(topic, message);
+  const send = (level: Level, context: string, data?: any, user?: string) => {
+    try {
+      const producer = kafka.producer();
+      const message = validate(
+        {
+          createdAt: new Date(),
+          level,
+          context,
+          user,
+          data,
+          platform: config.platform,
+          channel: config.channel,
+          application: config.application,
+        },
+        messageSchema,
+      );
+      return producer.produce(topic, message);
+    } catch (error) {
+      console.error('[Monitor send] Message not sent: ', JSON.stringify(error));
+    }
   };
   const errorBoundary = async <T, E = undefined>(
     message: string,
@@ -81,7 +100,6 @@ export type Platform = InferSchema<typeof platform>;
 const messageSchema = object({
   createdAt: date(),
   user: optional(string()),
-  title: string(),
   level: level,
   data: any,
   context: string(),
