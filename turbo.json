@@ -12,14 +12,6 @@
       "dependsOn": ["generate", "^build"],
       "cache": false
     },
-    "push": {
-      "dependsOn": ["^build"],
-      "outputs": [".expo/**", "dist/**", ""]
-    },
-    "deploy": {
-      "dependsOn": ["^build"],
-      "outputs": [".expo/**", "dist/**", ""]
-    },
     "test": {
       "cache": false
     },
@@ -32,7 +24,6 @@
     "seed": {
       "cache": false
     },
-
     "generate": {
       "dependsOn": ["^generate"]
     },

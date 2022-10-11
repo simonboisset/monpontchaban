@@ -26,6 +26,9 @@
       }
     ],
     "moduleResolution": "node",
-    "baseUrl": "src"
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["./src/*"]
+    }
   }
 }

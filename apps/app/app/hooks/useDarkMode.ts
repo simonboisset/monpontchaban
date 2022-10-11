@@ -2,10 +2,10 @@ import { useLoaderData } from '@remix-run/react';
 import { useState } from 'react';
 import cookie from './cookie';
 
-export type Theme = 'dark' | 'light';
+export type Theme = { ENV: any; data: 'dark' | 'light' };
 
 export const useDarkMode = () => {
-  const themeData = useLoaderData<Theme>();
+  const { data: themeData } = useLoaderData<Theme>();
   const [theme, setTheme] = useState(themeData);
 
   const toggle = () =>

@@ -18,9 +18,9 @@ export const getBridgeEvents = (datas: Data[]): BridgeEvent[] =>
         .split(':')
         .map((value: string) => Number(value));
 
-      const closeAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
+      const closeAt = dayjs(`${date}`, 'YYYY-MM-DD').toDate();
       closeAt.setHours(hClose);
-      let openAt = dayjs(`${date}`, 'YYYY-MM-DD', 'fr').toDate();
+      let openAt = dayjs(`${date}`, 'YYYY-MM-DD').toDate();
       openAt.setHours(hOpen);
       if (dayjs(closeAt).isAfter(openAt)) {
         openAt = dayjs(openAt).add(1, 'day').toDate();

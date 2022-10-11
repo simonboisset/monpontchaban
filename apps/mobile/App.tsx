@@ -1,5 +1,3 @@
-import { getNotificationPermission } from 'const/notifications';
-import { storage } from 'const/storage';
 import { api, filterNextBridgeEvents } from 'core';
 import 'dayjs/locale/fr';
 import Constants from 'expo-constants';
@@ -8,6 +6,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback, useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Alert from 'src/components/Alert';
+import { getNotificationPermission } from 'src/const/notifications';
+import { storage } from 'src/const/storage';
+import { chabanMonitor } from 'src/monitor';
 import styled, { ThemeProvider } from 'styled-components/native';
 import { ScreenView } from './src/components/ScreenView';
 import { theme } from './src/const/theme';
@@ -20,21 +22,33 @@ const AppContainer = styled.View`
 
 export async function registerForPushNotifications(active = true) {
   const token = await Notifications.getExpoPushTokenAsync();
-  const url =
-    process.env.NODE_ENV !== 'production' && Constants.manifest?.debuggerHost
-      ? `http://${Constants.manifest.debuggerHost.split(':')[0]}:3000`
-      : 'https://pont-chaban-delmas.com';
-  return fetch(`${url}/notification/subscribe`, {
-    method: active ? 'POST' : 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ token }),
-  });
+  const url = Constants.expoConfig?.extra?.API_URL;
+
+  if (!url) {
+    await chabanMonitor().error('[Register Push Notification] Url is not defined');
+    throw new Error('[Register Push Notification] Url is not defined');
+  }
+
+  try {
+    const response = await fetch(`${url}/notification/subscribe`, {
+      method: active ? 'POST' : 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    return response;
+  } catch (error) {
+    await chabanMonitor().error('[Register Push Notification] Fetch error', `${error}`);
+    throw new Error(`[Register Push Notification] Fetch error`);
+  }
 }
 
 export default function App() {
   const [datas, setDatas] = useState<BridgeEvent[]>();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
   const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -61,41 +75,52 @@ export default function App() {
         } else {
           Notifications.cancelAllScheduledNotificationsAsync();
         }
-      } catch (error) {}
+      } catch (error) {
+        await chabanMonitor().error('[Fetch data] error', `${error}`);
+        setError("Une erreur est survenue lors de la récupération des données. Veulliez redémarrer l'application");
+      }
     };
     fetchData();
   }, []);
 
   const handleToggleNotifications = async () => {
+    setLoading(true);
     try {
       if (enableNotifications) {
         const sent = await registerForPushNotifications(false);
-
-        if (sent.status === 200) {
-          setEnableNotifications(false);
-          storage.desableNotification();
+        if (sent.status !== 200) {
+          throw new Error(`[Desable Notifications] Bad status code ${sent.status}`);
         }
 
+        setEnableNotifications(false);
+        storage.desableNotification();
         Notifications.cancelAllScheduledNotificationsAsync();
       } else {
         const hasPermission = await getNotificationPermission(true);
         if (hasPermission) {
           const sent = await registerForPushNotifications();
-          if (sent.status === 200) {
-            await storage.setPushTokenSent();
-            await storage.enableNotification();
-            setEnableNotifications(true);
-            Notifications.scheduleNotificationAsync({
-              content: {
-                title: 'Notifications activées',
-                body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
-              },
-              trigger: { seconds: 1 },
-            });
+          if (sent.status !== 200) {
+            throw new Error(`[Enable Notifications] Bad status code ${sent.status}`);
           }
+
+          await storage.setPushTokenSent();
+          await storage.enableNotification();
+          setEnableNotifications(true);
+
+          Notifications.scheduleNotificationAsync({
+            content: {
+              title: 'Notifications activées',
+              body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
+            },
+            trigger: { seconds: 1 },
+          });
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      await chabanMonitor().error('[Toggle Notifications] error', `${error}`);
+      setError('Une erreur est survenue. Veuillez réessayer plus tard.');
+    }
+    setLoading(false);
   };
 
   const onLayoutRootView = useCallback(async () => {
@@ -112,12 +137,14 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <AppContainer onLayout={onLayoutRootView}>
-          <StatusBar barStyle="light-content" translucent={true} backgroundColor="transparent" />
+          <StatusBar barStyle='light-content' translucent={true} backgroundColor='transparent' />
           <ScreenView
+            loading={loading}
             onToggleNotifications={handleToggleNotifications}
             enableNotifications={enableNotifications}
             datas={datas}
           />
+          <Alert text={error || ''} visible={!!error} onAnimationEnd={() => setError(undefined)} />
         </AppContainer>
       </SafeAreaProvider>
     </ThemeProvider>

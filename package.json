@@ -7,22 +7,18 @@
     "packages/*"
   ],
   "scripts": {
-    "mobile": "turbo run dev --filter=mobile",
-    "app": "turbo run dev --filter=app",
-    "dev": "turbo run dev --parallel",
+    "up": "yarn upgrade-interactive --latest",
     "generate": "turbo run generate",
     "seed": "turbo run seed --parallel",
     "kill": "turbo run kill --parallel",
     "docker": "turbo run docker --parallel",
-    "test": "turbo run test --parallel",
-    "push": "turbo run push",
-    "deploy:major": "turbo run version:major && turbo run deploy",
-    "deploy:minor": "turbo run version:minor && turbo run deploy",
-    "deploy:patch": "turbo run version:patch && turbo run deploy"
+    "test": "vitest",
+    "postinstall": "turbo run build --filter=core --filter=monitor"
   },
   "devDependencies": {
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "1.5.6",
+    "vitest": "^0.24.1"
   },
   "engines": {
     "npm": ">=7.0.0",

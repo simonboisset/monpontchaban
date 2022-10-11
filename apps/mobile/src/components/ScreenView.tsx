@@ -1,5 +1,4 @@
-import { Theme } from 'const/theme';
-import { useCurrentStatus, Status } from 'core';
+import { Status, useCurrentStatus } from 'core';
 import React, { useRef } from 'react';
 import {
   Animated,
@@ -10,6 +9,7 @@ import {
   NativeSyntheticEvent,
   useColorScheme,
 } from 'react-native';
+import { Theme } from 'src/const/theme';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
 import { BridgeEventItem } from './BridgeEventItem';
@@ -37,7 +37,12 @@ const StatusContainer = styled.View`
   justify-content: center;
 `;
 
-type ScreenViewProps = { datas: BridgeEvent[]; enableNotifications: boolean; onToggleNotifications: () => void };
+type ScreenViewProps = {
+  datas: BridgeEvent[];
+  enableNotifications: boolean;
+  onToggleNotifications: () => void;
+  loading: boolean;
+};
 
 const colorPicker: Record<Status, keyof Theme['colors']> = {
   OPEN: 'success',
@@ -46,7 +51,12 @@ const colorPicker: Record<Status, keyof Theme['colors']> = {
 };
 const windowHeight = Dimensions.get('window').height;
 
-export const ScreenView: React.FC<ScreenViewProps> = ({ datas, enableNotifications, onToggleNotifications }) => {
+export const ScreenView: React.FC<ScreenViewProps> = ({
+  loading,
+  datas,
+  enableNotifications,
+  onToggleNotifications,
+}) => {
   const colorScheme = useColorScheme();
   const dark = colorScheme === 'dark';
   const status = useCurrentStatus(datas[0]?.closeAt, datas[0]?.openAt);
@@ -76,12 +86,16 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, enableNotificatio
           style={{
             opacity,
             transform: [{ translateY }],
-          }}
-        >
+          }}>
           <BridgeStatus dark={dark} event={datas[0]} />
         </Animated.View>
       </StatusContainer>
-      <Header dark={dark} enableNotifications={enableNotifications} onToggleNotifications={onToggleNotifications} />
+      <Header
+        loading={loading}
+        dark={dark}
+        enableNotifications={enableNotifications}
+        onToggleNotifications={onToggleNotifications}
+      />
       <FlatList
         scrollEventThrottle={16}
         onScroll={handleScroll}
