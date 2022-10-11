@@ -18,12 +18,17 @@ export const subscribe = createHandler('Subscribe to Notification', async ({ req
     const url = prNumber ? DATABASE_URL.replace('preview', `pr${prNumber}`) : DATABASE_URL;
     const db = new PrismaClient({ datasources: { db: { url } } });
     if (request.method === 'DELETE') {
-      const existingToken = await db.device.findUnique({ where: { token } });
+      chabanMonitor().info('[Notification Subscribe] Delete');
+      const existingToken = await db.device.findFirst({ where: { token } });
+      chabanMonitor().info('[Notification Subscribe] First', existingToken);
       if (existingToken) {
         await db.device.delete({ where: { token } });
+        chabanMonitor().info('[Notification Subscribe] delete', existingToken);
       }
     } else {
+      chabanMonitor().info('[Notification Subscribe] upsert');
       await db.device.upsert({ where: { token }, create: { token, active: true }, update: { active: true } });
+      chabanMonitor().info('[Notification Subscribe] saved');
     }
     await db.$disconnect();
     chabanMonitor().info('[Notification Subscribe] Success');

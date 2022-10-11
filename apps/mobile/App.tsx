@@ -68,7 +68,8 @@ export default function App() {
             setEnableNotifications(true);
           } else {
             const sent = await registerForPushNotifications();
-
+            const data = await sent.json();
+            chabanMonitor().debug(`Status ${sent.status}`, data);
             if (sent.status === 200) {
               storage.setPushTokenSent();
               setEnableNotifications(true);
@@ -90,7 +91,8 @@ export default function App() {
     try {
       if (enableNotifications) {
         const sent = await registerForPushNotifications(false);
-
+        const data = await sent.json();
+        chabanMonitor().debug(`Status enableNotifications ${sent.status}`, data);
         if (sent.status === 200) {
           setEnableNotifications(false);
           storage.desableNotification();
@@ -101,7 +103,8 @@ export default function App() {
         const hasPermission = await getNotificationPermission(true);
         if (hasPermission) {
           const sent = await registerForPushNotifications();
-
+          const data = await sent.json();
+          chabanMonitor().debug(`Status desableNotifications ${sent.status}`, data);
           if (sent.status === 200) {
             await storage.setPushTokenSent();
             await storage.enableNotification();
