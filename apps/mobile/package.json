@@ -21,6 +21,7 @@
     "expo-notifications": "~0.16.1",
     "expo-splash-screen": "~0.16.1",
     "expo-updates": "~0.14.6",
+    "monitor": "*",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",

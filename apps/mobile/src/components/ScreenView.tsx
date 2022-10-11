@@ -1,4 +1,3 @@
-import { Theme } from 'const/theme';
 import { Status, useCurrentStatus } from 'core';
 import React, { useRef } from 'react';
 import {
@@ -10,6 +9,7 @@ import {
   NativeSyntheticEvent,
   useColorScheme,
 } from 'react-native';
+import { Theme } from 'src/const/theme';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
 import { BridgeEventItem } from './BridgeEventItem';

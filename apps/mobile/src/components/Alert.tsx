@@ -1,6 +1,6 @@
-import { theme } from 'const/theme';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, Text } from 'react-native';
+import { theme } from 'src/const/theme';
 
 type AlertProps = {
   text: string;

@@ -1,11 +1,12 @@
-import { Theme } from 'const/theme';
 import { fr } from 'core';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import React from 'react';
+import { Theme } from 'src/const/theme';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
+
 type BridgeEventItemProps = BridgeEvent & { dark: boolean };
 dayjs.extend(isToday);
 dayjs.extend(isTomorrow);
@@ -49,7 +50,7 @@ const Row = styled.View<TextProps>`
 export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openAt, dark }) => {
   return (
     <Item dark={dark}>
-      <Text dark={dark} justify="center" variant="h3">
+      <Text dark={dark} justify='center' variant='h3'>
         {dayjs(closeAt).isTomorrow()
           ? 'Demain '
           : dayjs(closeAt).isToday()
@@ -62,7 +63,7 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ closeAt, openA
             ' '}
       </Text>
       <Row>
-        <Dot color="error" />
+        <Dot color='error' />
         <Text dark={dark}>
           {dayjs(closeAt).hour()}h{dayjs(closeAt).format('mm')}
         </Text>

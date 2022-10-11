@@ -1,6 +1,3 @@
-import Alert from 'components/Alert';
-import { getNotificationPermission } from 'const/notifications';
-import { storage } from 'const/storage';
 import { api, filterNextBridgeEvents } from 'core';
 import 'dayjs/locale/fr';
 import Constants from 'expo-constants';
@@ -9,6 +6,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback, useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Alert from 'src/components/Alert';
+import { getNotificationPermission } from 'src/const/notifications';
+import { storage } from 'src/const/storage';
+import { chabanMonitor } from 'src/monitor';
 import styled, { ThemeProvider } from 'styled-components/native';
 import { ScreenView } from './src/components/ScreenView';
 import { theme } from './src/const/theme';
@@ -24,6 +25,7 @@ export async function registerForPushNotifications(active = true) {
   const url = Constants.expoConfig?.extra?.API_URL;
 
   if (!url) {
+    await chabanMonitor().error('[Register Push Notification] Url is not defined');
     throw new Error('[Register Push Notification] Url is not defined');
   }
   try {
@@ -34,8 +36,10 @@ export async function registerForPushNotifications(active = true) {
       },
       body: JSON.stringify({ token }),
     });
+
     return response;
   } catch (error) {
+    await chabanMonitor().error('[Register Push Notification] Fetch error', `${error}`);
     throw new Error(`[Register Push Notification] Fetch error`);
   }
 }
@@ -71,6 +75,7 @@ export default function App() {
           Notifications.cancelAllScheduledNotificationsAsync();
         }
       } catch (error) {
+        await chabanMonitor().error('[Fetch data] error', `${error}`);
         setError("Une erreur est survenue lors de la récupération des données. Veulliez redémarrer l'application");
       }
     };
@@ -93,6 +98,7 @@ export default function App() {
         const hasPermission = await getNotificationPermission(true);
         if (hasPermission) {
           const sent = await registerForPushNotifications();
+
           if (sent.status === 200) {
             await storage.setPushTokenSent();
             await storage.enableNotification();
@@ -108,6 +114,7 @@ export default function App() {
         }
       }
     } catch (error) {
+      await chabanMonitor().error('[Toggle Notifications] error', `${error}`);
       setError('Une erreur est survenue. Veuillez réessayer plus tard.');
     }
     setLoading(false);
