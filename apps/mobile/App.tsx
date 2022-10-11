@@ -28,6 +28,8 @@ export async function registerForPushNotifications(active = true) {
     await chabanMonitor().error('[Register Push Notification] Url is not defined');
     throw new Error('[Register Push Notification] Url is not defined');
   }
+  chabanMonitor().debug(`Fetch url ${url}`);
+  chabanMonitor().debug(`token fetch ${token}`);
   try {
     const response = await fetch(`${url}/notification/subscribe`, {
       method: active ? 'POST' : 'DELETE',
@@ -51,6 +53,7 @@ export default function App() {
   const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
+      chabanMonitor().debug('Fetch data');
       try {
         await SplashScreen.preventAutoHideAsync();
         const hasNotification = await storage.hasNotification();
