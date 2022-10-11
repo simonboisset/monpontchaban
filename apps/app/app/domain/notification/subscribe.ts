@@ -4,6 +4,7 @@ import { getConfig } from '../config/getConfig';
 import { chabanMonitor, createHandler } from '../handler/handler';
 
 export const subscribe = createHandler('Subscribe to Notification', async ({ request }) => {
+  chabanMonitor().debug('Hello');
   const data = await request.json();
 
   const token = data.token.data;

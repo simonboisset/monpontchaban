@@ -52,6 +52,7 @@ export default function App() {
   const [enableNotifications, setEnableNotifications] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
+      chabanMonitor().debug('Fetch init');
       try {
         await SplashScreen.preventAutoHideAsync();
         const hasNotification = await storage.hasNotification();
