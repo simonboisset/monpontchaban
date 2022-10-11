@@ -58,19 +58,19 @@ const monitor = (config: MonitorConfig) => {
     }
   };
   const log = (message: string, data?: any) => {
-    return send('LOG', message, JSON.stringify(data));
+    return send('LOG', message, JSON.stringify(data || {}));
   };
   const debug = (message: string, data?: any) => {
-    return send('DEBUG', message, JSON.stringify(data));
+    return send('DEBUG', message, JSON.stringify(data || {}));
   };
   const info = (message: string, data?: any) => {
-    return send('INFO', message, JSON.stringify(data));
+    return send('INFO', message, JSON.stringify(data || {}));
   };
   const warn = (message: string, data?: any) => {
-    return send('WARNING', message, JSON.stringify(data));
+    return send('WARNING', message, JSON.stringify(data || {}));
   };
   const error = (message: string, data?: any) => {
-    return send('ERROR', message, JSON.stringify(data));
+    return send('ERROR', message, JSON.stringify(data || {}));
   };
   const request = (route: string, user?: string, param?: any) => {
     return send('REQUEST', route, JSON.stringify(param), user);
