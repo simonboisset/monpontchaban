@@ -88,30 +88,32 @@ export default function App() {
     try {
       if (enableNotifications) {
         const sent = await registerForPushNotifications(false);
-
-        if (sent.status === 200) {
-          setEnableNotifications(false);
-          storage.desableNotification();
+        if (sent.status !== 200) {
+          throw new Error(`[Desable Notifications] Bad status code ${sent.status}`);
         }
 
+        setEnableNotifications(false);
+        storage.desableNotification();
         Notifications.cancelAllScheduledNotificationsAsync();
       } else {
         const hasPermission = await getNotificationPermission(true);
         if (hasPermission) {
           const sent = await registerForPushNotifications();
-
-          if (sent.status === 200) {
-            await storage.setPushTokenSent();
-            await storage.enableNotification();
-            setEnableNotifications(true);
-            Notifications.scheduleNotificationAsync({
-              content: {
-                title: 'Notifications activées',
-                body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
-              },
-              trigger: { seconds: 1 },
-            });
+          if (sent.status !== 200) {
+            throw new Error(`[Enable Notifications] Bad status code ${sent.status}`);
           }
+
+          await storage.setPushTokenSent();
+          await storage.enableNotification();
+          setEnableNotifications(true);
+
+          Notifications.scheduleNotificationAsync({
+            content: {
+              title: 'Notifications activées',
+              body: `Vous recevrez des notifications lors des prochaines fermetures du pont Chaban-Delmas. Pour désactiver les notifications appuyez de nouveau sur l'icône de notification.`,
+            },
+            trigger: { seconds: 1 },
+          });
         }
       }
     } catch (error) {

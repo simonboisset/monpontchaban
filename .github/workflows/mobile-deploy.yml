@@ -11,6 +11,14 @@ on:
           - major
           - minor
           - patch
+      profile:
+        description: 'production | dev'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - production
 
 jobs:
   mobile-deploy:
@@ -51,6 +59,7 @@ jobs:
       - name: ⏳ Yarn install
         run: yarn
       - name: 🚀 Upgrade packages version
+        if: ${{ github.event.inputs.profile == 'production' }}
         run: |
           echo '${{secrets.PLAY_STORE_API_KEY}}' > apps/mobile/api-key.json
           git config --local user.email "simonboisset.dev@gmail.com"
@@ -60,6 +69,9 @@ jobs:
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           git commit -a -m "v${PACKAGE_VERSION}"
           git push
-      - name: 🚀 EAS Build
-        working-directory: apps/mobile
-        run: eas build --profile production --platform android --no-wait --auto-submit --non-interactive
+      - name: 🚀 EAS Build Production
+        if: ${{ github.event.inputs.profile == 'production' }}
+        run: API_URL="https://pont-chaban-delmas.com" CHANNEL="production" KAFKA_PASSWORD="${{secrets.KAFKA_PASSWORD}}" KAFKA_URL="${{secrets.KAFKA_URL}}" KAFKA_USERNAME="${{secrets.KAFKA_USERNAME}}" eas build --profile production --platform android --no-wait --auto-submit --non-interactive
+      - name: 🚀 EAS Build Production
+        if: ${{ github.event.inputs.profile != 'production' }}
+        run: API_URL="https://pont-chaban-delmas.com" CHANNEL="production" KAFKA_PASSWORD="${{secrets.KAFKA_PASSWORD}}" KAFKA_URL="${{secrets.KAFKA_URL}}" KAFKA_USERNAME="${{secrets.KAFKA_USERNAME}}" eas build --profile dev --platform android --no-wait --non-interactive
