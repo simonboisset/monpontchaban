@@ -30,6 +30,7 @@ export async function registerForPushNotifications(active = true) {
   }
 
   try {
+    chabanMonitor().info(`[Toggle Notification] ${active ? 'POST' : 'DELETE'} ${url}/notification/subscribe`);
     const response = await fetch(`${url}/notification/subscribe`, {
       method: active ? 'POST' : 'DELETE',
       headers: {
