@@ -1,32 +1,10 @@
-import { json } from '@remix-run/node';
 import { useLoaderData, useOutletContext } from '@remix-run/react';
-import { api, filterNextBridgeEvents } from 'core';
 import type { BridgeEvent } from '~/components/BridgeEventItem';
 import { ScreenView } from '~/components/ScreenView';
-import { redis } from '~/const/redis.server';
+import { getSchedules } from '~/domain/schedule/getSchedules';
 import type { Theme } from '~/hooks/useDarkMode';
 
-export const loader = async () => {
-  try {
-    const redisData = await redis.get('data');
-    if (redisData) {
-      const data = JSON.parse(redisData);
-      if (Array.isArray(data)) {
-        return json(data.filter(filterNextBridgeEvents(new Date())) || [], {
-          headers: {
-            'Cache-Control': 'public, max-age=3600, s-maxage=86400',
-          },
-        });
-      }
-    }
-  } catch (error) {
-    console.error('[Load data] Redis data fails');
-  }
-
-  const fetchedDatas = await api.get();
-  await redis.set('data', JSON.stringify(fetchedDatas));
-  return fetchedDatas?.filter(filterNextBridgeEvents(new Date())) || [];
-};
+export const loader = getSchedules;
 
 export default function Index() {
   const datas = useLoaderData<BridgeEvent[]>();

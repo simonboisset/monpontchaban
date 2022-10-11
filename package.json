@@ -8,9 +8,6 @@
   ],
   "scripts": {
     "up": "yarn upgrade-interactive --latest",
-    "mobile": "turbo run dev --filter=mobile",
-    "app": "turbo run dev --filter=app",
-    "dev": "turbo run dev --parallel",
     "generate": "turbo run generate",
     "seed": "turbo run seed --parallel",
     "kill": "turbo run kill --parallel",

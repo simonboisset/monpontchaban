@@ -8,6 +8,7 @@ export const meta: MetaFunction = () => {
     description: "Règles de confidentialité de l'application Horaire Pont Chaban-Delmas",
   };
 };
+
 export default function Privacy() {
   return (
     <div className='flex flex-col space-y-2 p-12 text-justify'>

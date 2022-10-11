@@ -1,5 +1,6 @@
+import { theme } from 'const/theme';
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, Text, TouchableOpacity } from 'react-native';
+import { Animated, Easing, Text } from 'react-native';
 
 type AlertProps = {
   text: string;
@@ -9,14 +10,14 @@ type AlertProps = {
   onAnimationEnd?: () => void;
 };
 
-const Alert: React.FC<AlertProps> = ({ text, type = 'error', visible, duration = 2000, onAnimationEnd }) => {
+const Alert: React.FC<AlertProps> = ({ text, type = 'error', visible, duration = 3000, onAnimationEnd }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
       easing: Easing.out(Easing.cubic),
-      toValue: 260,
+      toValue: 300,
       useNativeDriver: true,
-      duration: 250,
+      duration: 340,
     }).start();
   };
 
@@ -25,30 +26,30 @@ const Alert: React.FC<AlertProps> = ({ text, type = 'error', visible, duration =
       easing: Easing.in(Easing.ease),
       toValue: 0,
       useNativeDriver: true,
-      duration: 250,
+      duration: 340,
     }).start(onAnimationEnd);
   };
 
   useEffect(() => {
     if (visible) {
       fadeIn();
-      //   const timer = setTimeout(fadeOut, duration);
-      //   return () => clearTimeout(timer);
+      const timer = setTimeout(fadeOut, duration);
+      return () => clearTimeout(timer);
     } else {
       fadeOut();
     }
   }, [visible]);
 
-  let color = '#F26666';
+  let color = theme.colors.error.main;
   switch (type) {
     case 'success':
-      color = '#44B278';
+      color = theme.colors.success.main;
       break;
     case 'error':
-      color = '#F26666';
+      color = theme.colors.error.main;
       break;
     default:
-      color = '#44B278';
+      color = theme.colors.success.main;
       break;
   }
   return (
@@ -69,11 +70,6 @@ const Alert: React.FC<AlertProps> = ({ text, type = 'error', visible, duration =
         ],
       }}>
       <Text style={{ color: 'white' }}>{text}</Text>
-      <TouchableOpacity
-        style={{ height: 24, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        onPress={fadeOut}>
-        <Text style={{ color: 'white' }}>Close</Text>
-      </TouchableOpacity>
     </Animated.View>
   );
 };

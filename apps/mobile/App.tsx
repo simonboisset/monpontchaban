@@ -36,7 +36,7 @@ export async function registerForPushNotifications(active = true) {
     });
     return response;
   } catch (error) {
-    throw new Error(`[Register Push Notification] Fetch error url: ${url}/notification/subscribe};`);
+    throw new Error(`[Register Push Notification] Fetch error`);
   }
 }
 
@@ -71,7 +71,7 @@ export default function App() {
           Notifications.cancelAllScheduledNotificationsAsync();
         }
       } catch (error) {
-        setError(JSON.stringify(error));
+        setError("Une erreur est survenue lors de la récupération des données. Veulliez redémarrer l'application");
       }
     };
     fetchData();
@@ -108,7 +108,7 @@ export default function App() {
         }
       }
     } catch (error) {
-      setError(JSON.stringify(error));
+      setError('Une erreur est survenue. Veuillez réessayer plus tard.');
     }
     setLoading(false);
   };
