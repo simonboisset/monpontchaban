@@ -59,4 +59,10 @@ jobs:
       - name: 🚀 EAS Update Peview
         if: ${{ env.branch_name != 'main' }}
         working-directory: apps/mobile
-        run: API_URL=https://deploy-preview-${{ github.event.number }}--pontchaban.netlify.app eas update --branch pr-${{ github.event.number }} --message "Push update branch"
+        env:
+          API_URL: https://deploy-preview-${{ github.event.number }}--pontchaban.netlify.app
+          CHANNEL: pr${{ github.event.number }}
+          KAFKA_PASSWORD: ${{secrets.KAFKA_PASSWORD}}
+          KAFKA_URL: ${{secrets.KAFKA_URL}}
+          KAFKA_USERNAME: ${{secrets.KAFKA_USERNAME}}
+        run: eas update --branch pr-${{ github.event.number }} --message "Push update branch"
