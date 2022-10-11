@@ -13,7 +13,7 @@
     "kill": "turbo run kill --parallel",
     "docker": "turbo run docker --parallel",
     "test": "vitest",
-    "postinstall": "turbo run build --filter=core"
+    "postinstall": "turbo run build --filter=core --filter=monitor"
   },
   "devDependencies": {
     "prettier": "latest",
