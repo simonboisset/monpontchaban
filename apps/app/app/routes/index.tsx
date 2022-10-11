@@ -8,7 +8,7 @@ export const loader = getSchedules;
 
 export default function Index() {
   const datas = useLoaderData<BridgeEvent[]>();
-  const { toggleTheme, theme } = useOutletContext<{ toggleTheme: () => void; theme: Theme }>();
+  const { toggleTheme, theme } = useOutletContext<{ toggleTheme: () => void; theme: Theme['data'] }>();
 
   return (
     <ScreenView

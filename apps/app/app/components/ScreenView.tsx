@@ -9,7 +9,7 @@ import { Header } from './Header';
 import { Moon } from './Moon';
 import { Sun } from './Sun';
 
-type ScreenViewProps = { datas: BridgeEvent[]; toggleTheme: () => void; theme: Theme };
+type ScreenViewProps = { datas: BridgeEvent[]; toggleTheme: () => void; theme: Theme['data'] };
 
 export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, theme }) => {
   const status = useCurrentStatus(datas[0]?.closeAt, datas[0]?.openAt);

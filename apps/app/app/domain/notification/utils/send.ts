@@ -9,7 +9,7 @@ export const sendNotification = async (tokens: ExpoPushToken[], title: string, m
   let messages: ExpoPushMessage[] = [];
   for (let pushToken of tokens) {
     if (!Expo.isExpoPushToken(pushToken)) {
-      chabanMonitor().error(`Push token ${pushToken} is not a valid Expo push token`);
+      chabanMonitor().warn(`Push token ${pushToken} is not a valid Expo push token`);
       continue;
     }
     messages.push({ to: pushToken, sound: 'default', title, body: message, data, priority: 'high', badge: 1 });
@@ -23,7 +23,7 @@ export const sendNotification = async (tokens: ExpoPushToken[], title: string, m
       let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
       tickets.push(...ticketChunk);
     } catch (error) {
-      chabanMonitor().error(error);
+      chabanMonitor().warn('[Send Notification] : Chunk error', error);
     }
   }
 };
