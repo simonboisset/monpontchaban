@@ -97,16 +97,18 @@ export default function App() {
         Notifications.cancelAllScheduledNotificationsAsync();
       } else {
         const hasPermission = await getNotificationPermission(true);
+        chabanMonitor().debug('Has permission', hasPermission);
         if (hasPermission) {
           const sent = await registerForPushNotifications();
+          chabanMonitor().debug('sent fetch', sent.status);
           if (sent.status !== 200) {
             throw new Error(`[Enable Notifications] Bad status code ${sent.status}`);
           }
-
+          chabanMonitor().debug('set storage');
           await storage.setPushTokenSent();
           await storage.enableNotification();
           setEnableNotifications(true);
-
+          chabanMonitor().debug('scheduleNotificationAsync');
           Notifications.scheduleNotificationAsync({
             content: {
               title: 'Notifications activées',
