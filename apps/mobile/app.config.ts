@@ -1,7 +1,8 @@
+import { ConfigContext, ExpoConfig } from '@expo/config';
 import 'dotenv/config';
 import packages from './package.json';
 
-const getAndroidVersionCode = (version) => {
+const getAndroidVersionCode = (version: any) => {
   let [major, minor, patch] = version.split('.');
   if (major.length === 1) {
     major = `0${major}`;
@@ -17,7 +18,8 @@ const getAndroidVersionCode = (version) => {
 
 const versionCode = getAndroidVersionCode(packages.version);
 
-export default {
+export default ({ config }: ConfigContext): ExpoConfig => ({
+  ...config,
   name: 'Horaire Pont Chaban-Delmas',
   slug: 'mon-pont-chaban',
   runtimeVersion: {
@@ -71,4 +73,4 @@ export default {
       },
     ],
   ],
-};
+});
