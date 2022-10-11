@@ -13,6 +13,9 @@
     "kill": "turbo run kill --parallel",
     "docker": "turbo run docker --parallel",
     "test": "vitest",
+    "version:patch": "turbo run version:patch",
+    "version:minor": "turbo run version:minor",
+    "version:major": "turbo run version:major",
     "postinstall": "turbo run build --filter=core --filter=monitor"
   },
   "devDependencies": {

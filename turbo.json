@@ -28,13 +28,13 @@
       "dependsOn": ["^generate"]
     },
     "version:major": {
-      "dependsOn": []
+      "cache": false
     },
     "version:minor": {
-      "dependsOn": []
+      "cache": false
     },
     "version:patch": {
-      "dependsOn": []
+      "cache": false
     }
   }
 }

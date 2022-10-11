@@ -64,7 +64,7 @@ jobs:
           echo '${{secrets.PLAY_STORE_API_KEY}}' > apps/mobile/api-key.json
           git config --local user.email "simonboisset.dev@gmail.com"
           git config --local user.name "simonboisset"
-          turbo run version:${{github.event.inputs.release}}
+          yarn version:${{github.event.inputs.release}}
           yarn version --new-version ${{github.event.inputs.release}} --no-git-tag-version
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           git commit -a -m "v${PACKAGE_VERSION}"
