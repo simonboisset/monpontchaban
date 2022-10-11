@@ -1,6 +1,6 @@
 {
   "name": "infra-local",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "private": true,
   "scripts": {
     "kill": "docker stop $(docker ps -aq) && docker rm $(docker ps -aq)",
