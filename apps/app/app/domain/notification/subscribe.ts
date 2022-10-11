@@ -1,14 +1,14 @@
 import { PrismaClient } from 'db';
 import { getPrNumberFromUrl } from '~/dev/getPrNumberFromUrl';
 import { getConfig } from '../config/getConfig';
-import { createHandler } from '../handler/handler';
+import { chabanMonitor, createHandler } from '../handler/handler';
 
 export const subscribe = createHandler('Subscribe to Notification', async ({ request }) => {
   const data = await request.json();
 
   const token = data.token.data;
   if (!token) {
-    console.error('[Notification Subscribe] Token not found');
+    chabanMonitor().error('[Notification Subscribe] Token not found');
     return { data: '[Notification Subscribe] Token not found', status: 403 };
   }
   const { DATABASE_URL } = getConfig();
@@ -26,10 +26,10 @@ export const subscribe = createHandler('Subscribe to Notification', async ({ req
       await db.device.upsert({ where: { token }, create: { token, active: true }, update: { active: true } });
     }
     await db.$disconnect();
-    console.info('[Notification Subscribe] Success');
+    chabanMonitor().info('[Notification Subscribe] Success');
     return { data: '[Notification Subscribe] Success', status: 200 };
   } catch (error) {
-    console.error('[Notification Subscribe] Save token failed', error);
+    chabanMonitor().error('[Notification Subscribe] Save token failed', error);
     return { data: '[Notification Subscribe] Save token failed', status: 400 };
   }
 });

@@ -1,7 +1,7 @@
 import { api } from 'core';
 import Redis from 'ioredis';
 import { getConfig } from './config/getConfig';
-import { createHandler } from './handler/handler';
+import { chabanMonitor, createHandler } from './handler/handler';
 
 export const cache = createHandler('cache', async ({ request }) => {
   const data = await request.json();
@@ -10,7 +10,7 @@ export const cache = createHandler('cache', async ({ request }) => {
   const { SEND_NOTIFICATION_TOKEN, REDIS_URL } = getConfig();
 
   if (token !== SEND_NOTIFICATION_TOKEN) {
-    console.error('[Update cache] Invalid token');
+    chabanMonitor().error('[Update cache] Invalid token');
     return { data: '[Update cache] Invalid token', status: 403 };
   }
 

@@ -1,7 +1,7 @@
 import { api, filterNextBridgeEvents } from 'core';
 import dayjs from 'dayjs';
 import { getConfig } from '../config/getConfig';
-import { createHandler } from '../handler/handler';
+import { chabanMonitor, createHandler } from '../handler/handler';
 import { sendNotification } from './utils/send';
 
 export const sendTest = createHandler('Send Notification Test', async () => {
@@ -18,7 +18,7 @@ export const sendTest = createHandler('Send Notification Test', async () => {
         ).hour()}h${dayjs(nextEvent.openAt).format('mm')}`,
       );
     } catch (error) {
-      console.error('[Send Notification] Error', error);
+      chabanMonitor().error('[Send Notification] Error', error);
       return { data: '[Send Notification] Error', status: 400 };
     }
     return { data: '[Send Notification] Success', status: 200 };

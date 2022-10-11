@@ -1,6 +1,6 @@
 import { api, filterNextBridgeEvents } from 'core';
 import { redis } from '~/const/redis.server';
-import { createHandler } from '../handler/handler';
+import { chabanMonitor, createHandler } from '../handler/handler';
 
 export const getSchedules = createHandler('Get Bridge Schedules', async () => {
   try {
@@ -18,14 +18,14 @@ export const getSchedules = createHandler('Get Bridge Schedules', async () => {
       }
     }
   } catch (error) {
-    console.error('[Load data] Redis get data fails');
+    chabanMonitor().error('[Load data] Redis get data fails');
   }
 
   const fetchedDatas = await api.get();
   try {
     await redis.set('data', JSON.stringify(fetchedDatas));
   } catch (error) {
-    console.error('[Load data] Redis set data fails');
+    chabanMonitor().error('[Load data] Redis set data fails');
   }
   return {
     headers: {
