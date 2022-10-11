@@ -14,6 +14,7 @@ export const getConfig = () =>
   getVariables(
     'DATABASE_URL',
     'CHANNEL',
+    'REDIS_URL',
     'SESSION_SECRET',
     'SEND_NOTIFICATION_TOKEN',
     'EXPO_ACCESS_TOKEN',
