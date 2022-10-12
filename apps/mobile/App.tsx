@@ -59,11 +59,11 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const visitor = await storage.getVisitor();
-        await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
         await SplashScreen.preventAutoHideAsync();
         const hasNotification = await storage.hasNotification();
         const hasPermission = await getNotificationPermission(hasNotification);
+        const visitor = await storage.getVisitor();
+        await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
         const fetchedDatas = await api.get();
         if (fetchedDatas) {
           setDatas(fetchedDatas.filter(filterNextBridgeEvents(new Date())));
