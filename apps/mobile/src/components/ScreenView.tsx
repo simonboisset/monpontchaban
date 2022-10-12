@@ -88,10 +88,9 @@ export const ScreenView: React.FC<ScreenViewProps> = ({
   }, []);
 
   return (
-    <ScreenContainer onLayout dark={dark} color={colorPicker[status]}>
+    <ScreenContainer onLayout={onFirstRender} dark={dark} color={colorPicker[status]}>
       <StatusContainer>
         <Animated.View
-          onLayout={onFirstRender}
           style={{
             opacity,
             transform: [{ translateY }],
