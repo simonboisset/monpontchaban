@@ -73,7 +73,7 @@ const monitor = (config: MonitorConfig) => {
     return send('ERROR', message, JSON.stringify(data || {}));
   };
   const request = (route: string, user?: string, param?: any) => {
-    return send('REQUEST', route, JSON.stringify(param), user);
+    return send('REQUEST', route, JSON.stringify(param || {}), user);
   };
 
   const consume = async () => {

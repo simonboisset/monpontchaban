@@ -8,6 +8,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   useColorScheme,
+  ViewProps,
 } from 'react-native';
 import { Theme } from 'src/const/theme';
 import styled from 'styled-components/native';
@@ -20,7 +21,7 @@ type ScreenContainerProps = {
   color?: keyof Theme['colors'];
   dark: boolean;
 };
-const ScreenContainer = styled.View<ScreenContainerProps>`
+const ScreenContainer = styled.View<ScreenContainerProps & ViewProps>`
   flex: 1;
   flex-direction: column;
   background-color: ${({ dark, color = 'success', theme }) =>
