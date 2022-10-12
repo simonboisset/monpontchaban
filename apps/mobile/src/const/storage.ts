@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { nanoid } from 'nanoid';
+import uuid from 'react-native-uuid';
 import { chabanMonitor } from 'src/monitor';
 const setItem = async (value: string) => {
   try {
@@ -62,7 +62,7 @@ const getVisitor = async () => {
     if (visitor) {
       return visitor;
     }
-    const newVisitor = nanoid();
+    const newVisitor = JSON.stringify(uuid.v4());
     await AsyncStorage.setItem('visitor', newVisitor);
     return newVisitor;
   } catch (e) {
