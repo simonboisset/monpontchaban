@@ -31,7 +31,7 @@ export async function registerForPushNotifications(active = true) {
 
   try {
     const visitor = await storage.getVisitor();
-    chabanMonitor().request(
+    await chabanMonitor().request(
       `[Toggle Notification]`,
       visitor,
       `${active ? 'POST' : 'DELETE'} ${url}/notification/subscribe`,
@@ -60,7 +60,7 @@ export default function App() {
     const fetchData = async () => {
       try {
         const visitor = await storage.getVisitor();
-        chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
+        await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
         await SplashScreen.preventAutoHideAsync();
         const hasNotification = await storage.hasNotification();
         const hasPermission = await getNotificationPermission(hasNotification);
