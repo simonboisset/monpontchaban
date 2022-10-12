@@ -132,8 +132,6 @@ export default function App() {
   const onLayoutRootView = useCallback(async () => {
     if (!!datas) {
       await SplashScreen.hideAsync();
-      const visitor = await storage.getVisitor();
-      await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
     }
   }, [!!datas]);
 
