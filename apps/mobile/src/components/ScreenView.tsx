@@ -45,7 +45,10 @@ type ScreenViewProps = {
   onToggleNotifications: () => void;
   loading: boolean;
 };
-
+const firstRender = async () => {
+  const visitor = await storage.getVisitor();
+  await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
+};
 const colorPicker: Record<Status, keyof Theme['colors']> = {
   OPEN: 'success',
   WILL_CLOSE: 'warning',
@@ -82,10 +85,6 @@ export const ScreenView: React.FC<ScreenViewProps> = ({
   });
 
   useEffect(() => {
-    const firstRender = async () => {
-      const visitor = await storage.getVisitor();
-      await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
-    };
     firstRender();
   }, []);
 
