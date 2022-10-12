@@ -1,5 +1,5 @@
 import { Status, useCurrentStatus } from 'core';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
   Animated,
   Dimensions,
@@ -8,6 +8,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   useColorScheme,
+  ViewProps,
 } from 'react-native';
 import { storage } from 'src/const/storage';
 import { Theme } from 'src/const/theme';
@@ -22,7 +23,7 @@ type ScreenContainerProps = {
   color?: keyof Theme['colors'];
   dark: boolean;
 };
-const ScreenContainer = styled.View<ScreenContainerProps>`
+const ScreenContainer = styled.View<ScreenContainerProps & ViewProps>`
   flex: 1;
   flex-direction: column;
   background-color: ${({ dark, color = 'success', theme }) =>
@@ -45,10 +46,7 @@ type ScreenViewProps = {
   onToggleNotifications: () => void;
   loading: boolean;
 };
-const firstRender = async () => {
-  const visitor = await storage.getVisitor();
-  await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
-};
+
 const colorPicker: Record<Status, keyof Theme['colors']> = {
   OPEN: 'success',
   WILL_CLOSE: 'warning',
@@ -84,14 +82,16 @@ export const ScreenView: React.FC<ScreenViewProps> = ({
     easing: Easing.cubic,
   });
 
-  useEffect(() => {
-    firstRender();
+  const onFirstRender = useCallback(async () => {
+    const visitor = await storage.getVisitor();
+    await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
   }, []);
 
   return (
-    <ScreenContainer dark={dark} color={colorPicker[status]}>
+    <ScreenContainer onLayout dark={dark} color={colorPicker[status]}>
       <StatusContainer>
         <Animated.View
+          onLayout={onFirstRender}
           style={{
             opacity,
             transform: [{ translateY }],
