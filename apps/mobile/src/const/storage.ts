@@ -62,7 +62,8 @@ const getVisitor = async () => {
     if (visitor) {
       return visitor;
     }
-    const newVisitor = JSON.stringify(uuid.v4());
+    const id = uuid.v4();
+    const newVisitor = typeof id === 'string' ? id : JSON.stringify(uuid.v4());
     await AsyncStorage.setItem('visitor', newVisitor);
     return newVisitor;
   } catch (e) {

@@ -62,8 +62,6 @@ export default function App() {
         await SplashScreen.preventAutoHideAsync();
         const hasNotification = await storage.hasNotification();
         const hasPermission = await getNotificationPermission(hasNotification);
-        const visitor = await storage.getVisitor();
-        await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
         const fetchedDatas = await api.get();
         if (fetchedDatas) {
           setDatas(fetchedDatas.filter(filterNextBridgeEvents(new Date())));
@@ -134,6 +132,8 @@ export default function App() {
   const onLayoutRootView = useCallback(async () => {
     if (!!datas) {
       await SplashScreen.hideAsync();
+      const visitor = await storage.getVisitor();
+      await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
     }
   }, [!!datas]);
 
