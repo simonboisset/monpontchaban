@@ -59,6 +59,9 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const visitor = await storage.getVisitor();
+        await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
+        await chabanMonitor().debug('Hello');
         await SplashScreen.preventAutoHideAsync();
         const hasNotification = await storage.hasNotification();
         const hasPermission = await getNotificationPermission(hasNotification);

@@ -1,5 +1,5 @@
 import { Status, useCurrentStatus } from 'core';
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import {
   Animated,
   Dimensions,
@@ -10,9 +10,7 @@ import {
   useColorScheme,
   ViewProps,
 } from 'react-native';
-import { storage } from 'src/const/storage';
 import { Theme } from 'src/const/theme';
-import { chabanMonitor } from 'src/monitor';
 import styled from 'styled-components/native';
 import { BridgeEvent } from '../../App';
 import { BridgeEventItem } from './BridgeEventItem';
@@ -82,13 +80,8 @@ export const ScreenView: React.FC<ScreenViewProps> = ({
     easing: Easing.cubic,
   });
 
-  const onFirstRender = useCallback(async () => {
-    const visitor = await storage.getVisitor();
-    await chabanMonitor().request(`[Fetch data] initial fetch`, visitor);
-  }, []);
-
   return (
-    <ScreenContainer onLayout={onFirstRender} dark={dark} color={colorPicker[status]}>
+    <ScreenContainer dark={dark} color={colorPicker[status]}>
       <StatusContainer>
         <Animated.View
           style={{
