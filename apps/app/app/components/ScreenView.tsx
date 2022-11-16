@@ -75,22 +75,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
               {datas.map((data) => (
                 <BridgeEventItem key={data.closeAt.getTime()} {...data} />
               ))}
-              {datas.map((data) => (
-                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
-              ))}
-              {datas.map((data) => (
-                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
-              ))}
-              {datas.map((data) => (
-                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
-              ))}
-              {datas.map((data) => (
-                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
-              ))}
-              {datas.map((data) => (
-                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
-              ))}
-              <div className='flex space-x-8 absolute bottom-8 left-16 text-greenDark font-bold'>
+              <div className='flex space-x-8 absolute bottom-8 left-16 text-greenDark font-bold dark:text-green'>
                 <Link to='/docs/legal'>Mentions légales</Link>
                 <Link to='/docs/privacy'>Politique de confidentialité</Link>
               </div>
