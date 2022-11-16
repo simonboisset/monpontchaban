@@ -1,0 +1,64 @@
+---
+meta:
+  title: Mentions légales | Horaire pont Chaban-Delmas
+  description: Mentions légales de Horaire pont Chaban-Delmas
+headers:
+  Cache-Control: no-cache
+---
+
+# Mentions légales
+
+Dernière mise à jour au 16/11/2022
+
+## Introduction
+
+Conformément aux dispositions des Articles 6-III et 19 de la Loi n°2004-575 du 21 juin 2004 pour la
+Confiance dans l’économie numérique, dite L.C.E.N., il est porté à la connaissance des utilisateurs et
+visiteurs, ci-après l""Utilisateur", du site pont-chaban-delmas.com , ci-après le "Site", les présentes mentions
+légales.
+La connexion et la navigation sur le Site par l’Utilisateur implique acceptation intégrale et sans réserve
+des présentes mentions légales.
+Ces dernières sont accessibles sur le Site à la rubrique « Mentions légales ».
+
+## L'éditeur
+
+L'édition du Site est assurée par Lezo SAS au capital de 100 euros, immatriculée au Registre du
+Commerce et des Sociétés de Nantes sous le numéro 921329025 dont le siège social est situé au 1
+allée des soeurs de l'espérance,
+Numéro de téléphone 0699484656,
+Adresse e-mail : simonboisset.dev@gmail.com.
+N° de TVA intracommunautaire : FR23921329025
+Le Directeur de la publication est Simon Boisset
+ci-après l'"Editeur".
+
+## L'hébergeur
+
+L'hébergeur du Site est la société Netlify, dont le siège social est situé au 44 Montgomery Street,
+Suite 300, San Francisco, CA 94104, United States, avec l'adresse mail de contact support@netlify.com
+
+## Accès au site
+
+Le Site est accessible en tout endroit, 7j/7, 24h/24 sauf cas de force majeure, interruption
+programmée ou non et pouvant découlant d’une nécessité de maintenance.
+En cas de modification, interruption ou suspension du Site, l'Editeur ne saurait être tenu responsable.
+
+## Collecte des données
+
+Le Site assure à l'Utilisateur une collecte et un traitement d'informations personnelles dans le respect
+de la vie privée conformément à la loi n°78-17 du 6 janvier 1978 relative à l'informatique, aux fichiers
+et aux libertés.
+
+En vertu de la loi Informatique et Libertés, en date du 6 janvier 1978, l'Utilisateur dispose d'un droit
+d'accès, de rectification, de suppression et d'opposition de ses données personnelles. L'Utilisateur
+exerce ce droit :
+
+- par mail à l'adresse email simonboisset.dev@gmail.com
+
+## Informations complémentaires
+
+Toute utilisation, reproduction, diffusion, commercialisation, modification de toute ou partie du Site,
+sans autorisation de l’Editeur est prohibée et pourra entraînée des actions et poursuites judiciaires
+telles que notamment prévues par le Code de la propriété intellectuelle et le Code civil.
+
+Pour plus d'informations en matière de protection des données à caractère personnel, se reporter à la
+Politique de Confidentialité accessible à la rubrique "Politique de Confidentialité"

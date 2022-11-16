@@ -1,3 +1,4 @@
+import { Link } from '@remix-run/react';
 import { useCurrentStatus } from 'core';
 import React, { useState } from 'react';
 import type { Theme } from '~/hooks/useDarkMode';
@@ -70,10 +71,29 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
           </button>
           <div className='h-full md:h-0' />
           <div className='flex flex-col items-center'>
-            <div className='flex w-full flex-col p-5 space-y-5 -mt-40 md:mt-20 max-w-md'>
+            <div className='flex w-full flex-col p-5 space-y-5 -mt-40 md:mt-20 max-w-md mb-16'>
               {datas.map((data) => (
                 <BridgeEventItem key={data.closeAt.getTime()} {...data} />
               ))}
+              {datas.map((data) => (
+                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
+              ))}
+              {datas.map((data) => (
+                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
+              ))}
+              {datas.map((data) => (
+                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
+              ))}
+              {datas.map((data) => (
+                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
+              ))}
+              {datas.map((data) => (
+                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
+              ))}
+              <div className='flex space-x-8 absolute bottom-8 left-16 text-greenDark font-bold'>
+                <Link to='/docs/legal'>Mentions légales</Link>
+                <Link to='/docs/privacy'>Politique de confidentialité</Link>
+              </div>
             </div>
           </div>
         </nav>
