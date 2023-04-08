@@ -8,7 +8,7 @@ headers:
 
 # Mentions légales
 
-Dernière mise à jour au 16/11/2022
+Dernière mise à jour au 08/04/2023
 
 ## Introduction
 
@@ -24,10 +24,10 @@ Ces dernières sont accessibles sur le Site à la rubrique « Mentions légales 
 
 L'édition du Site est assurée par Lezo SAS au capital de 100 euros, immatriculée au Registre du
 Commerce et des Sociétés de Nantes sous le numéro 921329025 dont le siège social est situé au 1
-allée des soeurs de l'espérance,
-Numéro de téléphone 0699484656,
-Adresse e-mail : simonboisset.dev@gmail.com.
-N° de TVA intracommunautaire : FR23921329025
+allée des soeurs de l'espérance 44000 Nantes,
+Numéro de téléphone 06.56.69.13.61,
+Adresse e-mail : support@lezo.dev
+N° de TVA intracommunautaire : FR 23 921329025
 Le Directeur de la publication est Simon Boisset
 ci-après l'"Editeur".
 
@@ -52,7 +52,11 @@ En vertu de la loi Informatique et Libertés, en date du 6 janvier 1978, l'Utili
 d'accès, de rectification, de suppression et d'opposition de ses données personnelles. L'Utilisateur
 exerce ce droit :
 
-- par mail à l'adresse email simonboisset.dev@gmail.com
+- par mail à l'adresse email support@lezo.dev
+
+## Propriété du site
+
+Le Site pont-chaban-delmas.com est la propriété exclusive de Lezo SAS, au capital de 100 euros, immatriculée au Registre du Commerce et des Sociétés de Nantes sous le numéro 921329025, dont le siège social est situé au 1 allée des soeurs de l'espérance 44000 Nantes. Tous les éléments présents sur le Site, y compris la technologie sous-jacente, sont la propriété exclusive de Lezo ou de ses partenaires. Toute reproduction, représentation ou utilisation, même partielle, de ces éléments est strictement interdite sans l'autorisation préalable et écrite de Lezo.
 
 ## Informations complémentaires
 

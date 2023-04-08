@@ -51,6 +51,9 @@ export default function App() {
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <Meta />
         <Links />
+        {process.env.NODE_ENV === 'production' && (
+          <script defer data-domain='pont-chaban-delmas.com' src='https://plausible.io/js/script.js'></script>
+        )}
       </head>
       <body className={theme}>
         <Outlet context={{ toggleTheme: toggle, theme }} />

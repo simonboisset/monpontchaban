@@ -25,17 +25,17 @@ Voici une liste de fichiers témoins que nous utilisons. Nous les avons énumér
 visitor, identificateur unique de session, Calcule le nombre de visites sur le site par visiteur unique.
 theme, permet de définir la préférence d'affichage light ou dark
 
-Lorsque nous utilisons l'expression « Informations personnelles » dans la présente Politique de confidentialité, nous faisons allusion à la fois aux Informations sur l'appareil.
+Lorsque nous utilisons l'expression « Informations personnelles » dans la présente Politique de confidentialité, nous faisons allusion aux Informations sur l'appareil.
 
 ## COMMENT UTILISONS-NOUS VOS INFORMATIONS PERSONNELLES ?
 
 En règle générale, nous utilisons les Informations pour :
 
-- communiquer avec vous
+- communiquer avec vous ;
 - vous envoyer les notifications si vous y avez souscrit
 - évaluer les fraudes ou risques potentiels ;
 
-Nous utilisons les Informations sur l'appareil (en particulier votre adresse IP et token de notification push) que nous recueillons pour améliorer et optimiser notre Site (par exemple, en générant des analyses sur la façon dont nos visiteurs parcourent et interagissent avec le Site.
+Nous utilisons les Informations sur l'appareil (en particulier votre adresse IP et token de notification push) que nous recueillons pour améliorer et optimiser notre Site, par exemple, en générant des analyses sur la façon dont nos visiteurs parcourent et interagissent avec le Site.
 
 ## PARTAGE DE VOS INFORMATIONS PERSONNELLES
 
@@ -58,7 +58,7 @@ Nous pouvons être amenés à modifier la présente politique de confidentialit�
 
 ## NOUS CONTACTER
 
-Pour en savoir plus sur nos pratiques de confidentialité, si vous avez des questions ou si vous souhaitez déposer une réclamation, veuillez nous contacter par e-mail à simonboisset.dev@gmail.com, ou par courrier à l'adresse suivante :
+Pour en savoir plus sur nos pratiques de confidentialité, si vous avez des questions ou si vous souhaitez déposer une réclamation, veuillez nous contacter par e-mail à support@lezo.dev, ou par courrier à l'adresse suivante :
 
-Simon Boisset
-1 allée des soeurs de l'espérance, Nantes, 44000, France
+Lezo
+1 allée des soeurs de l'espérance, 44000 Nantes, France
