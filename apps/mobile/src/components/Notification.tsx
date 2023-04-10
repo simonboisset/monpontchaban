@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Svg, { Path, SvgProps } from 'react-native-svg';
-import { theme } from 'src/const/theme';
+import { theme } from '../../src/const/theme';
 
 function Notification({ dark, ...props }: SvgProps & { dark: boolean }) {
   return (

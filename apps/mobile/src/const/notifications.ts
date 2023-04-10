@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import * as Notifications from 'expo-notifications';
-import { BridgeEvent } from '../../App';
+import { BridgeEvent } from '../../app/_layout';
 import { storage } from './storage';
 
 Notifications.setNotificationHandler({
@@ -16,7 +16,7 @@ const schedulePushNotification = async (start: Date, end: Date) => {
     content: {
       title: 'Fermeture du pont Chaban-Delmas',
       body: `Le pont sera fermé de ${dayjs(start).hour()}h${dayjs(start).format('mm')} à ${dayjs(end).hour()}h${dayjs(
-        end
+        end,
       ).format('mm')}`,
     },
     trigger: { date: dayjs(start).subtract(1, 'h').toDate() },
@@ -30,7 +30,7 @@ export const scheduleNewEventNotification = async (events?: BridgeEvent[]) => {
       events.forEach(({ closeAt, openAt }, i) => {
         const scheduledNotification = scheduledNotifications.find(
           //@ts-ignore
-          (notification) => notification.trigger?.value === dayjs(closeAt).subtract(1, 'h').toDate().getTime()
+          (notification) => notification.trigger?.value === dayjs(closeAt).subtract(1, 'h').toDate().getTime(),
         );
         if (!scheduledNotification) {
           schedulePushNotification(closeAt, openAt);

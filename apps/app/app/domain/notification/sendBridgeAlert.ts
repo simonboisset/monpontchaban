@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { PrismaClient } from 'db';
 import { getPrNumberFromUrl } from '~/dev/getPrNumberFromUrl';
 import { getConfig } from '../config/getConfig';
-import { chabanMonitor, createHandler } from '../handler/handler';
+import { createHandler } from '../handler/handler';
 import { sendNotification } from './utils/send';
 
 export const sendBridgeAlert = createHandler('Send Notification Bridge Alert', async ({ request }) => {
@@ -12,7 +12,6 @@ export const sendBridgeAlert = createHandler('Send Notification Bridge Alert', a
   const { SEND_NOTIFICATION_TOKEN } = getConfig();
 
   if (token !== SEND_NOTIFICATION_TOKEN) {
-    chabanMonitor().error('[Send Notification] Invalid token');
     return { data: '[Send Notification] Invalid token', status: 403 };
   }
   const now = new Date();
@@ -36,7 +35,6 @@ export const sendBridgeAlert = createHandler('Send Notification Bridge Alert', a
         ).hour()}h${dayjs(nextEvent.openAt).format('mm')}`,
       );
     } catch (error) {
-      chabanMonitor().error('[Send Notification] Error', error);
       return { data: '[Send Notification] Error', status: 400 };
     }
     return { data: '[Send Notification] Success', status: 200 };

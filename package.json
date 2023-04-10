@@ -19,9 +19,9 @@
     "postinstall": "turbo run build --filter=core --filter=monitor"
   },
   "devDependencies": {
-    "prettier": "latest",
-    "turbo": "1.5.6",
-    "vitest": "^0.24.1"
+    "prettier": "^2.7.1",
+    "turbo": "^1.5.6",
+    "vitest": "^0.30.0"
   },
   "engines": {
     "npm": ">=7.0.0",

@@ -1,5 +1,5 @@
-export { api } from './api';
-export { useCurrentStatus, Status } from './status';
 export { Timer } from './Timer';
+export { api } from './api';
+export { Status, useCurrentStatus } from './status';
 export { fr } from './translation';
-export { filterNextBridgeEvents } from './utils';
+export * from './utils';

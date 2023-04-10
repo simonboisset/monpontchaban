@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react';
-import { useCurrentStatus } from 'core';
+import { isNextWeek, isThisWeek, isToday, isTomorrow, useCurrentStatus } from 'core';
 import React, { useState } from 'react';
 import type { Theme } from '~/hooks/useDarkMode';
 import { Android } from './Android';
@@ -23,6 +23,14 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
       setOpacity('opacity-100');
     }
   };
+
+  const todayEvents = datas.filter(({ openAt }) => isToday(openAt));
+  const tomorrowEvents = datas.filter(({ openAt }) => isTomorrow(openAt));
+  const thisWeekEvents = datas.filter(({ openAt }) => !isToday(openAt) && !isTomorrow(openAt) && isThisWeek(openAt));
+  const nextWeekEvents = datas.filter(({ openAt }) => !isTomorrow(openAt) && isNextWeek(openAt));
+  const laterEvents = datas.filter(
+    ({ openAt }) => !isToday(openAt) && !isTomorrow(openAt) && !isThisWeek(openAt) && !isNextWeek(openAt),
+  );
 
   return (
     <div
@@ -69,13 +77,15 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
             onClick={toggleTheme}>
             {theme === 'dark' ? <Moon /> : <Sun />}
           </button>
-          <div className='h-full md:h-0' />
-          <div className='flex flex-col items-center'>
+          <div className='h-screen z-0 md:h-0' />
+          <div className='flex flex-col items-center -mt-6'>
             <div className='flex w-full flex-col p-5 space-y-5 -mt-40 md:mt-20 max-w-md mb-16'>
-              {datas.map((data) => (
-                <BridgeEventItem key={data.closeAt.getTime()} {...data} />
-              ))}
-              <div className='flex space-x-8 absolute bottom-8 left-16 text-greenDark font-bold dark:text-green'>
+              <EventList events={todayEvents} title='Aujourd’hui' />
+              <EventList events={tomorrowEvents} title='Demain' />
+              <EventList events={thisWeekEvents} title='Cette semaine' />
+              <EventList events={nextWeekEvents} title='La semaine prochaine' />
+              <EventList events={laterEvents} title="Dans plus d'une semaine" />
+              <div className='flex space-x-8 absolute bottom-8 left-16 text-greenDark font-thin text-xs dark:text-green'>
                 <Link to='/docs/legal'>Mentions légales</Link>
                 <Link to='/docs/privacy'>Politique de confidentialité</Link>
               </div>
@@ -85,4 +95,16 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
       </div>
     </div>
   );
+};
+
+type EventListProps = { events: BridgeEvent[]; title: string };
+const EventList = ({ events, title }: EventListProps) => {
+  return events.length ? (
+    <div className='flex flex-col space-y-2 z-20'>
+      <h2 className='text-2xl font-bold pl-4 text-white'>{title}</h2>
+      {events.map((data) => (
+        <BridgeEventItem key={data.closeAt.getTime()} {...data} />
+      ))}
+    </div>
+  ) : null;
 };
