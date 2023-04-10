@@ -1,8 +1,5 @@
 name: 📱 Mobile Update
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
@@ -52,11 +49,6 @@ jobs:
             ${{ runner.os }}-metro-${{ hashFiles('**/yarn.lock') }}
       - name: ⏳ Yarn install
         run: yarn
-      - name: 🚀 EAS Update production
-        if: ${{ env.branch_name == 'main' }}
-        working-directory: apps/mobile
-        run: API_URL="https://pont-chaban-delmas.com" CHANNEL="production" KAFKA_PASSWORD="${{secrets.KAFKA_PASSWORD}}" KAFKA_URL="${{secrets.KAFKA_URL}}" KAFKA_USERNAME="${{secrets.KAFKA_USERNAME}}" eas update --branch main --message "${{ github.event.head_commit.message }}"
       - name: 🚀 EAS Update Peview
-        if: ${{ env.branch_name != 'main' }}
         working-directory: apps/mobile
         run: API_URL="https://deploy-preview-${{ github.event.number }}--pontchaban.netlify.app" CHANNEL="pr${{ github.event.number }}" KAFKA_PASSWORD="${{secrets.KAFKA_PASSWORD}}" KAFKA_URL="${{secrets.KAFKA_URL}}" KAFKA_USERNAME="${{secrets.KAFKA_USERNAME}}" eas update --branch pr-${{ github.event.number }} --message "Push update branch"

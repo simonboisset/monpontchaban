@@ -10,17 +10,4 @@ const getVariables = <T extends string>(...variableNames: T[]): Record<T, string
   return variables;
 };
 
-export const getConfig = () =>
-  getVariables(
-    'DATABASE_URL',
-    'CHANNEL',
-    'REDIS_URL',
-    'SESSION_SECRET',
-    'SEND_NOTIFICATION_TOKEN',
-    'EXPO_ACCESS_TOKEN',
-    'TZ',
-    'MY_PUSH_TOKEN',
-    'KAFKA_URL',
-    'KAFKA_USERNAME',
-    'KAFKA_PASSWORD',
-  );
+export const getConfig = () => getVariables('DATABASE_URL', 'SEND_NOTIFICATION_TOKEN', 'EXPO_ACCESS_TOKEN', 'TZ');

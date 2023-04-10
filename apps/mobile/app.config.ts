@@ -1,4 +1,4 @@
-import { ConfigContext, ExpoConfig } from '@expo/config';
+import type { ConfigContext, ExpoConfig } from '@expo/config';
 import 'dotenv/config';
 import packages from './package.json';
 
@@ -20,7 +20,8 @@ const versionCode = getAndroidVersionCode(packages.version);
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: 'Horaire Pont Chaban-Delmas',
+  name: 'Mon Pont Chaban',
+  scheme: 'monpontchaban',
   slug: 'mon-pont-chaban',
   runtimeVersion: {
     policy: 'sdkVersion',
@@ -59,9 +60,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: 'f4033f91-933d-4f91-ae6d-6f8483abf08e',
     },
     API_URL: process.env.API_URL || null,
-    KAFKA_URL: process.env.KAFKA_URL || null,
-    KAFKA_USERNAME: process.env.KAFKA_USERNAME || null,
-    KAFKA_PASSWORD: process.env.KAFKA_PASSWORD || null,
     CHANNEL: process.env.CHANNEL || null,
   },
   plugins: [

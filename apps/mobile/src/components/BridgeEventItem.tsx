@@ -3,9 +3,9 @@ import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import React from 'react';
-import { Theme } from 'src/const/theme';
 import styled from 'styled-components/native';
-import { BridgeEvent } from '../../App';
+import { BridgeEvent } from '../../app/_layout';
+import { Theme } from '../const/theme';
 
 type BridgeEventItemProps = BridgeEvent & { dark: boolean };
 dayjs.extend(isToday);
