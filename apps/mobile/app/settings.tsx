@@ -98,13 +98,13 @@ export default function Settings() {
           tittle='Notifications'
           description={
             enableNotifications
-              ? 'Les notifications sont actuellement désactivées. Pour les activer appuyez sur le bouton ci-dessous.'
-              : 'Les notifications sont actuellement activées. Pour les désactiver appuyez sur le bouton ci-dessous.'
+              ? 'Les notifications sont actuellement activées. Pour les désactiver appuyez sur le bouton ci-dessous.'
+              : 'Les notifications sont actuellement désactivées. Pour les activer appuyez sur le bouton ci-dessous.'
           }>
           <Button
             onPress={onToggleNotifications}
             dark={dark}
-            label={enableNotifications ? 'Désactiver' : 'Activer'}
+            label={enableNotifications ? 'Activer' : 'Désactiver'}
             loading={loading}
             icon={enableNotifications ? <Notification dark={dark} /> : <NotificationOFF dark={dark} />}
           />
