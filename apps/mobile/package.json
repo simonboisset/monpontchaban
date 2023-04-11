@@ -1,7 +1,7 @@
 {
   "name": "mobile",
   "main": "index.js",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "scripts": {
     "version:major": "yarn version --new-version major --no-git-tag-version",
     "version:minor": "yarn version --new-version minor --no-git-tag-version",
