@@ -104,7 +104,7 @@ export default function Settings() {
           <Button
             onPress={onToggleNotifications}
             dark={dark}
-            label={enableNotifications ? 'Activer' : 'Désactiver'}
+            label={enableNotifications ? 'Désactiver' : 'Activer'}
             loading={loading}
             icon={enableNotifications ? <Notification dark={dark} /> : <NotificationOFF dark={dark} />}
           />
