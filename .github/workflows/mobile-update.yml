@@ -53,7 +53,7 @@ jobs:
       - name: 🚀 EAS Update production
         if: ${{ env.branch_name == 'main' }}
         working-directory: apps/mobile
-        run: API_URL="https://pont-chaban-delmas.com" CHANNEL="production" KAFKA_PASSWORD="${{secrets.KAFKA_PASSWORD}}" KAFKA_URL="${{secrets.KAFKA_URL}}" KAFKA_USERNAME="${{secrets.KAFKA_USERNAME}}" eas update --branch main --message "${{ github.event.head_commit.message }}"
+        run: API_URL="https://pont-chaban-delmas.com" CHANNEL="production" KAFKA_PASSWORD="${{secrets.KAFKA_PASSWORD}}" KAFKA_URL="${{secrets.KAFKA_URL}}" KAFKA_USERNAME="${{secrets.KAFKA_USERNAME}}" eas update --branch main --message "Nouvelle version"
       - name: 🚀 EAS Update Peview
         if: ${{ env.branch_name != 'main' }}
         working-directory: apps/mobile
