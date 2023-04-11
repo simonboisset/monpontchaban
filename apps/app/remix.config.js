@@ -8,4 +8,7 @@ module.exports = {
   routes: async (defineRoutes) => {
     return defineFeatureRoutes('app', 'routes', 'routes', defineRoutes);
   },
+  future: {
+    unstable_tailwind: true,
+  },
 };

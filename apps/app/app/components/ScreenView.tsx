@@ -1,28 +1,18 @@
 import { Link } from '@remix-run/react';
 import { isNextWeek, isThisWeek, isToday, isTomorrow, useCurrentStatus } from 'core';
-import React, { useState } from 'react';
+import React, { useSyncExternalStore } from 'react';
 import type { Theme } from '~/hooks/useDarkMode';
-import { Android } from './Android';
+import { clx } from '~/styles/clx';
 import type { BridgeEvent } from './BridgeEventItem';
 import { BridgeEventItem } from './BridgeEventItem';
 import { BridgeStatus } from './BridgeStatus';
 import { Header } from './Header';
-import { Moon } from './Moon';
-import { Sun } from './Sun';
 
 type ScreenViewProps = { datas: BridgeEvent[]; toggleTheme: () => void; theme: Theme['data'] };
 
 export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, theme }) => {
   const status = useCurrentStatus(datas[0]?.closeAt, datas[0]?.openAt);
-  const [opacity, setOpacity] = useState('opacity-100');
-
-  const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    if (e.currentTarget.scrollTop > 100) {
-      setOpacity('opacity-0');
-    } else {
-      setOpacity('opacity-100');
-    }
-  };
+  const opacity = useScroll();
 
   const todayEvents = datas.filter(({ openAt }) => isToday(openAt));
   const tomorrowEvents = datas.filter(({ openAt }) => isTomorrow(openAt));
@@ -33,67 +23,36 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
   );
 
   return (
-    <div
-      className={
-        (status === 'OPEN'
+    <main
+      className={clx(
+        status === 'OPEN'
           ? 'bg-green dark:bg-greenDark'
           : status === 'WILL_CLOSE'
           ? 'bg-orange dark:bg-orangeDark'
-          : 'bg-red dark:bg-redDark') + ' flex h-screen dark:text-gray-400 text-white'
-      }>
-      <div className='flex md:flex-row flex-col w-screen items-center md:items-start'>
-        <div className='flex grow h-screen justify-center absolute md:static'>
-          <div className={'flex flex-col w-full md:max-w-2xl max-w-md'}>
-            <Header />
-            <main
-              className={
-                opacity +
-                ' md:opacity-100 transition-opacity duration-500 flex grow flex-col items-center justify-center'
-              }>
-              <BridgeStatus event={datas[0]} />
-            </main>
-          </div>
-        </div>
-
-        <nav className='overflow-y-scroll md:max-w-md w-full h-screen z-10' onScroll={handleScroll}>
-          <div
-            className={
-              (status === 'OPEN'
-                ? 'bg-green dark:bg-greenDark'
-                : status === 'WILL_CLOSE'
-                ? 'bg-orange dark:bg-orangeDark'
-                : 'bg-red dark:bg-redDark') +
-              ' flex h-screen' +
-              ' h-16 fixed  w-full z-10'
-            }
-          />
-          <a
-            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-4 right-auto left-2 sm:left-auto sm:right-16 z-40 flex items-center justify-center'
-            href='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban'>
-            <Android />
-          </a>
-          <button
-            className='w-6 sm:w-8 cursor-pointer h-8 absolute top-4 right-3 sm:right-4 z-40 flex items-center justify-center'
-            onClick={toggleTheme}>
-            {theme === 'dark' ? <Moon /> : <Sun />}
-          </button>
-          <div className='h-screen z-0 md:h-0' />
-          <div className='flex flex-col items-center -mt-6'>
-            <div className='flex w-full flex-col p-5 space-y-5 -mt-40 md:mt-20 max-w-md mb-16'>
-              <EventList events={todayEvents} title='Aujourd’hui' />
-              <EventList events={tomorrowEvents} title='Demain' />
-              <EventList events={thisWeekEvents} title='Cette semaine' />
-              <EventList events={nextWeekEvents} title='La semaine prochaine' />
-              <EventList events={laterEvents} title="Dans plus d'une semaine" />
-              <div className='flex space-x-8 absolute bottom-8 left-16 text-greenDark font-thin text-xs dark:text-green'>
-                <Link to='/docs/legal'>Mentions légales</Link>
-                <Link to='/docs/privacy'>Politique de confidentialité</Link>
-              </div>
-            </div>
-          </div>
-        </nav>
+          : 'bg-red dark:bg-redDark',
+        'dark:text-gray-400 text-white w-full flex flex-col pt-2 gap-4 px-4 pb-8 items-end',
+      )}>
+      <Header theme={theme} toggleTheme={toggleTheme} />
+      <div
+        className={clx(
+          'fixed top-1/3 left-0 lg:right-1/3 right-0 flex justify-center items-center flex-col transition-opacity duration-500 ease-in-out lg:opacity-100',
+          opacity ? 'opacity-100' : 'opacity-0',
+        )}>
+        <BridgeStatus event={datas[0]} />
       </div>
-    </div>
+      <div className='w-full lg:max-w-sm flex flex-col gap-4'>
+        <div className='h-screen lg:h-56 -mb-48 lg:mb-0 ' />
+        <EventList events={todayEvents} title='Aujourd’hui' />
+        <EventList events={tomorrowEvents} title='Demain' />
+        <EventList events={thisWeekEvents} title='Cette semaine' />
+        <EventList events={nextWeekEvents} title='La semaine prochaine' />
+        <EventList events={laterEvents} title="Dans plus d'une semaine" />
+        <div className='flex flex-col lg:flex-row gap-4 text-greenDark font-thin text-xs dark:text-green lg:fixed lg:bottom-2 lg:left-2'>
+          <Link to='/docs/legal'>Mentions légales</Link>
+          <Link to='/docs/privacy'>Politique de confidentialité</Link>
+        </div>
+      </div>
+    </main>
   );
 };
 
@@ -108,3 +67,24 @@ const EventList = ({ events, title }: EventListProps) => {
     </div>
   ) : null;
 };
+
+function subscribe(callback: (e: Event) => void) {
+  window.addEventListener('scroll', callback);
+
+  return () => {
+    window.removeEventListener('scroll', callback);
+  };
+}
+
+const getServerSnapshot = () => {
+  return true;
+};
+
+const useScroll = () => {
+  const scrollY = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return scrollY;
+};
+
+function getSnapshot() {
+  return window.scrollY > 100 ? false : true;
+}

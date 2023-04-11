@@ -4,7 +4,6 @@ import styles from '~/styles/root.css';
 import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
 import { root } from './domain/root';
 import { useDarkMode } from './hooks/useDarkMode';
-import tailwind from './styles/tailwind.css';
 
 export const meta: MetaFunction = () => {
   return {
@@ -32,10 +31,6 @@ export function links() {
     {
       rel: 'stylesheet',
       href: styles,
-    },
-    {
-      rel: 'stylesheet',
-      href: tailwind,
     },
   ];
 }
