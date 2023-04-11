@@ -122,7 +122,7 @@ export default function Layout() {
     setLoading(false);
   };
 
-  if (!datas || loading) {
+  if (!datas) {
     return <SplashScreen />;
   }
   return (
