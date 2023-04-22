@@ -1,5 +1,6 @@
 import { LoaderArgs } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, V2_MetaFunction } from '@remix-run/react';
+import { Analytics } from '@vercel/analytics/react';
 import styles from '~/styles/root.css';
 import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
 import cookie from './hooks/cookie';
@@ -52,11 +53,9 @@ export default function App() {
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <Meta />
         <Links />
-        {process.env.NODE_ENV === 'production' && (
-          <script defer data-domain='pont-chaban-delmas.com' src='https://plausible.io/js/script.js'></script>
-        )}
       </head>
       <body className={theme}>
+        <Analytics />
         <Outlet context={{ toggleTheme: toggle, theme }} />
         <ScrollRestoration />
         <Scripts />

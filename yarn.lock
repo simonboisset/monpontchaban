@@ -4136,6 +4136,11 @@
   resolved "https://registry.yarnpkg.com/@vanilla-extract/private/-/private-1.0.3.tgz#7ec72bc2ff6fe51f9d650f962e8d1989b073690f"
   integrity sha512-17kVyLq3ePTKOkveHxXuIJZtGYs+cSoev7BlP+Lf4916qfDhk/HBjvlYDe8egrea7LNPHKwSZJK/bzZC+Q6AwQ==
 
+"@vercel/analytics@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@vercel/analytics/-/analytics-1.0.0.tgz#7041bf3f14d65ab685f053b2fab09c605d12543e"
+  integrity sha512-RQmj7pv82JwGDHrnKeRc6TtSw2U7rWNubc2IH0ernTzWTj02yr9zvIYiYJeztsBzrJtWv7m8Nz6vxxb+cdEtJw==
+
 "@vitest/expect@0.30.1":
   version "0.30.1"
   resolved "https://registry.yarnpkg.com/@vitest/expect/-/expect-0.30.1.tgz#3c92a3fc23a198315ce8cd16689dc2d5aeac40b8"
