@@ -10,15 +10,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - name: Set branch_name environment variable
-        run: |
-          REPO=${{github.ref}}
-          BRANCH_NAME="${REPO/'refs/heads/'/''}"
-          BRANCH_NAME="${BRANCH_NAME////-}"
-          echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
       - name: Request to server
-        if: ${{ env.branch_name == 'main' }}
-        uses: lezo-dev/action-cron-fetch@v1
+        uses: simonboisset/action-cron-fetch@v2
         with:
           token: ${{secrets.CRON_SECRET}}
+          key: 'x-cron-secret-key'
           url: https://pont-chaban-delmas.com/api/cron.getApiData
