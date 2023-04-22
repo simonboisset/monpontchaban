@@ -84,12 +84,13 @@ const sendNotificationToChabanSubscribers = async (now: Date) => {
   const alertToNotify = await prisma.alert.findMany({
     where: { channelId: managedChannelIds.chaban, startAt: { lte: limitStartBefore, gte: limitStartAfter } },
   });
-
-  await services.notification.send(
-    tokens,
-    'Prochaine levée de pont',
-    `Voici les prochaines levées pour le pont Chaban-Delmas:\n${alertToNotify
-      .map((b) => `- ${b.title}: ${dayjs(b.startAt).format('DDD HH:mm')} - ${dayjs(b.endAt).format('DDD HH:mm')}`)
-      .join('\n')}`,
-  );
+  for (const alert of alertToNotify) {
+    await services.notification.send(
+      tokens,
+      'Prochaine levée de pont',
+      `Le pont Chaban-Delmas sera fermé de ${alert.title}: ${dayjs(alert.startAt).format('DDD HH:mm')} à ${dayjs(
+        alert.endAt,
+      ).format('DDD HH:mm')}`,
+    );
+  }
 };
