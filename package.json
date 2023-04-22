@@ -1,27 +1,40 @@
 {
-  "name": "chaban",
-  "version": "1.4.1",
+  "name": "lezo-alert",
+  "version": "1.4.2",
   "private": true,
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
+    "build": "turbo build",
+    "clean": "rm -rf node_modules && turbo clean",
+    "db:generate": "turbo db:generate",
+    "db:push": "turbo db:push --filter @lezo-alert/db",
+    "db:dev": "turbo db:dev --filter @lezo-alert/db",
+    "db:deploy": "turbo db:deploy --filter @lezo-alert/db",
+    "dev": "turbo dev --filter @lezo-alert/web @lezo-alert/mobile  --parallel",
+    "dev-chaban": "turbo dev --filter @lezo-alert/web @lezo-alert/mobile  --parallel",
+    "web": "turbo dev --filter @lezo-alert/web",
+    "mobile": "turbo dev --filter @lezo-alert/mobile",
+    "chaban-web": "turbo dev --filter @lezo-alert/chaban-web",
+    "chaban-mobile": "turbo dev --filter @lezo-alert/chaban-mobile",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "type-check": "turbo type-check",
+    "lint": "turbo lint && manypkg check",
+    "seed": "turbo run seed --filter @lezo-alert/db",
+    "kill": "turbo run kill --filter @lezo-alert/infra",
+    "stop": "turbo run stop --filter @lezo-alert/infra",
+    "docker": "turbo run docker --filter @lezo-alert/infra",
+    "check-deps": "manypkg check",
     "up": "yarn upgrade-interactive --latest",
-    "generate": "turbo run generate",
-    "seed": "turbo run seed --parallel",
-    "kill": "turbo run kill --parallel",
-    "docker": "turbo run docker --parallel",
-    "test": "vitest",
-    "version:patch": "turbo run version:patch",
-    "version:minor": "turbo run version:minor",
-    "version:major": "turbo run version:major",
-    "postinstall": "turbo run build --filter=core --filter=monitor"
+    "test": "vitest"
   },
   "devDependencies": {
-    "prettier": "^2.7.1",
-    "turbo": "^1.5.6",
-    "vitest": "^0.30.0"
+    "prettier": "^2.8.7",
+    "turbo": "^1.9.3",
+    "turboversion": "^1.0.0",
+    "vitest": "^0.30.1"
   },
   "engines": {
     "npm": ">=7.0.0",

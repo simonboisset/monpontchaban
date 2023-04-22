@@ -5,11 +5,109 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../dist"
+}
+
+enum DeviceOs {
+  IOS
+  ANDROID
 }
 
 model Device {
-  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  token  String  @unique()
-  active Boolean
+  id     String   @id @default(cuid())
+  token  String   @unique
+  active Boolean  @default(false)
+  os     DeviceOs @default(ANDROID)
+  user   User?    @relation(fields: [userId], references: [id])
+  userId String?  @unique
+}
+
+enum UserCodeType {
+  LOGIN
+  REGISTER
+  DELETE
+}
+
+model UserCode {
+  id        String       @id @default(cuid())
+  createdAt DateTime     @default(now())
+  hash      String
+  type      UserCodeType
+  user      User         @relation(fields: [userId], references: [id])
+  userId    String       @unique
+  attempts  Int          @default(0)
+}
+
+model User {
+  id                String             @id @default(cuid())
+  emailHash         String             @unique
+  devices           Device[]
+  notificationRules NotificationRule[]
+  supportIssues     SupportIssue[]
+  isAdmin           Boolean            @default(false)
+  code              UserCode?
+}
+
+model NotificationRule {
+  id             String     @id @default(cuid())
+  user           User       @relation(fields: [userId], references: [id])
+  userId         String     @unique
+  channel        Channel    @relation(fields: [channelId], references: [id])
+  channelId      String
+  delayMinBefore Int
+  schedules      Schedule[]
+}
+
+model Schedule {
+  id                String             @id @default(cuid())
+  notificationRules NotificationRule[]
+  day               Int
+  hour              Int
+
+  @@unique([day, hour])
+}
+
+model Alert {
+  id        String   @id @default(cuid())
+  title     String
+  channel   Channel  @relation(fields: [channelId], references: [id])
+  channelId String
+  startAt   DateTime
+  endAt     DateTime
+}
+
+enum SupportIssueCategory {
+  BUG
+  FEATURE
+  OTHER
+}
+
+enum SupportIssueStatus {
+  OPEN
+  CLOSED
+}
+
+model SupportIssue {
+  id       String               @id @default(cuid())
+  title    String?
+  category SupportIssueCategory
+  status   SupportIssueStatus   @default(OPEN)
+  user     User                 @relation(fields: [userId], references: [id])
+  userId   String               @unique
+  messages SupportMessage[]
+}
+
+model SupportMessage {
+  id          String       @id @default(cuid())
+  sentAt      DateTime     @default(now())
+  text        String
+  issue       SupportIssue @relation(fields: [issueId], references: [id])
+  issueId     String
+  isFromAdmin Boolean      @default(false)
+}
+
+model Channel {
+  id            String             @id @default(cuid())
+  name          String
+  alerts        Alert[]
+  subscriptions NotificationRule[]
 }

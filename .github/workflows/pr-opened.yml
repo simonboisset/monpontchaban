@@ -30,4 +30,5 @@ jobs:
         working-directory: packages/db
         run: |
           yarn build
+          yarn turboversion lezo-alert ${{github.event.inputs.release}}
           DATABASE_URL=$(node ./getDbUrl.js "${{ secrets.DATABASE_URL_PREVIEW }}" "${{ github.event.number }}") yarn reset

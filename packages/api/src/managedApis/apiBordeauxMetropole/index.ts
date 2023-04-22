@@ -1,0 +1,1 @@
+export {apiBordeauxMetropole} from './api';

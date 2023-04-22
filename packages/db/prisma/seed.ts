@@ -1,10 +1,12 @@
-const { PrismaClient } = require('../dist');
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 async function seed() {
-  await prisma.device.deleteMany();
-  await prisma.device.create({ data: { active: true, token: 'test' } });
+  console.log(`Seeding database... 🌱`);
+  const chabanChannel = await prisma.channel.create({ data: { name: 'Pont Chaban-Delmas' } });
+  console.log(`Created channel: ${chabanChannel.name} id: ${chabanChannel.id}`);
+
   console.log(`Database has been seeded. 🌱`);
 }
 

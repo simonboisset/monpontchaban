@@ -1,0 +1,24 @@
+name: 'Update api data'
+on:
+  schedule:
+    - cron: '30 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-api-data:
+    name: Update api data
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set branch_name environment variable
+        run: |
+          REPO=${{github.ref}}
+          BRANCH_NAME="${REPO/'refs/heads/'/''}"
+          BRANCH_NAME="${BRANCH_NAME////-}"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
+      - name: Request to server
+        if: ${{ env.branch_name == 'main' }}
+        uses: lezo-dev/chaban/.github/actions/api-request@main
+        with:
+          token: ${{secrets.CRON_SECRET}}
+          url: https://pont-chaban-delmas.com/api/cron.getApiData

@@ -1,40 +1,75 @@
 {
-  "$schema": "https://turborepo.org/schema.json",
+  "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "build": {
-      "dependsOn": ["generate", "^build"],
-      "outputs": ["dist/**", ".netlify/**"]
-    },
-    "lint": {
-      "outputs": []
-    },
-    "dev": {
-      "dependsOn": ["generate", "^build"],
+    "db:generate": {
+      "inputs": ["prisma/schema.prisma"],
       "cache": false
     },
-    "test": {
+    "db:push": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": false
+    },
+    "db:dev": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": false
+    },
+    "db:deploy": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": false
+    },
+    "dev": {
+      "dependsOn": ["^build:dev"],
+      "persistent": true,
+      "cache": false
+    },
+    "build": {
+      "dependsOn": ["^build", "^db:generate"],
+      "outputs": ["dist/**", ".expo/**"]
+    },
+    "build:dev": {
+      "dependsOn": ["^build:dev", "^db:generate"],
+      "outputs": ["dist/**", ".expo/**"]
+    },
+    "lint": {},
+    "clean": {
       "cache": false
     },
     "kill": {
       "cache": false
     },
+    "stop": {
+      "cache": false
+    },
+    "push": {
+      "cache": false
+    },
     "docker": {
       "cache": false
     },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "test:watch": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
     "seed": {
+      "dependsOn": ["^db:push"],
       "cache": false
     },
-    "generate": {
-      "dependsOn": ["^generate"]
-    },
-    "version:major": {
-      "cache": false
-    },
-    "version:minor": {
-      "cache": false
-    },
-    "version:patch": {
+    "type-check": {
+      "dependsOn": ["^db:generate"],
       "cache": false
     }
-  }
+  },
+  "globalEnv": [
+    "DATABASE_URL",
+    "SESSION_SECRET",
+    "JWT_SECRET",
+    "RESEND_SECRET",
+    "CRON_SECRET",
+    "EXPO_ACCESS_TOKEN",
+    "CHABAN_CHANNEL_ID"
+  ]
 }

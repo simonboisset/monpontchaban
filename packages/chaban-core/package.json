@@ -1,0 +1,27 @@
+{
+  "name": "@lezo-alert/chaban-core",
+  "version": "1.4.2",
+  "private": true,
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "build": "builder && tsc",
+    "build:dev": "builder --dev && tsc",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "builder": "*",
+    "typescript": "^5.0.4"
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16"
+  }
+}

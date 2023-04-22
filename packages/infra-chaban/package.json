@@ -1,0 +1,11 @@
+{
+  "name": "@lezo-alert/infra",
+  "version": "1.4.2",
+  "private": true,
+  "scripts": {
+    "kill": "docker stop $(docker ps -aq) && docker rm $(docker ps -aq)",
+    "docker": "docker-compose up -d",
+    "stop": "docker stop $(docker ps -aq)",
+    "restart": "yarn kill && yarn docker"
+  }
+}

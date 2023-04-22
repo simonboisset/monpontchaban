@@ -1,0 +1,13 @@
+name: 'Api request'
+description: 'Request api by url and token'
+inputs:
+  token:
+    description: 'Auth token'
+    required: true
+  url:
+    required: true
+    description: 'Route url'
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
