@@ -35,5 +35,5 @@ jobs:
       - name: ⏳ Yarn install
         run: yarn
       - name: EAS link
-        working-directory: apps/mobile
+        working-directory: apps/chaban-mobile
         run: eas channel:edit dev --branch ${{ env.branch_name }}
