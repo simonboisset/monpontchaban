@@ -11,12 +11,9 @@ export const getAlertsSchema = z.object({
 export const getAlerts = createProcedure
   .input(getAlertsSchema)
   .query(async ({ input: { minDate, maxDate, channelIds } }) => {
-    console.log('inputs', minDate, maxDate, channelIds);
-
     if (!minDate && !maxDate) {
       return await prisma.alert.findMany();
     }
-
     const alerts = await prisma.alert.findMany({
       where: { channelId: { in: channelIds }, OR: [{ endAt: { gte: minDate } }, { startAt: { lte: maxDate } }] },
     });

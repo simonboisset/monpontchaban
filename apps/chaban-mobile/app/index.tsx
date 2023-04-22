@@ -1,5 +1,5 @@
 import { Alert } from '@lezo-alert/sdk';
-import { Link, Stack } from 'expo-router';
+import { Link, SplashScreen, Stack } from 'expo-router';
 import React, { useRef } from 'react';
 import {
   ActivityIndicator,
@@ -28,7 +28,7 @@ import { BridgeEventItem } from '../src/components/BridgeEventItem';
 import { BridgeStatus } from '../src/components/BridgeStatus';
 import SettingsIcon from '../src/components/SettingsIcon';
 import { Theme } from '../src/const/theme';
-import { useChabanAlerts } from '../src/services/useChabanAlerts';
+import { useRootData } from '../src/services/useRootData';
 
 type ScreenContainerProps = {
   color?: keyof Theme['colors'];
@@ -59,7 +59,7 @@ const colorPicker: Record<Status, keyof Theme['colors']> = {
 const windowHeight = Dimensions.get('window').height;
 
 export default function ScreenView() {
-  const { alerts, isAlertsLoading } = useChabanAlerts();
+  const { isReady, alerts, isAlertsLoading } = useRootData();
   const colorScheme = useColorScheme();
   const dark = colorScheme === 'dark';
   const status = useCurrentStatus(alerts?.[0]?.startAt, alerts?.[0]?.endAt);
@@ -89,43 +89,47 @@ export default function ScreenView() {
   const laterEvents =
     alerts?.filter(({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && !isThisWeek(endAt) && !isNextWeek(endAt)) ||
     [];
-  return (
-    <ScreenContainer dark={dark} color={colorPicker[status]}>
-      <Stack.Screen
-        options={{
-          animation: 'slide_from_left',
-          header: () => (
-            <HeaderContainer dark={dark} status={status}>
-              <HeaderTitle dark={dark}>{fr.MyChaban}</HeaderTitle>
-              {isAlertsLoading ? (
-                <ActivityIndicator color='white' />
-              ) : (
-                <Link href='/settings'>
-                  <SettingsIcon dark={dark} />
-                </Link>
-              )}
-            </HeaderContainer>
-          ),
-        }}
-      />
-      <StatusContainer>
-        <Animated.View
-          style={{
-            opacity,
-            transform: [{ translateY }],
-          }}>
-          <BridgeStatus dark={dark} event={alerts?.[0]} />
-        </Animated.View>
-      </StatusContainer>
 
-      <ScrollView onScroll={handleScroll} contentContainerStyle={{ paddingTop: windowHeight - 240 }}>
-        <EventList dark={dark} events={todayEvents} title="Aujourd'hui" />
-        <EventList dark={dark} events={tomorrowEvents} title='Demain' />
-        <EventList dark={dark} events={thisWeekEvents} title='Cette semaine' />
-        <EventList dark={dark} events={nextWeekEvents} title='La semaine prochaine' />
-        <EventList dark={dark} events={laterEvents} title="Dans plus d'une semaine" />
-      </ScrollView>
-    </ScreenContainer>
+  return (
+    <>
+      {!isReady && <SplashScreen />}
+      <ScreenContainer dark={dark} color={colorPicker[status]}>
+        <Stack.Screen
+          options={{
+            animation: 'slide_from_left',
+            header: () => (
+              <HeaderContainer dark={dark} status={status}>
+                <HeaderTitle dark={dark}>{fr.MyChaban}</HeaderTitle>
+                {isAlertsLoading ? (
+                  <ActivityIndicator color='white' />
+                ) : (
+                  <Link href='/settings'>
+                    <SettingsIcon dark={dark} />
+                  </Link>
+                )}
+              </HeaderContainer>
+            ),
+          }}
+        />
+        <StatusContainer>
+          <Animated.View
+            style={{
+              opacity,
+              transform: [{ translateY }],
+            }}>
+            <BridgeStatus dark={dark} event={alerts?.[0]} />
+          </Animated.View>
+        </StatusContainer>
+
+        <ScrollView onScroll={handleScroll} contentContainerStyle={{ paddingTop: windowHeight - 240 }}>
+          <EventList dark={dark} events={todayEvents} title="Aujourd'hui" />
+          <EventList dark={dark} events={tomorrowEvents} title='Demain' />
+          <EventList dark={dark} events={thisWeekEvents} title='Cette semaine' />
+          <EventList dark={dark} events={nextWeekEvents} title='La semaine prochaine' />
+          <EventList dark={dark} events={laterEvents} title="Dans plus d'une semaine" />
+        </ScrollView>
+      </ScreenContainer>
+    </>
   );
 }
 

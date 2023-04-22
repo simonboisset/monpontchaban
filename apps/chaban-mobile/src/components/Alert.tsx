@@ -10,7 +10,13 @@ type AlertProps = {
   onAnimationEnd?: () => void;
 };
 
-const Alert: React.FC<AlertProps> = ({ text, type = 'error', visible, duration = 3000, onAnimationEnd }) => {
+export const AlertDialog: React.FC<AlertProps> = ({
+  text,
+  type = 'error',
+  visible,
+  duration = 3000,
+  onAnimationEnd,
+}) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
@@ -73,5 +79,3 @@ const Alert: React.FC<AlertProps> = ({ text, type = 'error', visible, duration =
     </Animated.View>
   );
 };
-
-export default Alert;

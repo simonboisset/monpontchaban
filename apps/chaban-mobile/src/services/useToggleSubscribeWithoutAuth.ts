@@ -2,9 +2,11 @@ import { lezoAlertApi } from '@lezo-alert/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import { Platform } from 'react-native';
+import { useError } from '../../app/_layout';
 import { useIsSubscribeWithoutAuth } from './useIsSubscribeWithoutAuth';
 
 export const useToggleSubscribeWithoutAuth = () => {
+  const { setError } = useError();
   const { token, isSubscribed } = useIsSubscribeWithoutAuth();
   const queryClient = useQueryClient();
   const { mutateAsync: subscribeToChabanWithoutAuth, isLoading } =
@@ -18,6 +20,7 @@ export const useToggleSubscribeWithoutAuth = () => {
         return { isSubscribedFromChabanWithoutAuth };
       },
       onError: (_, __, context) => {
+        setError('Un problème est survenu, veuillez réessayer ultérieurement');
         const queryKey = getQueryKey(lezoAlertApi.chabanSubscriptions.isSubscribedFromChabanWithoutAuth);
         if (context?.isSubscribedFromChabanWithoutAuth) {
           queryClient.setQueriesData(queryKey, context.isSubscribedFromChabanWithoutAuth);
@@ -35,6 +38,7 @@ export const useToggleSubscribeWithoutAuth = () => {
         return { isSubscribedFromChabanWithoutAuth };
       },
       onError: (_, __, context) => {
+        setError('Un problème est survenu, veuillez réessayer ultérieurement');
         const queryKey = getQueryKey(lezoAlertApi.chabanSubscriptions.isSubscribedFromChabanWithoutAuth);
         if (context?.isSubscribedFromChabanWithoutAuth) {
           queryClient.setQueriesData(queryKey, context.isSubscribedFromChabanWithoutAuth);
