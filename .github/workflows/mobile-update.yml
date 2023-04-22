@@ -49,7 +49,9 @@ jobs:
           key: |
             ${{ runner.os }}-metro-${{ hashFiles('**/yarn.lock') }}
       - name: ⏳ Yarn install
-        run: yarn
+        run: |
+          yarn
+          yarn build
       - name: 🚀 EAS Update production
         if: ${{ env.branch_name == 'main' }}
         working-directory: apps/chaban-mobile

@@ -57,7 +57,9 @@ jobs:
           key: |
             ${{ runner.os }}-metro-${{ hashFiles('**/yarn.lock') }}
       - name: ⏳ Yarn install
-        run: yarn
+        run: |
+          yarn
+          yarn build
       - name: 🚀 Upgrade packages version
         if: ${{ github.event.inputs.profile == 'production' }}
         run: |
