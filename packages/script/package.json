@@ -1,0 +1,27 @@
+{
+  "name": "@lezo-alert/script",
+  "version": "1.4.2",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "build": "yarn with-env builder --env && tsc",
+    "build:dev": "yarn with-env builder --dev --env && tsc",
+    "lint": "eslint .",
+    "with-env": "dotenv -e ../../.env --",
+    "start": "node dist/index.js",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@lezo-alert/db": "1.4.2"
+  },
+  "devDependencies": {
+    "builder": "*",
+    "dotenv-cli": "^7.1.0",
+    "eslint": "^8.36.0",
+    "typescript": "^5.0.2"
+  }
+}
