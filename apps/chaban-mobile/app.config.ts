@@ -22,6 +22,7 @@ const versionCode = getAndroidVersionCode(packages.version);
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'Mon Pont Chaban',
+  owner: 'lezo',
   scheme: 'monpontchaban',
   slug: 'mon-pont-chaban',
   runtimeVersion: {
