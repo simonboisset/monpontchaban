@@ -18,7 +18,7 @@ jobs:
           echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
       - name: Request to server
         if: ${{ env.branch_name == 'main' }}
-        uses: lezo-dev/action-cron-fetch@main
+        uses: lezo-dev/action-cron-fetch@v1
         with:
           token: ${{secrets.CRON_SECRET}}
           url: https://pont-chaban-delmas.com/api/cron.getApiData
