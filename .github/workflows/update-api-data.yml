@@ -15,4 +15,4 @@ jobs:
         with:
           token: ${{secrets.CRON_SECRET}}
           key: 'x-cron-secret-key'
-          url: https://pont-chaban-delmas.com/api/cron.getApiData
+          url: https://pont-chaban-delmas.com/api/alert.getApiData
