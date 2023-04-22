@@ -53,8 +53,8 @@ jobs:
       - name: 🚀 EAS Update production
         if: ${{ env.branch_name == 'main' }}
         working-directory: apps/mobile
-        run: API_URL="https://pont-chaban-delmas.com" CHANNEL="production" KAFKA_PASSWORD="${{secrets.KAFKA_PASSWORD}}" KAFKA_URL="${{secrets.KAFKA_URL}}" KAFKA_USERNAME="${{secrets.KAFKA_USERNAME}}" eas update --branch main --message "Nouvelle version"
+        run: API_URL="${{secrets.API_URL}}" CHABAN_CHANNEL_ID="${{secrets.CHABAN_CHANNEL_ID}}"  eas update --branch main --message "Nouvelle version"
       - name: 🚀 EAS Update Peview
         if: ${{ env.branch_name != 'main' }}
         working-directory: apps/mobile
-        run: API_URL="https://deploy-preview-${{ github.event.number }}--pontchaban.netlify.app" CHANNEL="pr${{ github.event.number }}" KAFKA_PASSWORD="${{secrets.KAFKA_PASSWORD}}" KAFKA_URL="${{secrets.KAFKA_URL}}" KAFKA_USERNAME="${{secrets.KAFKA_USERNAME}}" eas update --branch pr-${{ github.event.number }} --message "Push update branch"
+        run: API_URL="${{secrets.API_URL}}" CHABAN_CHANNEL_ID="${{secrets.CHABAN_CHANNEL_ID}}" eas update --branch pr-${{ github.event.number }} --message "Push update branch"

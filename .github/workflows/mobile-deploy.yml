@@ -62,7 +62,7 @@ jobs:
         if: ${{ github.event.inputs.profile == 'production' }}
         run: |
           echo '${{secrets.PLAY_STORE_API_KEY}}' > apps/mobile/api-key.json
-          git config --local user.email "simonboisset.dev@gmail.com"
+          git config --local user.email "simon@lezo.dev"
           git config --local user.name "simonboisset"
           yarn version:${{github.event.inputs.release}}
           yarn version --new-version ${{github.event.inputs.release}} --no-git-tag-version

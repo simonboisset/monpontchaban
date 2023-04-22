@@ -10,6 +10,7 @@ export const deleteExpiredUserCodes = createProcedure.use(isCron).mutation(async
     where: { code: { type: 'REGISTER', createdAt: { lt: expirationTime } } },
   });
   // const registerDeleted = await prisma.userCode.deleteMany({ where: {type:'REGISTER', createdAt: { lt: expirationTime } }, });
+
   const otherDeleted = await prisma.userCode.deleteMany({ where: { createdAt: { lt: expirationTime } } });
   return { count: unregisterUserDeleted.count + otherDeleted.count };
 });

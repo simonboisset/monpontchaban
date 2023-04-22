@@ -62,7 +62,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     API_URL: process.env.API_URL || null,
     CHABAN_CHANNEL_ID: process.env.CHABAN_CHANNEL_ID || null,
-    CHANNEL: process.env.CHANNEL || null,
   },
   plugins: [
     [
