@@ -18,7 +18,7 @@ jobs:
           echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
       - name: Request to server
         if: ${{ env.branch_name == 'main' }}
-        uses: lezo-dev/chaban/.github/actions/api-request@main
+        uses: lezo-dev/alert/.github/actions/api-request@main
         with:
           token: ${{secrets.CRON_SECRET}}
           url: https://pont-chaban-delmas.com/api/notification.sendNotifications
