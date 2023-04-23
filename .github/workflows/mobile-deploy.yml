@@ -66,8 +66,7 @@ jobs:
           echo '${{secrets.PLAY_STORE_API_KEY}}' > apps/chaban-mobile/api-key.json
           git config --local user.email "simon@lezo.dev"
           git config --local user.name "simonboisset"
-          yarn version:${{github.event.inputs.release}}
-          yarn version --new-version ${{github.event.inputs.release}} --no-git-tag-version
+          yarn turboversion lezo-alert ${{github.event.inputs.release}}
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           git commit -a -m "v${PACKAGE_VERSION}"
           git push
@@ -77,7 +76,7 @@ jobs:
         run: |
           eas build --profile production --platform android --no-wait --auto-submit --non-interactive
           eas build --profile production --platform ios --no-wait --auto-submit --non-interactive
-      - name: 🚀 EAS Build Production
+      - name: 🚀 EAS Build Dev
         if: ${{ github.event.inputs.profile != 'production' }}
         working-directory: apps/chaban-mobile
         run: |
