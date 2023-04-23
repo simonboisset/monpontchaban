@@ -42,6 +42,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   assetBundlePatterns: ['**/*'],
   ios: {
+    config: {
+      usesNonExemptEncryption: false,
+    },
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',

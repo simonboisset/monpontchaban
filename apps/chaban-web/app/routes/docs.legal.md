@@ -25,8 +25,7 @@ ci-après l'"Editeur".
 
 ## L'hébergeur
 
-L'hébergeur du Site est la société Netlify, dont le siège social est situé au 44 Montgomery Street,
-Suite 300, San Francisco, CA 94104, United States, avec l'adresse mail de contact support@netlify.com
+L'hébergeur du Site est la société Vercel, dont le site web est www.vercel.com et dont le siège social est situé au 340 S Lemon Ave #4133 Walnut, CA 91789, United States, avec l'adresse mail de contact privacy@vercel.com et le numéro de télephone (559) 288-7060.
 
 ## Accès au site
 
