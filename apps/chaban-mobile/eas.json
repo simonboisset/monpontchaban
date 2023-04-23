@@ -20,6 +20,9 @@
       "android": {
         "serviceAccountKeyPath": "./api-key.json",
         "track": "production"
+      },
+      "ios": {
+        "ascAppId": "6448217836"
       }
     }
   },
