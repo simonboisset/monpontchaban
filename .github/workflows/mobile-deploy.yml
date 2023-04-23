@@ -57,9 +57,7 @@ jobs:
           key: |
             ${{ runner.os }}-metro-${{ hashFiles('**/yarn.lock') }}
       - name: ⏳ Yarn install
-        run: |
-          yarn
-          yarn build
+        run: yarn
       - name: 🚀 Upgrade packages version
         if: ${{ github.event.inputs.profile == 'production' }}
         run: |
@@ -70,6 +68,8 @@ jobs:
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           git commit -a -m "v${PACKAGE_VERSION}"
           git push
+      - name: ⏳ Yarn install after version upgrade
+        run: yarn
       - name: 🚀 EAS Build Production
         if: ${{ github.event.inputs.profile == 'production' }}
         working-directory: apps/chaban-mobile

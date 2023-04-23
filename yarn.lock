@@ -13187,10 +13187,10 @@ turbo@^1.9.3:
     turbo-windows-64 "1.9.3"
     turbo-windows-arm64 "1.9.3"
 
-turboversion@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/turboversion/-/turboversion-1.0.0.tgz#1bd30eeeb78acd65f6dda25274034fcfd2b31a05"
-  integrity sha512-H0CmjP5yWnbVYJfGkJ7ephq4cxOxQ/NYklMJbM6ss8Y5uBMBNY77/vJ5veYKbURdbQsLUVHDWmJaSUztOhjrrg==
+turboversion@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/turboversion/-/turboversion-1.1.0.tgz#118f85183f77861410454667a2cf0af656dfdd77"
+  integrity sha512-1AsmHnFRBFDNdutO4da3hVfd5z/ochi9X13kS8z4RdE8Aqsg1mpZNUCqRxjg8Wc8LpEMDYqZqVxtavlzAE2IrA==
 
 tw-to-css@0.0.11:
   version "0.0.11"
