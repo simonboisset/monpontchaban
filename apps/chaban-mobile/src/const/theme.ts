@@ -14,7 +14,7 @@ const createShadow = (
   v9: number,
   v10: number,
   v11: number,
-  v12: number
+  v12: number,
 ) =>
   [
     `${v1}px ${v2}px ${v3}px ${v4}px rgba(0,0,0,${shadowKeyUmbraOpacity})`,

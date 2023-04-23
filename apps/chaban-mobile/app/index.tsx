@@ -1,5 +1,7 @@
+import { Status, fr, isNextWeek, isThisWeek, isToday, isTomorrow, useCurrentStatus } from '@lezo-alert/chaban-core';
 import { Alert } from '@lezo-alert/sdk';
-import { Link, SplashScreen, Stack } from 'expo-router';
+import dayjs from 'dayjs';
+import { Link, Stack } from 'expo-router';
 import React, { useRef } from 'react';
 import {
   ActivityIndicator,
@@ -8,6 +10,7 @@ import {
   Easing,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Platform,
   ScrollView,
   Text,
   View,
@@ -15,20 +18,11 @@ import {
   useColorScheme,
 } from 'react-native';
 import styled from 'styled-components/native';
-import {
-  Status,
-  fr,
-  isNextWeek,
-  isThisWeek,
-  isToday,
-  isTomorrow,
-  useCurrentStatus,
-} from '../../../packages/chaban-core/dist';
 import { BridgeEventItem } from '../src/components/BridgeEventItem';
 import { BridgeStatus } from '../src/components/BridgeStatus';
 import SettingsIcon from '../src/components/SettingsIcon';
 import { Theme } from '../src/const/theme';
-import { useRootData } from '../src/services/useRootData';
+import { useChabanAlerts } from '../src/services/useChabanAlerts';
 
 type ScreenContainerProps = {
   color?: keyof Theme['colors'];
@@ -58,11 +52,27 @@ const colorPicker: Record<Status, keyof Theme['colors']> = {
 };
 const windowHeight = Dimensions.get('window').height;
 
+const devAlertOrange: Alert = {
+  id: '1',
+  startAt: dayjs().add(30, 'minute').toDate(),
+  endAt: dayjs().add(1, 'hour').toDate(),
+  channelId: '1',
+  title: 'Orange',
+};
+const devAlertRed: Alert = {
+  id: '1',
+  startAt: dayjs().subtract(30, 'minute').toDate(),
+  endAt: dayjs().add(1, 'hour').toDate(),
+  channelId: '1',
+  title: 'Orange',
+};
+
 export default function ScreenView() {
-  const { isReady, alerts, isAlertsLoading } = useRootData();
+  const { alerts, isAlertsLoading } = useChabanAlerts();
+  const nextAlert = alerts?.[0];
   const colorScheme = useColorScheme();
   const dark = colorScheme === 'dark';
-  const status = useCurrentStatus(alerts?.[0]?.startAt, alerts?.[0]?.endAt);
+  const status = useCurrentStatus(nextAlert?.startAt, nextAlert?.endAt);
   const offset = useRef(new Animated.Value(0)).current;
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], { useNativeDriver: false })(event);
@@ -91,45 +101,45 @@ export default function ScreenView() {
     [];
 
   return (
-    <>
-      {!isReady && <SplashScreen />}
-      <ScreenContainer dark={dark} color={colorPicker[status]}>
-        <Stack.Screen
-          options={{
-            animation: 'slide_from_left',
-            header: () => (
-              <HeaderContainer dark={dark} status={status}>
-                <HeaderTitle dark={dark}>{fr.MyChaban}</HeaderTitle>
-                {isAlertsLoading ? (
-                  <ActivityIndicator color='white' />
-                ) : (
-                  <Link href='/settings'>
-                    <SettingsIcon dark={dark} />
-                  </Link>
-                )}
-              </HeaderContainer>
-            ),
-          }}
-        />
-        <StatusContainer>
-          <Animated.View
-            style={{
-              opacity,
-              transform: [{ translateY }],
-            }}>
-            <BridgeStatus dark={dark} event={alerts?.[0]} />
-          </Animated.View>
-        </StatusContainer>
+    <ScreenContainer dark={dark} color={colorPicker[status]}>
+      <Stack.Screen
+        options={{
+          animation: 'slide_from_left',
+          header: () => (
+            <HeaderContainer dark={dark} status={status}>
+              <HeaderTitle dark={dark}>{fr.MyChaban}</HeaderTitle>
+              {isAlertsLoading ? (
+                <ActivityIndicator color='white' />
+              ) : (
+                <Link href='/settings' style={{ width: 24, height: 24 }}>
+                  <SettingsIcon dark={dark} />
+                </Link>
+              )}
+            </HeaderContainer>
+          ),
+        }}
+      />
+      <StatusContainer>
+        <Animated.View
+          style={{
+            opacity,
+            transform: [{ translateY }],
+          }}>
+          <BridgeStatus dark={dark} event={nextAlert} />
+        </Animated.View>
+      </StatusContainer>
 
-        <ScrollView onScroll={handleScroll} contentContainerStyle={{ paddingTop: windowHeight - 240 }}>
-          <EventList dark={dark} events={todayEvents} title="Aujourd'hui" />
-          <EventList dark={dark} events={tomorrowEvents} title='Demain' />
-          <EventList dark={dark} events={thisWeekEvents} title='Cette semaine' />
-          <EventList dark={dark} events={nextWeekEvents} title='La semaine prochaine' />
-          <EventList dark={dark} events={laterEvents} title="Dans plus d'une semaine" />
-        </ScrollView>
-      </ScreenContainer>
-    </>
+      <ScrollView
+        onScroll={handleScroll}
+        contentContainerStyle={{ paddingTop: windowHeight - 240 }}
+        scrollEventThrottle={16}>
+        <EventList dark={dark} events={todayEvents} title="Aujourd'hui" />
+        <EventList dark={dark} events={tomorrowEvents} title='Demain' />
+        <EventList dark={dark} events={thisWeekEvents} title='Cette semaine' />
+        <EventList dark={dark} events={nextWeekEvents} title='La semaine prochaine' />
+        <EventList dark={dark} events={laterEvents} title="Dans plus d'une semaine" />
+      </ScrollView>
+    </ScreenContainer>
   );
 }
 
@@ -153,24 +163,24 @@ const EventList = ({ events, title, dark }: EventListProps) => {
         {title}
       </Text>
       {events.map((data) => (
-        <BridgeEventItem dark={dark} key={data.startAt.getTime()} {...data} />
+        <BridgeEventItem dark={dark} key={data.id} {...data} />
       ))}
     </View>
   ) : null;
 };
 
-const HeaderTitle = styled.Text<{ dark: boolean }>`
+export const HeaderTitle = styled.Text<{ dark: boolean }>`
   flex: 1;
   font-family: ${({ theme }) => theme.typography.h2.font};
   font-size: ${({ theme }) => theme.typography.h2.size}px;
   color: ${({ theme, dark }) => (dark ? theme.colors.background.main : 'white')};
 `;
 
-const HeaderContainer = styled.View<{ dark: boolean; status: 'OPEN' | 'WILL_CLOSE' | 'CLOSED' }>`
+export const HeaderContainer = styled.View<{ dark: boolean; status: 'OPEN' | 'WILL_CLOSE' | 'CLOSED' }>`
   flex-direction: row;
   background-color: ${({ theme, dark, status }) =>
     dark ? theme.colors[colorPicker[status]].main : theme.colors[colorPicker[status]].dark};
   align-items: flex-end;
-  height: 72px;
+  height: ${({ theme }) => (Platform.OS === 'android' ? 72 : 96)}px;
   padding: 0px 12px 12px 12px;
 `;

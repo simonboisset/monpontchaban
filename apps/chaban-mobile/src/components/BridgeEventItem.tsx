@@ -1,10 +1,10 @@
+import { fr } from '@lezo-alert/chaban-core';
 import { Alert } from '@lezo-alert/sdk';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import React from 'react';
 import styled from 'styled-components/native';
-import { fr } from '../../../../packages/chaban-core/dist';
 import { Theme } from '../const/theme';
 
 type BridgeEventItemProps = Alert & { dark: boolean };

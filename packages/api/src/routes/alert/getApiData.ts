@@ -8,7 +8,7 @@ export const getApiData = createProcedure.use(isCron).mutation(async () => {
   const chabanChannel = await prisma.channel.findUnique({ where: { id: managedChannelIds.chaban } });
   if (!chabanChannel) {
     const newChabanChannel = await prisma.channel.create({ data: { name: 'Pont Chaban-Delmas' } });
-    console.log(`Created channel: ${newChabanChannel.name} id: ${newChabanChannel.id}`);
+    console.info(`Created channel: ${newChabanChannel.name} id: ${newChabanChannel.id}`);
     return;
   }
   const data = await apiBordeauxMetropole.get();

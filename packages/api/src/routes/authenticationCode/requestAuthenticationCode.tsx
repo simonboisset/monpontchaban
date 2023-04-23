@@ -18,8 +18,6 @@ export const requestAuthenticationCode = createProcedure
     const user = await prisma.user.findUnique({ where: { emailHash }, include: { code: true } });
     if (user) {
       if (user.code) {
-        console.log('user.code.createdAt', user.code);
-
         if (isCodeExpired(user.code.createdAt)) {
           await prisma.userCode.delete({ where: { id: user.code.id } });
         } else {

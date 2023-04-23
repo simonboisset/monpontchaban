@@ -28,6 +28,7 @@
     "docker": "turbo run docker --filter @lezo-alert/infra",
     "check-deps": "manypkg check",
     "up": "yarn upgrade-interactive --latest",
+    "postinstall": "turbo run build --filter=@lezo-alert/sdk --filter=@lezo-alert/chaban-core ",
     "test": "vitest"
   },
   "devDependencies": {

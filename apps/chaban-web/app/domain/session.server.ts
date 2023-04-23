@@ -29,7 +29,6 @@ const get = async (request: Request) => {
 const require = async (request: Request, redirectTo?: string) => {
   const token = await get(request);
   if (!token) {
-    console.log('redirecting to', redirectTo || '/');
     throw redirect(redirectTo || '/');
   }
 
@@ -40,8 +39,6 @@ const requireTokenNull = async (request: Request, redirectTo?: string) => {
   const token = await get(request);
 
   if (token) {
-    console.log('redirecting to', redirectTo || '/');
-
     throw redirect(redirectTo || '/');
   }
   return null;
@@ -62,7 +59,6 @@ const create = async <R extends string | undefined = undefined>({
   session.set(USER_SESSION_KEY, token);
 
   if (redirectTo) {
-    console.log('redirecting to', redirectTo || '/');
     //@ts-ignore
     return redirect(redirectTo, {
       headers: {
@@ -84,7 +80,7 @@ const create = async <R extends string | undefined = undefined>({
 const remove = async (request: Request) => {
   const cookie = request.headers.get('Cookie');
   const session = await sessionStorage.getSession(cookie);
-  console.log('redirecting to', '/');
+
   return redirect('/', {
     headers: {
       'Set-Cookie': await sessionStorage.destroySession(session),

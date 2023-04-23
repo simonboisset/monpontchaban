@@ -42,9 +42,20 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   assetBundlePatterns: ['**/*'],
   ios: {
+    splash: {
+      image: './assets/splash.png',
+      resizeMode: 'contain',
+      backgroundColor: '#84a59d',
+    },
     supportsTablet: true,
+    bundleIdentifier: 'app.lezo.monpontchaban',
   },
   android: {
+    splash: {
+      image: './assets/splash.png',
+      resizeMode: 'contain',
+      backgroundColor: '#84a59d',
+    },
     permissions: [],
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',

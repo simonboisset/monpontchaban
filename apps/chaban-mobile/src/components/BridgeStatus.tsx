@@ -1,7 +1,7 @@
+import { fr, Timer, useCurrentStatus } from '@lezo-alert/chaban-core';
 import { Alert } from '@lezo-alert/sdk';
 import React from 'react';
 import styled from 'styled-components/native';
-import { fr, Timer, useCurrentStatus } from '../../../../packages/chaban-core/dist';
 
 type BridgeStatusProps = Alert;
 

@@ -1,11 +1,12 @@
 import { lezoAlertApi } from '@lezo-alert/sdk';
-import { useError } from '../../app/_layout';
-import { env } from '../const/env';
 
-const now = new Date();
+import { env } from '../const/env';
+import { useToken } from './pushTokenContext';
+import { useError } from './useError';
 
 export const useChabanAlerts = () => {
   const { setError } = useError();
+  const { now } = useToken();
   const { data, isLoading } = lezoAlertApi.alert.getAlerts.useQuery(
     {
       channelIds: [env.CHABAN_CHANNEL_ID],

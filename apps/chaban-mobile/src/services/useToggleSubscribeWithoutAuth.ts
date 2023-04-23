@@ -2,7 +2,7 @@ import { lezoAlertApi } from '@lezo-alert/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import { Platform } from 'react-native';
-import { useError } from '../../app/_layout';
+import { useError } from './useError';
 import { useIsSubscribeWithoutAuth } from './useIsSubscribeWithoutAuth';
 
 export const useToggleSubscribeWithoutAuth = () => {

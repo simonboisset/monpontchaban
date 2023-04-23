@@ -1,3 +1,4 @@
+import { Status, useCurrentStatus } from '@lezo-alert/chaban-core';
 import { Link, Stack } from 'expo-router';
 import React, { ReactNode, useRef } from 'react';
 import {
@@ -14,7 +15,7 @@ import {
   useColorScheme,
 } from 'react-native';
 import styled from 'styled-components/native';
-import { Status, useCurrentStatus } from '../../../packages/chaban-core/dist';
+import { HeaderContainer, HeaderTitle } from '.';
 import Envelope from '../src/components/Envelope';
 import GoBackIcon from '../src/components/GoBackIcon';
 import Notification from '../src/components/Notification';
@@ -77,6 +78,8 @@ export default function Settings() {
               <Link
                 href='/'
                 style={{
+                  width: 24,
+                  height: 24,
                   marginRight: 20,
                 }}>
                 <GoBackIcon dark={dark} />
@@ -87,7 +90,10 @@ export default function Settings() {
         }}
       />
 
-      <ScrollView onScroll={handleScroll} contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 }}>
+      <ScrollView
+        onScroll={handleScroll}
+        contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 }}
+        scrollEventThrottle={16}>
         <SettingItem
           dark={dark}
           tittle='Notifications'
@@ -126,22 +132,6 @@ export default function Settings() {
     </ScreenContainer>
   );
 }
-
-const HeaderTitle = styled.Text<{ dark: boolean }>`
-  flex: 1;
-  font-family: ${({ theme }) => theme.typography.h2.font};
-  font-size: ${({ theme }) => theme.typography.h2.size}px;
-  color: ${({ theme, dark }) => (dark ? theme.colors.background.main : 'white')};
-`;
-
-const HeaderContainer = styled.View<{ dark: boolean; status: 'OPEN' | 'WILL_CLOSE' | 'CLOSED' }>`
-  flex-direction: row;
-  background-color: ${({ theme, dark, status }) =>
-    dark ? theme.colors[colorPicker[status]].main : theme.colors[colorPicker[status]].dark};
-  align-items: flex-end;
-  height: 72px;
-  padding: 0px 12px 12px 12px;
-`;
 
 const TittleText = styled.Text<{ dark: boolean }>`
   font-family: ${({ theme }) => theme.typography.h2.font};
