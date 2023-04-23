@@ -47,6 +47,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       resizeMode: 'contain',
       backgroundColor: '#84a59d',
     },
+    buildNumber: packages.version,
     supportsTablet: true,
     bundleIdentifier: 'app.lezo.monpontchaban',
   },
