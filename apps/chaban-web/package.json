@@ -2,7 +2,7 @@
   "name": "@lezo-alert/chaban-web",
   "private": true,
   "sideEffects": false,
-  "version": "1.4.4",
+  "version": "1.4.5",
   "scripts": {
     "build": "yarn with-env remix build",
     "start": "yarn with-env remix-serve build",
@@ -13,9 +13,9 @@
     "ts": "tsc --noEmit"
   },
   "dependencies": {
-    "@lezo-alert/api": "1.4.4",
-    "@lezo-alert/chaban-core": "1.4.4",
-    "@lezo-alert/db": "1.4.4",
+    "@lezo-alert/api": "1.4.5",
+    "@lezo-alert/chaban-core": "1.4.5",
+    "@lezo-alert/db": "1.4.5",
     "@remix-run/node": "^1.15.0",
     "@remix-run/react": "^1.15.0",
     "@remix-run/serve": "^1.15.0",
