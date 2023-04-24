@@ -1,6 +1,6 @@
 {
   "name": "@lezo-alert/sdk",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "private": true,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@lezo-alert/api": "1.4.5",
+    "@lezo-alert/api": "1.4.6",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "builder": "*",
