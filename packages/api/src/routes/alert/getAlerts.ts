@@ -16,6 +16,7 @@ export const getAlerts = createProcedure
     }
     const alerts = await prisma.alert.findMany({
       where: { channelId: { in: channelIds }, OR: [{ endAt: { gte: minDate } }, { startAt: { lte: maxDate } }] },
+      orderBy: { startAt: 'asc' },
     });
 
     return alerts;
