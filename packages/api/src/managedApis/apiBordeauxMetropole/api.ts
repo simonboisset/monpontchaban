@@ -38,7 +38,7 @@ export const getBridgeLiftingsFromApi = (datas: ApiBordeauxMetropoleData) => {
         throw new Error('getBridgeLiftingsFromApi invalid data');
       }
       const closeAt = dayjs.tz(`${date} ${hStart}:${mStart}`, 'YYYY-MM-DD HH:mm', 'Europe/Paris').toDate();
-      let openAt = dayjs.tz(`${date} ${hStart}:${mStart}`, 'YYYY-MM-DD HH:mm', 'Europe/Paris').toDate();
+      let openAt = dayjs.tz(`${date} ${hEnd}:${mEnd}`, 'YYYY-MM-DD HH:mm', 'Europe/Paris').toDate();
 
       if (dayjs(closeAt).isAfter(openAt)) {
         openAt = dayjs(openAt).add(1, 'day').toDate();
