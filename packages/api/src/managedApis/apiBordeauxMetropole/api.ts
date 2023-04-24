@@ -1,8 +1,9 @@
 import { Alert } from '@lezo-alert/db';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import { z } from 'zod';
 import { managedChannelIds } from '../../config/managedChannels';
-
 const get = async () => {
   const datas = await fetchDataToJson();
   return getBridgeLiftingsFromApi(datas);
@@ -26,6 +27,8 @@ const apiBordeauxMetropoleDataSchema = z.object({
 type ApiBordeauxMetropoleData = z.infer<typeof apiBordeauxMetropoleDataSchema>;
 
 export const getBridgeLiftingsFromApi = (datas: ApiBordeauxMetropoleData) => {
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
   return datas.records
     .map((record) => {
       const date = record.fields.date_passage;
@@ -34,17 +37,16 @@ export const getBridgeLiftingsFromApi = (datas: ApiBordeauxMetropoleData) => {
       if (hStart === undefined || mStart === undefined || hEnd === undefined || mEnd === undefined) {
         throw new Error('getBridgeLiftingsFromApi invalid data');
       }
-      const closeAt = dayjs(`${date}`, 'YYYY-MM-DD').toDate();
-      closeAt.setHours(hStart);
-      let openAt = dayjs(`${date}`, 'YYYY-MM-DD').toDate();
-      openAt.setHours(hEnd);
+      const closeAt = dayjs.tz(`${date} ${hStart}:${mStart}`, 'YYYY-MM-DD HH:mm', 'Europe/Paris').toDate();
+      let openAt = dayjs.tz(`${date} ${hStart}:${mStart}`, 'YYYY-MM-DD HH:mm', 'Europe/Paris').toDate();
+
       if (dayjs(closeAt).isAfter(openAt)) {
         openAt = dayjs(openAt).add(1, 'day').toDate();
       }
       return {
         title: record.fields.bateau,
-        startAt: dayjs(closeAt.setMinutes(mStart)).toDate(),
-        endAt: dayjs(openAt.setMinutes(mEnd)).toDate(),
+        startAt: closeAt,
+        endAt: openAt,
         channelId: managedChannelIds.chaban,
       } satisfies Omit<Alert, 'id'>;
     })

@@ -83,6 +83,7 @@ const sendNotificationToChabanSubscribers = async (now: Date) => {
 
   const alertToNotify = await prisma.alert.findMany({
     where: { channelId: managedChannelIds.chaban, startAt: { lte: limitStartBefore, gte: limitStartAfter } },
+    orderBy: { startAt: 'asc' },
   });
   for (const alert of alertToNotify) {
     await services.notification.send(
