@@ -1,6 +1,6 @@
 {
   "name": "@lezo-alert/infra",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "private": true,
   "scripts": {
     "kill": "docker stop $(docker ps -aq) && docker rm $(docker ps -aq)",
