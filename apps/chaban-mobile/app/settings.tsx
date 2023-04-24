@@ -9,13 +9,14 @@ import {
   NativeSyntheticEvent,
   ScrollView,
   Share,
+  Text,
   TouchableOpacity,
   View,
   ViewProps,
   useColorScheme,
 } from 'react-native';
 import styled from 'styled-components/native';
-import { HeaderContainer, HeaderTitle } from '.';
+import { useStyles } from '.';
 import Envelope from '../src/components/Envelope';
 import GoBackIcon from '../src/components/GoBackIcon';
 import Notification from '../src/components/Notification';
@@ -51,6 +52,7 @@ export default function Settings() {
   const { isSubscribed } = useIsSubscribeWithoutAuth();
   const { toggleSubscribeWithoutAuth, isToggleLoading } = useToggleSubscribeWithoutAuth();
   const status = useCurrentStatus(alerts?.[0]?.startAt, alerts?.[0]?.endAt);
+  const styles = useStyles({ color: colorPicker[status], dark });
   const offset = useRef(new Animated.Value(0)).current;
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], { useNativeDriver: false })(event);
@@ -74,7 +76,7 @@ export default function Settings() {
         options={{
           animation: 'slide_from_right',
           header: () => (
-            <HeaderContainer dark={dark} status={status}>
+            <View style={styles.header}>
               <Link
                 href='/'
                 style={{
@@ -84,8 +86,8 @@ export default function Settings() {
                 }}>
                 <GoBackIcon dark={dark} />
               </Link>
-              <HeaderTitle dark={dark}>Paramètres</HeaderTitle>
-            </HeaderContainer>
+              <Text style={styles.headerTitle}>Paramètres</Text>
+            </View>
           ),
         }}
       />

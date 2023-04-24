@@ -1,16 +1,17 @@
+import dayjs from 'dayjs';
 import * as Notifications from 'expo-notifications';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 type PushTokenContextType = {
   token?: string;
-  now: Date;
+  today: string;
 };
 
 const PushTokenContext = createContext({} as PushTokenContextType);
 
 export const PushTokenProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string>();
-  const [now] = useState(() => new Date());
+  const [today] = useState(() => dayjs().startOf('day').toISOString());
   useEffect(() => {
     const getToken = async () => {
       const token = await Notifications.getExpoPushTokenAsync();
@@ -19,10 +20,10 @@ export const PushTokenProvider = ({ children }: { children: React.ReactNode }) =
     getToken();
   }, []);
 
-  return <PushTokenContext.Provider value={{ token, now }}>{children}</PushTokenContext.Provider>;
+  return <PushTokenContext.Provider value={{ token, today }}>{children}</PushTokenContext.Provider>;
 };
 
 export const useToken = () => {
-  const { token, now } = useContext(PushTokenContext);
-  return { token, now };
+  const { token, today } = useContext(PushTokenContext);
+  return { token, today };
 };

@@ -4,8 +4,8 @@ import { createProcedure } from '../../config/api';
 
 export const getAlertsSchema = z.object({
   channelIds: z.array(z.string()),
-  minDate: z.date().optional(),
-  maxDate: z.date().optional(),
+  minDate: z.union([z.string().transform((d) => new Date(d)), z.date()]).optional(),
+  maxDate: z.union([z.string().transform((d) => new Date(d)), z.date()]).optional(),
 });
 
 export const getAlerts = createProcedure

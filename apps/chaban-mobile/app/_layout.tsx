@@ -2,7 +2,7 @@ import { LezoAlertSdkProvider } from '@lezo-alert/sdk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import 'dayjs/locale/fr';
-import { Slot, SplashScreen } from 'expo-router';
+import { SplashScreen, Stack } from 'expo-router';
 import React, { useState } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -29,7 +29,7 @@ export default function Layout() {
             <SafeAreaProvider>
               <StatusBar barStyle='light-content' translucent={true} backgroundColor='transparent' />
               <SafeLoadedScreen>
-                <Slot />
+                <Stack />
               </SafeLoadedScreen>
               <AlertDialog text={error || ''} visible={!!error} onAnimationEnd={() => setError(undefined)} />
             </SafeAreaProvider>

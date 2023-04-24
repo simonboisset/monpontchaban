@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-const getDiff = (d1: Date, d2: Date) => {
-  const delta = Math.abs(d2.getTime() - d1.getTime());
+const getDiff = (d1: Date | string, d2: Date | string) => {
+  const date1 = new Date(d1);
+  const date2 = new Date(d2);
+  const delta = Math.abs(date2.getTime() - date1.getTime());
   const h = Math.floor(delta / 3600 / 1000);
   const m = Math.floor((delta - h * 3600 * 1000) / 60 / 1000);
   const s = Math.floor((delta - h * 3600 * 1000 - m * 60 * 1000) / 1000);
@@ -11,7 +13,7 @@ const getDiff = (d1: Date, d2: Date) => {
   return `${hours}${minutes}${secondes}`;
 };
 
-type TimerProps = { date: Date };
+type TimerProps = { date?: Date };
 export const Timer: React.FC<TimerProps> = ({ date }) => {
   const [now, setNow] = useState(new Date());
 
@@ -28,5 +30,5 @@ export const Timer: React.FC<TimerProps> = ({ date }) => {
     }, 1000);
     return () => clearInterval(intervall);
   }, []);
-  return <>{getDiff(now, date)}</>;
+  return <>{!!date ? getDiff(now, date) : null}</>;
 };
