@@ -7,6 +7,7 @@ import {
   Linking,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Platform,
   ScrollView,
   Share,
   Text,
@@ -61,7 +62,7 @@ export default function Settings() {
 
   const shareApp = async () => {
     Share.share({
-      message: `J'utilise l'application Mon Pont Chaban pour connaitre les horaires de fermeture du pont Chaban-Delmas. Tu peux la télécharger ici: https://play.google.com/store/apps/details?id=${androidPackageName}`,
+      message: `J'utilise l'application Mon Pont Chaban pour connaitre les horaires de fermeture du pont Chaban-Delmas. Tu peux la télécharger ici:\n android: https://play.google.com/store/apps/details?id=${androidPackageName} \n ios: https://apps.apple.com/us/app/mon-pont-chaban/id${iosAppId}`,
     });
   };
 
@@ -201,7 +202,11 @@ const SettingItem = ({ tittle, children, dark, description }: SettingItemProps) 
 };
 
 const androidPackageName = 'com.simonboisset.monpontchaban';
-
+const iosAppId = '6448217836';
 const onpenStoreReview = () => {
-  Linking.openURL(`market://details?id=${androidPackageName}&showAllReviews=true`);
+  Linking.openURL(
+    Platform.OS === 'android'
+      ? `market://details?id=${androidPackageName}&showAllReviews=true`
+      : `itms-apps://itunes.apple.com/app/id${iosAppId}?action=write-review`,
+  );
 };

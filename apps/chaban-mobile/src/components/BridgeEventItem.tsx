@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import isTomorrow from 'dayjs/plugin/isTomorrow';
 import React from 'react';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
 import { Theme } from '../const/theme';
 
@@ -47,21 +48,39 @@ const Row = styled.View<TextProps>`
   align-items: center;
   justify-content: ${({ justify = 'flex-start' }) => justify};
 `;
-export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ startAt, endAt, dark }) => {
+export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ startAt, endAt, dark, title }) => {
   return (
     <Item dark={dark}>
-      <Text dark={dark} justify='center' variant='h3'>
-        {dayjs(startAt).isTomorrow()
-          ? 'Demain '
-          : dayjs(startAt).isToday()
-          ? "Aujourd'hui "
-          : fr.weekDays[Number(dayjs(startAt).format('d'))] +
-            ' ' +
-            dayjs(startAt).format('DD') +
-            ' ' +
-            fr.month[dayjs(startAt).month()] +
-            ' '}
-      </Text>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <Text dark={dark} justify='center' variant='h3'>
+          {dayjs(startAt).isTomorrow()
+            ? 'Demain '
+            : dayjs(startAt).isToday()
+            ? "Aujourd'hui "
+            : fr.weekDays[Number(dayjs(startAt).format('d'))] +
+              ' ' +
+              dayjs(startAt).format('DD') +
+              ' ' +
+              fr.month[dayjs(startAt).month()] +
+              ' '}
+        </Text>
+        <Text
+          style={{
+            textTransform: 'capitalize',
+            fontWeight: 'bold',
+          }}
+          dark={dark}
+          justify='center'
+          variant='h3'>
+          {title.toLowerCase()}
+        </Text>
+      </View>
       <Row>
         <Dot color='error' />
         <Text dark={dark}>

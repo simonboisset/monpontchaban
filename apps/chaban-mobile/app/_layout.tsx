@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import 'dayjs/locale/fr';
 import { SplashScreen, Stack } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from 'styled-components/native';
@@ -42,10 +42,20 @@ export default function Layout() {
 
 const SafeLoadedScreen = ({ children }: { children: React.ReactNode }) => {
   const { isReady } = useRootData();
-  if (!isReady) {
-    return <SplashScreen />;
-  }
-  return <>{children}</>;
+  const [isFirst, setIsFirst] = useState(true);
+
+  useEffect(() => {
+    if (isReady) {
+      setTimeout(() => setIsFirst(false), 1000);
+    }
+  }, [isReady]);
+
+  return (
+    <>
+      {(!isReady || isFirst) && <SplashScreen />}
+      {isReady && children}
+    </>
+  );
 };
 const asyncStoragePersister = createAsyncStoragePersister({
   storage: AsyncStorage,

@@ -73,12 +73,8 @@ jobs:
       - name: 🚀 EAS Build Production
         if: ${{ github.event.inputs.profile == 'production' }}
         working-directory: apps/chaban-mobile
-        run: |
-          eas build --profile production --platform android --no-wait --auto-submit --non-interactive
-          eas build --profile production --platform ios --no-wait --auto-submit --non-interactive
+        run: eas build --profile production --platform all --no-wait --auto-submit --non-interactive
       - name: 🚀 EAS Build Dev
         if: ${{ github.event.inputs.profile != 'production' }}
         working-directory: apps/chaban-mobile
-        run: |
-          eas build --profile dev --platform android --no-wait --non-interactive
-          eas build --profile dev --platform ios --no-wait --non-interactive
+        run: eas build --profile dev --platform all --no-wait --non-interactive

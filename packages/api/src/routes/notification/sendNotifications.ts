@@ -12,6 +12,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     where: { schedules: { some: { day: now.getDay(), hour: now.getHours() } } },
     include: { channel: true, schedules: true, user: { include: { devices: true } } },
   });
+
   for (const rule of rules) {
     const nextSchedule = getNextSchedule(rule.schedules, now);
     const nextScheduleDate = getDateFromSchedule(nextSchedule, now);
@@ -23,18 +24,19 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
       where: { channelId: rule.channelId, startAt: { lte: limitStartBefore, gte: limitStartAfter } },
     });
 
-    await services.notification.send(
-      rule.user.devices.map((d) => d.token),
-      'Prochaine levée de pont',
-      `Voici les prochaines levées pour le pont ${rule.channel.name}:\n${alertToNotify
-        .map((b) => `- ${b.title}: ${dayjs(b.startAt).format('DDD HH:mm')} - ${dayjs(b.endAt).format('DDD HH:mm')}`)
+    await services.notification.send({
+      tokens: rule.user.devices.map((d) => d.token),
+      badge: alertToNotify.length,
+      title: `Evénements à venir pour ${rule.channel.name}`,
+      message: `${alertToNotify
+        .map((b) => `- ${b.title}: ${dayjs(b.startAt).format('HH:mm')} - ${dayjs(b.endAt).format('HH:mm')}`)
         .join('\n')}`,
-    );
+    });
   }
 
-  await sendNotificationToChabanSubscribers(now);
+  const chabanCount = await sendNotificationToChabanSubscribers(now);
 
-  return true;
+  return rules.length + chabanCount;
 });
 
 const getNextSchedule = (schedules: Schedule[], now: Date) => {
@@ -76,7 +78,7 @@ const sendNotificationToChabanSubscribers = async (now: Date) => {
   const devices = await prisma.device.findMany({ where: { active: true, userId: null } });
   const tokens = devices.map((d) => d.token);
   const nextScheduleDate = dayjs(now).add(1, 'hour').set('minute', 0).set('second', 0).set('millisecond', 0).toDate();
-  const delayMinBefore = 90;
+  const delayMinBefore = 30;
 
   const limitStartBefore = dayjs(nextScheduleDate).add(delayMinBefore, 'minute').toDate();
   const limitStartAfter = dayjs(now).add(delayMinBefore, 'minute').toDate();
@@ -85,13 +87,16 @@ const sendNotificationToChabanSubscribers = async (now: Date) => {
     where: { channelId: managedChannelIds.chaban, startAt: { lte: limitStartBefore, gte: limitStartAfter } },
     orderBy: { startAt: 'asc' },
   });
+
   for (const alert of alertToNotify) {
-    await services.notification.send(
+    await services.notification.send({
       tokens,
-      'Prochaine levée de pont',
-      `Le pont Chaban-Delmas sera fermé de ${alert.title}: ${dayjs(alert.startAt).format('DDD HH:mm')} à ${dayjs(
+      badge: 1,
+      title: 'Prochaine levée de pont',
+      message: `Le pont Chaban-Delmas sera fermé de ${dayjs(alert.startAt).format('HH:mm')} à ${dayjs(
         alert.endAt,
-      ).format('DDD HH:mm')}`,
-    );
+      ).format('HH:mm')}`,
+    });
   }
+  return alertToNotify.length;
 };

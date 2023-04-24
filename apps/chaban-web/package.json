@@ -8,7 +8,6 @@
     "start": "yarn with-env remix-serve build",
     "dev": "yarn with-env remix dev",
     "typecheck": "tsc",
-    "deploy": "fly deploy --remote-only",
     "with-env": "dotenv -e ../../.env --",
     "ts": "tsc --noEmit"
   },

@@ -40,8 +40,8 @@ export function links() {
 export const loader = async ({ request }: LoaderArgs) => {
   return {
     ENV: {},
-    data: cookie.node.get(request.headers.get('Cookie'), 'theme') || 'light',
-  };
+    data: cookie.node.get(request.headers.get('Cookie'), 'theme') || ('light' as 'light' | 'dark'),
+  } as { ENV: Record<string, string>; data: 'light' | 'dark' };
 };
 export type RootLoaderData = ReturnType<typeof loader>;
 export default function App() {

@@ -1,13 +1,13 @@
 import { fr, Timer, useCurrentStatus } from '@lezo-alert/chaban-core';
+import type { Alert } from '@lezo-alert/db';
 import React from 'react';
-import type { BridgeEvent } from './BridgeEventItem';
 import { ClosedLogo } from './ClosedLogo';
 import { OpenedLogo } from './OpenedLogo';
 
-type BridgeStatusProps = BridgeEvent;
+type BridgeStatusProps = Alert;
 
 export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) => {
-  const status = useCurrentStatus(event?.closeAt, event?.openAt);
+  const status = useCurrentStatus(event?.startAt, event?.endAt);
 
   switch (status || !event) {
     case 'OPEN':
@@ -27,7 +27,7 @@ export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) 
             <OpenedLogo />
           </div>
           <div className='text-2xl md:text-4xl'>
-            {fr.closeIn} <Timer date={event.closeAt} />
+            {fr.closeIn} <Timer date={event.startAt} />
           </div>
         </>
       );
@@ -39,7 +39,7 @@ export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) 
             <ClosedLogo />
           </div>
           <div className='text-2xl md:text-4xl'>
-            {fr.reopenIn} <Timer date={event.openAt} />
+            {fr.reopenIn} <Timer date={event.endAt} />
           </div>
         </>
       );

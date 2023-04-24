@@ -20,3 +20,5 @@ export const useDarkMode = () => {
 
   return { theme, toggle };
 };
+
+export type Theme = ReturnType<typeof useDarkMode>['theme'];
