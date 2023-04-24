@@ -48,11 +48,12 @@ const colorPicker: Record<Status, keyof Theme['colors']> = {
 export default function Settings() {
   const colorScheme = useColorScheme();
   const dark = colorScheme === 'dark';
-  const { alerts, isAlertsLoading } = useChabanAlerts();
+  const { alerts } = useChabanAlerts();
+  const nextAlert = alerts?.[0];
   const { isSubscribed } = useIsSubscribeWithoutAuth();
   const { toggleSubscribeWithoutAuth, isToggleLoading } = useToggleSubscribeWithoutAuth();
   const status = useCurrentStatus(alerts?.[0]?.startAt, alerts?.[0]?.endAt);
-  const styles = useStyles({ color: colorPicker[status], dark });
+  const styles = useStyles(nextAlert);
   const offset = useRef(new Animated.Value(0)).current;
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], { useNativeDriver: false })(event);

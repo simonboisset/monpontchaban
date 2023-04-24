@@ -10,13 +10,13 @@ import {
   Easing,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
   View,
   useColorScheme,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BridgeEventItem } from '../src/components/BridgeEventItem';
 import { BridgeStatus } from '../src/components/BridgeStatus';
 import SettingsIcon from '../src/components/SettingsIcon';
@@ -52,8 +52,7 @@ export default function ScreenView() {
   const colorScheme = useColorScheme();
   const dark = colorScheme === 'dark';
 
-  const status = useCurrentStatus(nextAlert?.startAt, nextAlert?.endAt);
-  const styles = useStyles({ color: colorPicker[status], dark });
+  const styles = useStyles(nextAlert);
   const offset = useRef(new Animated.Value(0)).current;
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], { useNativeDriver: false })(event);
@@ -110,10 +109,7 @@ export default function ScreenView() {
         </Animated.View>
       </View>
 
-      <ScrollView
-        onScroll={handleScroll}
-        contentContainerStyle={{ paddingTop: windowHeight - (Platform.OS === 'android' ? 240 : 120) }}
-        scrollEventThrottle={16}>
+      <ScrollView onScroll={handleScroll} contentContainerStyle={styles.scrollView} scrollEventThrottle={16}>
         <EventList dark={dark} events={todayEvents} title="Aujourd'hui" />
         <EventList dark={dark} events={tomorrowEvents} title='Demain' />
         <EventList dark={dark} events={thisWeekEvents} title='Cette semaine' />
@@ -150,10 +146,14 @@ const EventList = ({ events, title, dark }: EventListProps) => {
   ) : null;
 };
 
-type StyledProps = { dark: boolean; color: keyof Theme['colors'] };
+export const useStyles = (nextAlert?: Alert) => {
+  const colorScheme = useColorScheme();
+  const dark = colorScheme === 'dark';
+  const insets = useSafeAreaInsets();
+  const status = useCurrentStatus(nextAlert?.startAt, nextAlert?.endAt);
+  const color = colorPicker[status];
 
-export const useStyles = ({ color, dark }: StyledProps) =>
-  StyleSheet.create({
+  return StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: 'center',
@@ -170,12 +170,11 @@ export const useStyles = ({ color, dark }: StyledProps) =>
     },
     header: {
       flexDirection: 'row',
-      alignItems: 'flex-end',
+      paddingTop: 12 + insets.top,
       paddingLeft: 12,
       paddingRight: 12,
       paddingBottom: 12,
       backgroundColor: dark ? theme.colors[color].main : theme.colors[color].dark,
-      height: Platform.OS === 'android' ? 70 : 96,
     },
     headerTitle: {
       flex: 1,
@@ -183,4 +182,8 @@ export const useStyles = ({ color, dark }: StyledProps) =>
       fontSize: theme.typography.h2.size,
       color: dark ? theme.colors.background.main : 'white',
     },
+    scrollView: {
+      paddingTop: windowHeight - 220 - insets.bottom - insets.top,
+    },
   });
+};
