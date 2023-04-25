@@ -1,7 +1,6 @@
 import { lezoAlertApi } from '@lezo-alert/sdk';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
-import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import { useError } from './useError';
@@ -49,14 +48,14 @@ export const useToggleSubscribeWithoutAuth = () => {
     });
 
   const toggleSubscribeWithoutAuth = async () => {
-    if (!token) {
-      setError("Il semble qu'il y ait un problème avec votre appareil, veuillez réessayer ultérieurement");
-      return;
-    }
-    if (isSubscribed) {
-      await unsubscribeFromChabanWithoutAuth({ token });
-    } else {
-      if (Device.isDevice) {
+    try {
+      if (!token) {
+        setError("Il semble qu'il y ait un problème avec votre appareil, veuillez réessayer ultérieurement");
+        return;
+      }
+      if (isSubscribed) {
+        await unsubscribeFromChabanWithoutAuth({ token });
+      } else {
         const { status: existingStatus } = await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
         if (existingStatus !== 'granted') {
@@ -68,10 +67,9 @@ export const useToggleSubscribeWithoutAuth = () => {
           return;
         }
         await subscribeToChabanWithoutAuth({ token, os: Platform.OS === 'android' ? 'ANDROID' : 'IOS' });
-      } else {
-        setError('Vous devez être sur un appareil pour vous inscrire');
-        return;
       }
+    } catch (error) {
+      setError('Un problème est survenu, veuillez réessayer ultérieurement');
     }
   };
   return { toggleSubscribeWithoutAuth, isToggleLoading: isLoading };
