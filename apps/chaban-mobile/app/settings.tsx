@@ -1,4 +1,5 @@
 import { Status, useCurrentStatus } from '@lezo-alert/chaban-core';
+import * as MailComposer from 'expo-mail-composer';
 import { Link, Stack } from 'expo-router';
 import React, { ReactNode, useRef } from 'react';
 import {
@@ -26,6 +27,7 @@ import ShareIcon from '../src/components/Share';
 import Star from '../src/components/Star';
 import { Theme } from '../src/const/theme';
 import { useChabanAlerts } from '../src/services/useChabanAlerts';
+import { useError } from '../src/services/useError';
 import { useIsSubscribeWithoutAuth } from '../src/services/useIsSubscribeWithoutAuth';
 import { useToggleSubscribeWithoutAuth } from '../src/services/useToggleSubscribeWithoutAuth';
 
@@ -55,6 +57,7 @@ export default function Settings() {
   const { toggleSubscribeWithoutAuth, isToggleLoading } = useToggleSubscribeWithoutAuth();
   const status = useCurrentStatus(alerts?.[0]?.startAt, alerts?.[0]?.endAt);
   const styles = useStyles(nextAlert);
+  const { setError } = useError();
   const offset = useRef(new Animated.Value(0)).current;
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], { useNativeDriver: false })(event);
@@ -67,9 +70,17 @@ export default function Settings() {
   };
 
   const sendEmail = async () => {
-    Linking.openURL(
-      'mailto:support@lezo.dev?subject=Demande: Mon Pont Chaban&body=Bonjour, je souhaite vous faire part de ',
-    );
+    const isAvailable = await MailComposer.isAvailableAsync();
+    if (!isAvailable) {
+      setError("Impossible d'ouvrir votre client de messagerie");
+      return;
+    }
+
+    await MailComposer.composeAsync({
+      recipients: ['support@lezo.dev'],
+      subject: 'Demande: Mon Pont Chaban',
+      body: 'Bonjour, je souhaite vous faire part de ',
+    });
   };
 
   return (

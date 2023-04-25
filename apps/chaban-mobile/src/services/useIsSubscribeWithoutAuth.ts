@@ -4,7 +4,7 @@ import { useError } from './useError';
 
 export const useIsSubscribeWithoutAuth = () => {
   const { setError } = useError();
-  const { token } = useToken();
+  const { token, setToken } = useToken();
   const { data, isLoading } = lezoAlertApi.chabanSubscriptions.isSubscribedFromChabanWithoutAuth.useQuery(
     { token },
     {
@@ -13,5 +13,5 @@ export const useIsSubscribeWithoutAuth = () => {
       },
     },
   );
-  return { isSubscribed: data, isSubscribedLoading: isLoading, token };
+  return { isSubscribed: data, isSubscribedLoading: isLoading, token, setToken };
 };
