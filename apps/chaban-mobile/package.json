@@ -1,15 +1,15 @@
 {
   "name": "@lezo-alert/chaban-mobile",
   "main": "index.js",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "scripts": {
     "dev": "expo start",
     "apk": "eas build --profile dev --platform android --no-wait --non-interactive",
     "up": "yarn upgrade-interactive --latest"
   },
   "dependencies": {
-    "@lezo-alert/chaban-core": "1.4.8",
-    "@lezo-alert/sdk": "1.4.8",
+    "@lezo-alert/chaban-core": "1.4.9",
+    "@lezo-alert/sdk": "1.4.9",
     "@react-native-async-storage/async-storage": "1.17.11",
     "@tanstack/query-async-storage-persister": "^4.29.1",
     "@tanstack/react-query-persist-client": "^4.29.3",
