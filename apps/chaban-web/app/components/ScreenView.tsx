@@ -43,7 +43,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
         <h4 className='text-center mt-4'>L'application est disponible sur iOS et Android</h4>
         <div className='flex flex-row gap-4 mt-2'>
           <Link
-            to='https://apps.apple.com/us/app/mon-pont-chaban/id6448217836'
+            to='https://apps.apple.com/app/mon-pont-chaban/id6448217836'
             className='flex flex-row items-center text-sm gap-2 px-2 py-1 bg-gray-700 bg-opacity-10 rounded hover:bg-opacity-20 transition-all font-thin text-white dark:text-gray-400'>
             <span>iOS</span>
             <div className='h-4 w-4 mb-1'>
