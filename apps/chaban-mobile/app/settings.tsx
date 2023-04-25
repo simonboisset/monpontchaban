@@ -62,7 +62,7 @@ export default function Settings() {
 
   const shareApp = async () => {
     Share.share({
-      message: `J'utilise l'application Mon Pont Chaban pour connaitre les horaires de fermeture du pont Chaban-Delmas. Tu peux la télécharger ici:\n android: https://play.google.com/store/apps/details?id=${androidPackageName} \n ios: https://apps.apple.com/us/app/mon-pont-chaban/id${iosAppId}`,
+      message: 'https://pont-chaban-delmas.com/store',
     });
   };
 
