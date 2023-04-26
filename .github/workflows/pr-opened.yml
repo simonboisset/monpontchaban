@@ -1,9 +1,5 @@
 name: Pr opened
-on:
-  pull_request:
-    types: [opened, reopened]
-    branches:
-      - main
+on: workflow_dispatch
 
 jobs:
   pr-opened:

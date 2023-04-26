@@ -66,7 +66,8 @@ export const theme = {
   typography: {
     h1: { size: 36, font: 'Roboto', style: 'normal', weight: 500 },
     h2: { size: 20, font: 'Roboto', style: 'normal', weight: 500 },
-    h3: { size: 16, font: 'Roboto', style: 'normal', weight: 500 },
+    h3: { size: 16, font: 'RobotoBold', style: 'normal', weight: 700 },
+    h4: { size: 16, font: 'Roboto', style: 'normal', weight: 500 },
     h5: { size: 14, font: 'Roboto', style: 'normal', weight: 600 },
     status: { size: 48, font: 'Roboto', style: 'normal', weight: 500 },
   },

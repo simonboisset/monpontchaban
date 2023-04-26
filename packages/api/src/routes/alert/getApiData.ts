@@ -12,9 +12,9 @@ export const getApiData = createProcedure.use(isCron).mutation(async () => {
     return;
   }
   const data = await apiBordeauxMetropole.get();
-  const firstDate = data.flatMap((d) => [d.endAt, d.startAt]).sort()[0];
+  const now = new Date();
 
-  await prisma.alert.deleteMany({ where: { channelId: managedChannelIds.chaban, endAt: { lt: firstDate } } });
+  await prisma.alert.deleteMany({ where: { channelId: managedChannelIds.chaban, endAt: { gt: now } } });
   await prisma.$transaction(data.map((d) => prisma.alert.create({ data: d })));
 
   return data;

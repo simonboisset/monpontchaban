@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import { useChabanAlerts } from './useChabanAlerts';
 
 export const useRootData = () => {
-  const { alerts, isAlertsLoading } = useChabanAlerts();
+  const { isAlertsLoading } = useChabanAlerts();
   const [fontsLoaded] = useFonts({
     Roboto: require('../../assets/fonts/Roboto-Regular.ttf'),
+    RobotoBold: require('../../assets/fonts/Roboto-Bold.ttf'),
   });
   const [isReady, setIsReady] = useState(false);
 

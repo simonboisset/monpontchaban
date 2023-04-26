@@ -128,7 +128,9 @@ export default function Settings() {
         <SettingItem
           dark={dark}
           tittle='Notez nous'
-          description="Vous aimez l'application ? Notez la sur le Play Store en cliquant sur le bouton ci-dessous.">
+          description={`Vous aimez l'application ? Notez la sur ${
+            Platform.OS == 'android' ? 'le Play' : "l'App"
+          } Store en cliquant sur le bouton ci-dessous.`}>
           <Button onPress={onpenStoreReview} dark={dark} label="Noter l'application" icon={<Star dark={dark} />} />
         </SettingItem>
         <SettingItem
@@ -155,15 +157,15 @@ const TittleText = styled.Text<{ dark: boolean }>`
   padding-bottom: 12px;
 `;
 const DescriptionText = styled.Text<{ dark: boolean }>`
-  font-family: ${({ theme }) => theme.typography.h3.font};
-  font-size: ${({ theme }) => theme.typography.h3.size}px;
+  font-family: ${({ theme }) => theme.typography.h4.font};
+  font-size: ${({ theme }) => theme.typography.h4.size}px;
   color: ${({ theme, dark }) => (dark ? theme.colors.background.main : 'white')};
   padding-bottom: 8px;
 `;
 const ButtonText = styled.Text<{ dark: boolean }>`
   flex: 1;
-  font-family: ${({ theme }) => theme.typography.h3.font};
-  font-size: ${({ theme }) => theme.typography.h3.size}px;
+  font-family: ${({ theme }) => theme.typography.h4.font};
+  font-size: ${({ theme }) => theme.typography.h4.size}px;
   color: ${({ theme, dark }) => (dark ? theme.colors.background.main : 'white')};
 `;
 type ButtonProps = {

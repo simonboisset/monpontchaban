@@ -3,7 +3,7 @@
   "pipeline": {
     "db:generate": {
       "inputs": ["prisma/schema.prisma"],
-      "cache": false
+      "outputs": ["dist/**"]
     },
     "db:push": {
       "inputs": ["prisma/schema.prisma"],
@@ -23,8 +23,9 @@
       "cache": false
     },
     "build": {
+      "inputs": ["package.json", "tsconfig.json", "src/**", "app/**"],
       "dependsOn": ["^build", "^db:generate"],
-      "outputs": ["dist/**", ".expo/**"]
+      "outputs": ["dist/**", ".expo/**", "build/**", "public/build/**"]
     },
     "build:dev": {
       "dependsOn": ["^build:dev", "^db:generate"],

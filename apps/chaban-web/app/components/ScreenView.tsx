@@ -15,13 +15,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
   const status = useCurrentStatus(datas[0]?.startAt, datas[0]?.endAt);
   const opacity = useScroll();
 
-  const todayEvents = datas.filter(({ endAt }) => isToday(endAt));
-  const tomorrowEvents = datas.filter(({ endAt }) => isTomorrow(endAt));
-  const thisWeekEvents = datas.filter(({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && isThisWeek(endAt));
-  const nextWeekEvents = datas.filter(({ endAt }) => !isTomorrow(endAt) && isNextWeek(endAt));
-  const laterEvents = datas.filter(
-    ({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && !isThisWeek(endAt) && !isNextWeek(endAt),
-  );
+  const { laterAlerts, nextWeekAlerts, thisWeekAlerts, todayAlerts, tomorrowAlerts } = groupAlertsByDate(datas);
 
   return (
     <main
@@ -62,11 +56,11 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
       </div>
       <div className='w-full lg:max-w-sm flex flex-col gap-4'>
         <div className='h-screen lg:h-56 -mb-48 lg:mb-0 ' />
-        <EventList events={todayEvents} title='Aujourd’hui' />
-        <EventList events={tomorrowEvents} title='Demain' />
-        <EventList events={thisWeekEvents} title='Cette semaine' />
-        <EventList events={nextWeekEvents} title='La semaine prochaine' />
-        <EventList events={laterEvents} title="Dans plus d'une semaine" />
+        <EventList events={todayAlerts} title='Aujourd’hui' />
+        <EventList events={tomorrowAlerts} title='Demain' />
+        <EventList events={thisWeekAlerts} title='Cette semaine' />
+        <EventList events={nextWeekAlerts} title='La semaine prochaine' />
+        <EventList events={laterAlerts} title="Dans plus d'une semaine" />
         <div className='flex flex-col lg:flex-row gap-4 text-greenDark font-thin text-xs dark:text-green lg:fixed lg:bottom-2 lg:left-2'>
           <Link to='/docs/legal'>Mentions légales</Link>
           <Link to='/docs/privacy'>Politique de confidentialité</Link>
@@ -120,3 +114,14 @@ const AppleLogo = () => (
     </g>
   </svg>
 );
+
+export const groupAlertsByDate = (alerts: Alert[]) => {
+  const todayAlerts = alerts.filter(({ endAt }) => isToday(endAt));
+  const tomorrowAlerts = alerts.filter(({ endAt }) => isTomorrow(endAt));
+  const thisWeekAlerts = alerts.filter(({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && isThisWeek(endAt));
+  const nextWeekAlerts = alerts.filter(({ endAt }) => !isTomorrow(endAt) && isNextWeek(endAt));
+  const laterAlerts = alerts.filter(
+    ({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && !isThisWeek(endAt) && !isNextWeek(endAt),
+  );
+  return { todayAlerts, tomorrowAlerts, thisWeekAlerts, nextWeekAlerts, laterAlerts };
+};

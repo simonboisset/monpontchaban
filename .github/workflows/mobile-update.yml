@@ -1,10 +1,5 @@
 name: 📱 Mobile Update
-on:
-  workflow_dispatch:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    branches:
-      - main
+on: workflow_dispatch
 
 jobs:
   eas-update:

@@ -27,6 +27,7 @@ const apiBordeauxMetropoleDataSchema = z.object({
 type ApiBordeauxMetropoleData = z.infer<typeof apiBordeauxMetropoleDataSchema>;
 
 export const getBridgeLiftingsFromApi = (datas: ApiBordeauxMetropoleData) => {
+  const now = new Date();
   dayjs.extend(utc);
   dayjs.extend(timezone);
   return datas.records
@@ -50,6 +51,7 @@ export const getBridgeLiftingsFromApi = (datas: ApiBordeauxMetropoleData) => {
         channelId: managedChannelIds.chaban,
       } satisfies Omit<Alert, 'id'>;
     })
+    .filter((alert) => dayjs(alert.endAt).isAfter(now))
     .sort((a, b) => a.startAt.getTime() - b.endAt.getTime());
 };
 

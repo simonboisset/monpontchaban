@@ -6,7 +6,7 @@ import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
 import cookie from './hooks/cookie';
 import { useDarkMode } from './hooks/useDarkMode';
 
-export const meta: V2_MetaFunction = () => [
+export const meta: V2_MetaFunction<typeof loader> = () => [
   { title: 'Mon Pont Chaban' },
   {
     name: 'description',

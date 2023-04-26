@@ -56,9 +56,10 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ startAt, endAt
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
           alignItems: 'center',
         }}>
-        <Text dark={dark} justify='center' variant='h3'>
+        <Text dark={dark} justify='center' variant='h4'>
           {dayjs(startAt).isTomorrow()
             ? 'Demain '
             : dayjs(startAt).isToday()
