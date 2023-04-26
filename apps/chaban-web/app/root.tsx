@@ -7,11 +7,11 @@ import cookie from './hooks/cookie';
 import { useDarkMode } from './hooks/useDarkMode';
 
 export const meta: V2_MetaFunction<typeof loader> = () => [
-  { title: 'Mon Pont Chaban' },
+  { title: 'Pont Chaban-Delmas : horaires, levées et fermetures à venir' },
   {
     name: 'description',
-    content:
-      "Consultez les dates et les horaires d'ouverture et de fermeture du pont Chaban-Delmas de Bordeaux. Pour savoir si le pont Chaban-Delmas est ouvert ou fermé instantanément, la couleur de cette page vous l'indique.",
+    content: `Découvrez les horaires d'ouverture et de fermeture du pont Chaban-Delmas de Bordeaux, ainsi que les prochaines dates de levées. 
+      Consultez notre page pour savoir si le pont est ouvert ou fermé aujourd'hui.`,
   },
   { name: 'viewport', content: 'width=device-width,initial-scale=1' },
   { charset: 'utf-8' },
