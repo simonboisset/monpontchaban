@@ -1,6 +1,6 @@
 {
   "name": "@lezo-alert/api",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -15,7 +15,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@lezo-alert/db": "1.4.10",
+    "@lezo-alert/db": "1.4.11",
     "@react-email/components": "^0.0.5",
     "@trpc/client": "^10.21.1-alpha.2",
     "@trpc/server": "^10.21.1-alpha.2",
