@@ -25,13 +25,17 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
       name: 'description',
       content: `Découvrez les horaires d'ouverture et de fermeture du pont Chaban-Delmas de Bordeaux, ainsi que les prochaines dates de levées. 
       Consultez notre page pour savoir si le pont est ouvert ou fermé aujourd'hui. 
-      Ne manquez pas les prochaines fermetures, 
-      telles que ${firstAlert.title.toLowerCase()} de ${dayjs(firstAlert.startAt).hour()}h${dayjs(
+      Ne manquez pas les prochaines fermetures, telles que ${firstAlert.title.toLowerCase()} le ${dayjs(
         firstAlert.startAt,
-      ).format('mm')} à ${dayjs(firstAlert.endAt).hour()}h${dayjs(firstAlert.endAt).format('mm')} 
-      et ${firstAlert.title.toLowerCase()} de ${dayjs(firstAlert.startAt).hour()}h${dayjs(firstAlert.startAt).format(
+      ).format('DD/MM/YYYY')} de ${dayjs(firstAlert.startAt).hour()}h${dayjs(firstAlert.startAt).format(
         'mm',
-      )} à ${dayjs(firstAlert.endAt).hour()}h${dayjs(firstAlert.endAt).format('mm')}.`,
+      )} à ${dayjs(firstAlert.endAt).hour()}h${dayjs(firstAlert.endAt).format(
+        'mm',
+      )} et ${secondAlert.title.toLowerCase()} le ${dayjs(firstAlert.startAt).format('DD/MM/YYYY')} de ${dayjs(
+        secondAlert.startAt,
+      ).hour()}h${dayjs(secondAlert.startAt).format('mm')} à ${dayjs(secondAlert.endAt).hour()}h${dayjs(
+        secondAlert.endAt,
+      ).format('mm')}.`,
     },
     { name: 'viewport', content: 'width=device-width,initial-scale=1' },
     { charset: 'utf-8' },
