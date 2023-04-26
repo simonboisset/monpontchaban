@@ -25,6 +25,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   owner: 'lezo',
   scheme: 'monpontchaban',
   slug: 'mon-pont-chaban',
+  notification: {
+    iosDisplayInForeground: true,
+  },
   runtimeVersion: {
     policy: 'sdkVersion',
   },
