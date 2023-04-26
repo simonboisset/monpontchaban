@@ -1,6 +1,6 @@
 {
   "name": "@lezo-alert/script",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -16,7 +16,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@lezo-alert/db": "1.4.9"
+    "@lezo-alert/db": "1.4.10"
   },
   "devDependencies": {
     "builder": "*",

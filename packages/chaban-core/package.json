@@ -1,6 +1,6 @@
 {
   "name": "@lezo-alert/chaban-core",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "private": true,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
