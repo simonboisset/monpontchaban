@@ -77,11 +77,16 @@ const getDateFromSchedule = (schedule: Schedule, now: Date) => {
 const sendNotificationToChabanSubscribers = async (now: Date) => {
   const devices = await prisma.device.findMany({ where: { active: true, userId: null } });
   const tokens = devices.map((d) => d.token);
-  const nextScheduleDate = dayjs(now).add(1, 'hour').set('minute', 0).set('second', 0).set('millisecond', 0).toDate();
-  const delayMinBefore = 30;
+  const nextScheduleDate = dayjs(now).add(1, 'hour').toDate();
+  const delayMinBefore = 60;
+  const delta = 5;
 
-  const limitStartBefore = dayjs(nextScheduleDate).add(delayMinBefore, 'minute').toDate();
-  const limitStartAfter = dayjs(now).add(delayMinBefore, 'minute').toDate();
+  const limitStartBefore = dayjs(nextScheduleDate)
+    .add(delayMinBefore + delta, 'minute')
+    .toDate();
+  const limitStartAfter = dayjs(now)
+    .add(delayMinBefore - delta, 'minute')
+    .toDate();
 
   const alertToNotify = await prisma.alert.findMany({
     where: { channelId: managedChannelIds.chaban, startAt: { lte: limitStartBefore, gte: limitStartAfter } },
