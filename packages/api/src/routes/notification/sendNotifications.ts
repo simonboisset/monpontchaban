@@ -1,6 +1,8 @@
 import { Schedule, prisma } from '@lezo-alert/db';
 import { TRPCError } from '@trpc/server';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import { createProcedure } from '../../config/api';
 import { managedChannelIds } from '../../config/managedChannels';
 import { services } from '../../services';
@@ -75,11 +77,13 @@ const getDateFromSchedule = (schedule: Schedule, now: Date) => {
 };
 
 const sendNotificationToChabanSubscribers = async (now: Date) => {
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
   const devices = await prisma.device.findMany({ where: { active: true, userId: null } });
   const tokens = devices.map((d) => d.token);
   const nextScheduleDate = dayjs(now).add(1, 'hour').toDate();
   const delayMinBefore = 60;
-  const delta = 5;
+  const delta = 10;
 
   const limitStartBefore = dayjs(nextScheduleDate)
     .add(delayMinBefore + delta, 'minute')
@@ -98,9 +102,9 @@ const sendNotificationToChabanSubscribers = async (now: Date) => {
       tokens,
       badge: 1,
       title: 'Prochaine levée de pont',
-      message: `Le pont Chaban-Delmas sera fermé de ${dayjs(alert.startAt).format('HH:mm')} à ${dayjs(
-        alert.endAt,
-      ).format('HH:mm')}`,
+      message: `Le pont Chaban-Delmas sera fermé de ${dayjs.tz(alert.startAt, 'Europe/Paris').format('HH:mm')} à ${dayjs
+        .tz(alert.endAt, 'Europe/Paris')
+        .format('HH:mm')}`,
     });
   }
   return alertToNotify.length;

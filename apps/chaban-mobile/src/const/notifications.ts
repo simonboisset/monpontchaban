@@ -3,14 +3,6 @@ import * as Notifications from 'expo-notifications';
 import { BridgeEvent } from '../../app/_layout';
 import { storage } from './storage';
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
-
 const schedulePushNotification = async (start: Date, end: Date) => {
   await Notifications.scheduleNotificationAsync({
     content: {
