@@ -1,4 +1,5 @@
 import { useFonts } from 'expo-font';
+import * as Notifications from 'expo-notifications';
 import { useEffect, useState } from 'react';
 import { useChabanAlerts } from './useChabanAlerts';
 
@@ -12,9 +13,19 @@ export const useRootData = () => {
 
   useEffect(() => {
     if (!isAlertsLoading && fontsLoaded) {
+      clearAllNotifications();
       setIsReady(true);
     }
   }, [isAlertsLoading, fontsLoaded]);
 
   return { isReady };
+};
+
+const clearAllNotifications = async () => {
+  const permissions = await Notifications.getPermissionsAsync();
+  if (permissions.status !== 'granted') {
+    return;
+  }
+  await Notifications.setBadgeCountAsync(0);
+  await Notifications.cancelAllScheduledNotificationsAsync();
 };
