@@ -16,24 +16,24 @@
   },
   "dependencies": {
     "@lezo-alert/db": "1.4.11",
-    "@react-email/components": "^0.0.5",
-    "@trpc/client": "^10.21.1-alpha.2",
-    "@trpc/server": "^10.21.1-alpha.2",
+    "@react-email/components": "^0.0.6",
+    "@trpc/client": "^10.28.0",
+    "@trpc/server": "^10.28.0",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.7",
     "expo-server-sdk": "^3.7.0",
     "jsonwebtoken": "^9.0.0",
     "react": "^18.2.0",
-    "resend": "^0.13.0",
+    "resend": "^0.15.1",
     "superjson": "^1.12.3",
     "zod": "^3.20.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
-    "@types/jsonwebtoken": "^9.0.1",
+    "@types/jsonwebtoken": "^9.0.2",
     "builder": "*",
     "dotenv-cli": "^7.1.0",
-    "eslint": "^8.36.0",
+    "eslint": "^8.41.0",
     "typescript": "^5.0.2"
   }
 }
