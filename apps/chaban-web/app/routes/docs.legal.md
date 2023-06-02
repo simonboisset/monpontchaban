@@ -2,6 +2,10 @@
 
 Dernière mise à jour au 08/04/2023
 
+## Présentation
+
+Ce projet à été développé par un Bordelais pour les bordelais afin de simplifier l'accès aux informations liée au pont chaban delmas. Il est mis à disposition gracieusement par le développeur.
+
 ## Introduction
 
 Conformément aux dispositions des Articles 6-III et 19 de la Loi n°2004-575 du 21 juin 2004 pour la
