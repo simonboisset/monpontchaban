@@ -29,6 +29,8 @@ En règle générale, nous utilisons les Informations pour :
 
 Nous utilisons les Informations sur l'appareil (en particulier votre token de notification push lorsque vous activer les notifications sur mobile) que nous recueillons pour améliorer et optimiser notre Site, par exemple, en générant des analyses sur la façon dont nos visiteurs parcourent et interagissent avec le Site.
 
+Sur le site web nous utilisons [vercel analytics](https://vercel.com/docs/concepts/analytics) pour mesurer l'audience du site. Cet outil n'utilise pas de cookies et anonymise les informations sur l'appareil lors de son traitement.
+
 ## PARTAGE DE VOS INFORMATIONS PERSONNELLES
 
 Nous ne partageons pas vos Informations personnelles avec des tiers.
