@@ -1,6 +1,6 @@
 # Politique de confidentialité
 
-Dernière mise à jour au 16/11/2022
+Dernière mise à jour au 10/07/2023
 
 La présente Politique de confidentialité décrit la façon dont vos informations personnelles sont recueillies, utilisées et partagées lorsque vous vous rendez sur https://pont-chaban-delmas.com (le « Site ») et son aplication mobile android disponnible sur ce [lien](https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban&pli=1) et ios sur ce [lien](https://apps.apple.com/us/app/mon-pont-chaban/id6448217836).
 
@@ -18,6 +18,11 @@ Voici une liste de fichiers témoins que nous utilisons. Nous les avons énumér
 theme, permet de définir la préférence d'affichage light ou dark
 
 Lorsque nous utilisons l'expression « Informations personnelles » dans la présente Politique de confidentialité, nous faisons allusion aux Informations sur l'appareil.
+
+## Lorsque vous souscrivez au notifications sur mobile
+
+En souscrivant aux notifications nous recueillons votre token de notification afin de pouvoir envoyer les notifications par la suite.
+En désactivant la souscription le token supprimé de nos données automatiquement.
 
 ## COMMENT UTILISONS-NOUS VOS INFORMATIONS PERSONNELLES ?
 
