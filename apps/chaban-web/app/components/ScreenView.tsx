@@ -25,7 +25,7 @@ export const ScreenView: React.FC<ScreenViewProps> = ({ datas, toggleTheme, them
           : status === 'WILL_CLOSE'
           ? 'bg-orange dark:bg-orangeDark'
           : 'bg-red dark:bg-redDark',
-        'dark:text-gray-400 text-white w-full flex flex-col pt-2 gap-4 px-4 pb-8 items-end',
+        'dark:text-gray-400 text-white w-full flex flex-col pt-2 gap-4 px-4 pb-8 items-end min-h-screen',
       )}>
       <Header theme={theme} toggleTheme={toggleTheme} />
       <div

@@ -8,8 +8,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "yarn with-env builder && tsc",
-    "build:dev": "yarn with-env builder --dev && tsc",
+    "build": "builder && tsc",
+    "build:dev": "builder --dev && tsc",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .turbo node_modules",

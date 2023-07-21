@@ -1,10 +1,9 @@
 import dayjs from 'dayjs';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { api, getBridgeEvents } from './api';
 import { fakeResponse } from './fakeResponse';
 import { fakeResult } from './fakeResults';
 
-vi.mock('node-fetch', () => Promise.resolve(new Response(JSON.stringify(fakeResponse))));
 describe('Api', () => {
   test('Should map data to BridgeEvents', () => {
     const data = getBridgeEvents(fakeResponse.records);

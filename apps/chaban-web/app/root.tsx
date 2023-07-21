@@ -1,7 +1,7 @@
 import { LoaderArgs } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, V2_MetaFunction } from '@remix-run/react';
-import { Analytics } from '@vercel/analytics/react';
 import styles from '~/styles/root.css';
+import { remixEnv } from './domain/api.server';
 import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
 import cookie from './hooks/cookie';
 import { useDarkMode } from './hooks/useDarkMode';
@@ -38,6 +38,8 @@ export function links() {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
+  console.log(remixEnv.CHABAN_CHANNEL_ID);
+
   return {
     ENV: {},
     data: cookie.node.get(request.headers.get('Cookie'), 'theme') || ('light' as 'light' | 'dark'),
@@ -55,7 +57,6 @@ export default function App() {
         <Links />
       </head>
       <body className={theme}>
-        <Analytics />
         <Outlet context={{ toggleTheme: toggle, theme }} />
         <ScrollRestoration />
         <Scripts />

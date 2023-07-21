@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "build": "yarn with-env builder --env && tsc",
-    "build:dev": "yarn with-env builder --dev --env && tsc",
+    "build": "builder --env && tsc",
+    "build:dev": "builder --dev --env && tsc",
     "lint": "eslint .",
     "with-env": "dotenv -e ../../.env --",
     "type-check": "tsc --noEmit"
