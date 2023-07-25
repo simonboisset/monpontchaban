@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn db:generate && turbo build --filter @lezo-alert/chaban-web",
+    "build": "turbo build --filter @lezo-alert/chaban-web",
     "clean": "rm -rf node_modules && turbo clean",
     "db:generate": "turbo db:generate",
     "db:push": "turbo db:push --filter @lezo-alert/db",

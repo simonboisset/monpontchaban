@@ -30,7 +30,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@prisma/client": "^4.14.1"
+    "@prisma/client": "^5.0.0"
   },
   "prisma": {
     "seed": "ts-node ./prisma/seed.ts"
