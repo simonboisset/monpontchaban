@@ -11,7 +11,9 @@ import {
   useLocation,
   useParams,
 } from '@remix-run/react';
+import { useEffect } from 'react';
 import styles from '~/styles/root.css';
+import { init, trackEvent } from './aptabase';
 import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
 import cookie from './hooks/cookie';
 import { useDarkMode } from './hooks/useDarkMode';
@@ -63,24 +65,24 @@ export default function App() {
   const { pathname } = useLocation();
   const urlParams = useParams();
 
-  // useEffect(() => {
-  //   init('A-EU-5247288806', { appVersion: ENV.VERSION });
-  // }, []);
+  useEffect(() => {
+    init('A-EU-5247288806', { appVersion: ENV.VERSION });
+  }, []);
 
-  // useEffect(() => {
-  //   const pathWithAnonymousParams = pathname
-  //     .split('/')
-  //     .map((part) => {
-  //       for (const key in urlParams) {
-  //         if (part === urlParams[key]) {
-  //           return `:${key}`;
-  //         }
-  //       }
-  //       return part;
-  //     })
-  //     .join('/');
-  //   trackEvent(`/web${pathWithAnonymousParams}`);
-  // }, [pathname]);
+  useEffect(() => {
+    const pathWithAnonymousParams = pathname
+      .split('/')
+      .map((part) => {
+        for (const key in urlParams) {
+          if (part === urlParams[key]) {
+            return `:${key}`;
+          }
+        }
+        return part;
+      })
+      .join('/');
+    trackEvent(`/web${pathWithAnonymousParams}`);
+  }, [pathname]);
 
   return (
     <html lang='en'>
