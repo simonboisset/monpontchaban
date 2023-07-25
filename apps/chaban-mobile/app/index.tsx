@@ -1,4 +1,4 @@
-import { trackEvent } from '@aptabase/react-native';
+import { init, trackEvent } from '@aptabase/react-native';
 import { Status, fr, isNextWeek, isThisWeek, isToday, isTomorrow, useCurrentStatus } from '@lezo-alert/chaban-core';
 import { Alert } from '@lezo-alert/sdk';
 import dayjs from 'dayjs';
@@ -21,6 +21,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BridgeEventItem } from '../src/components/BridgeEventItem';
 import { BridgeStatus } from '../src/components/BridgeStatus';
 import SettingsIcon from '../src/components/SettingsIcon';
+import { env } from '../src/const/env';
 import { Theme, theme } from '../src/const/theme';
 import { useChabanAlerts } from '../src/services/useChabanAlerts';
 
@@ -81,6 +82,7 @@ export default function ScreenView() {
     alerts?.filter(({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && !isThisWeek(endAt) && !isNextWeek(endAt)) ||
     [];
   useEffect(() => {
+    init('A-EU-5247288806', { appVersion: env.APP_VERSION });
     trackEvent('/mobile');
   }, []);
   return (

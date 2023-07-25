@@ -1,8 +1,7 @@
-import { trackEvent } from '@aptabase/react-native';
 import { Status, useCurrentStatus } from '@lezo-alert/chaban-core';
 import * as MailComposer from 'expo-mail-composer';
 import { Link, Stack } from 'expo-router';
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -54,7 +53,7 @@ export default function Settings() {
   const dark = colorScheme === 'dark';
   const { alerts } = useChabanAlerts();
   const nextAlert = alerts?.[0];
-  const { isSubscribed } = useIsSubscribeWithoutAuth();
+  const { isSubscribed, isSubscribedLoading } = useIsSubscribeWithoutAuth();
   const { toggleSubscribeWithoutAuth, isToggleLoading } = useToggleSubscribeWithoutAuth();
   const status = useCurrentStatus(alerts?.[0]?.startAt, alerts?.[0]?.endAt);
   const styles = useStyles(nextAlert);
@@ -83,10 +82,6 @@ export default function Settings() {
       body: 'Bonjour, je souhaite vous faire part de ',
     });
   };
-
-  useEffect(() => {
-    trackEvent('/mobile/settings');
-  }, []);
 
   return (
     <ScreenContainer dark={dark} color={colorPicker[status]}>
@@ -127,7 +122,15 @@ export default function Settings() {
             dark={dark}
             label={isSubscribed ? 'Désactiver' : 'Activer'}
             loading={isToggleLoading}
-            icon={isSubscribed ? <Notification dark={dark} /> : <NotificationOFF dark={dark} />}
+            icon={
+              isSubscribedLoading ? (
+                <ActivityIndicator color='white' />
+              ) : isSubscribed ? (
+                <Notification dark={dark} />
+              ) : (
+                <NotificationOFF dark={dark} />
+              )
+            }
           />
         </SettingItem>
         <SettingItem

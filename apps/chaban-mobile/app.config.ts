@@ -79,6 +79,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     eas: {
       projectId: 'f4033f91-933d-4f91-ae6d-6f8483abf08e',
     },
+    APP_VERSION: packages.version,
     API_URL: process.env.API_URL || 'https://pont-chaban-delmas.com',
     CHABAN_CHANNEL_ID: process.env.CHABAN_CHANNEL_ID || 'clgr8of2y00007pu2ujz1enkf',
   },
