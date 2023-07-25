@@ -1,6 +1,6 @@
 {
   "name": "lezo-alert",
-  "version": "1.4.11",
+  "version": "1.4.13",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -29,6 +29,7 @@
     "check-deps": "manypkg check",
     "up": "yarn upgrade-interactive --latest",
     "postinstall": "turbo run build --filter=@lezo-alert/sdk --filter=@lezo-alert/chaban-core ",
+    "patch": "turboversion lezo-alert patch",
     "test": "vitest"
   },
   "devDependencies": {

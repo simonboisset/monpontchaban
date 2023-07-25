@@ -8,6 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
   V2_MetaFunction,
+  useLoaderData,
   useLocation,
   useParams,
 } from '@remix-run/react';
@@ -49,19 +50,23 @@ export function links() {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
+  const packages = require('../package.json');
   return {
-    ENV: {},
+    ENV: {
+      VERSION: packages.version,
+    },
     data: cookie.node.get(request.headers.get('Cookie'), 'theme') || ('light' as 'light' | 'dark'),
   } as { ENV: Record<string, string>; data: 'light' | 'dark' };
 };
 export type RootLoaderData = ReturnType<typeof loader>;
 export default function App() {
+  const ENV = useLoaderData<RootLoaderData>().ENV;
   const { theme, toggle } = useDarkMode();
   const { pathname } = useLocation();
   const urlParams = useParams();
 
   useEffect(() => {
-    init('A-EU-5247288806');
+    init('A-EU-5247288806', { appVersion: ENV.VERSION });
   }, []);
 
   useEffect(() => {
