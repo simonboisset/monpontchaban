@@ -1,6 +1,16 @@
-import { init } from '@aptabase/web';
+import { init, trackEvent } from '@aptabase/web';
 import { LoaderArgs } from '@remix-run/node';
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, V2_MetaFunction } from '@remix-run/react';
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  V2_MetaFunction,
+  useLocation,
+  useParams,
+} from '@remix-run/react';
 import { useEffect } from 'react';
 import styles from '~/styles/root.css';
 import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
@@ -47,10 +57,27 @@ export const loader = async ({ request }: LoaderArgs) => {
 export type RootLoaderData = ReturnType<typeof loader>;
 export default function App() {
   const { theme, toggle } = useDarkMode();
+  const { pathname } = useLocation();
+  const urlParams = useParams();
 
   useEffect(() => {
     init('A-EU-5247288806');
   }, []);
+
+  useEffect(() => {
+    const pathWithAnonymousParams = pathname
+      .split('/')
+      .map((part) => {
+        for (const key in urlParams) {
+          if (part === urlParams[key]) {
+            return `:${key}`;
+          }
+        }
+        return part;
+      })
+      .join('/');
+    trackEvent(`/web${pathWithAnonymousParams}`);
+  }, [pathname]);
 
   return (
     <html lang='en'>

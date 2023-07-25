@@ -21,6 +21,7 @@ export const unstable_settings = {
 
 export default function Layout() {
   const [error, setError] = useState<string>();
+
   return (
     <ErrorContext.Provider value={{ error, setError }}>
       <PushTokenProvider>

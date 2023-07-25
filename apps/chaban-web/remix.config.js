@@ -1,7 +1,7 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   ignoredRouteFiles: ['**/.*'],
-  serverDependenciesToBundle: ['@lezo-alert/chaban-core', '@lezo-alert/db', '@lezo-alert/api'],
+  serverDependenciesToBundle: ['@lezo-alert/chaban-core', '@lezo-alert/db', '@lezo-alert/api', '@aptabase/web'],
   tailwind: true,
   future: {
     v2_dev: true,

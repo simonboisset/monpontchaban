@@ -1,8 +1,9 @@
+import { trackEvent } from '@aptabase/react-native';
 import { Status, fr, isNextWeek, isThisWeek, isToday, isTomorrow, useCurrentStatus } from '@lezo-alert/chaban-core';
 import { Alert } from '@lezo-alert/sdk';
 import dayjs from 'dayjs';
 import { Link, Stack } from 'expo-router';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -79,7 +80,9 @@ export default function ScreenView() {
   const laterEvents =
     alerts?.filter(({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && !isThisWeek(endAt) && !isNextWeek(endAt)) ||
     [];
-
+  useEffect(() => {
+    trackEvent('/mobile');
+  }, []);
   return (
     <View style={styles.container}>
       <Stack.Screen
