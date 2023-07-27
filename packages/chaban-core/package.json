@@ -15,10 +15,10 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/react": "^18.2.7",
-    "@types/react-dom": "^18.2.4",
+    "@types/react": "^18.2.17",
+    "@types/react-dom": "^18.2.7",
     "builder": "*",
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.6"
   },
   "peerDependencies": {
     "react": ">=16",

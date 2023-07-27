@@ -16,19 +16,21 @@
   },
   "devDependencies": {
     "@lezo-alert/api": "1.5.0",
-    "@types/react": "^18.2.7",
-    "@types/react-dom": "^18.2.4",
+    "@types/react": "^18.2.17",
+    "@types/react-dom": "^18.2.7",
     "builder": "*",
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@tanstack/query-async-storage-persister": "^4.29.11",
-    "@tanstack/react-query": "^4.29.11",
-    "@tanstack/react-query-persist-client": "^4.29.11",
+    "@tanstack/query-async-storage-persister": "^4.32.0",
+    "@tanstack/react-query": "^4.32.0",
+    "@tanstack/react-query-persist-client": "^4.32.0",
     "@trpc/react": "^9.27.4",
-    "@trpc/react-query": "^10.28.0",
+    "@trpc/react-query": "^10.35.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-query": "^3.39.3",
-    "superjson": "^1.12.3"
+    "superjson": "^1.13.1"
   },
   "peerDependencies": {
     "react": ">=16",

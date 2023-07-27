@@ -11,6 +11,7 @@ import {
   useLocation,
   useParams,
 } from '@remix-run/react';
+import { useAnalytics } from '@scalescope/react';
 import { useEffect } from 'react';
 import styles from '~/styles/root.css';
 import { init, trackEvent } from './aptabase';
@@ -83,6 +84,19 @@ export default function App() {
       .join('/');
     trackEvent(`/web${pathWithAnonymousParams}`);
   }, [pathname]);
+
+  const { log, perf } = useAnalytics({
+    host: 'https://api.tinybird.co',
+    token:
+      'p.eyJ1IjogIjlmM2I1ZTJkLTcwNWYtNDlhOS1iMDY3LTNjN2VkNmEyNTBkNyIsICJpZCI6ICI4MmZmNGVlYy1hNTdhLTQwZTAtOTU0Yy1lYzk0Y2UzNzMwZjAifQ.SI7i3KOF-8SFKI1vgFGiIKtm8Brk4wpEUU83Tj8vrAw',
+    analyticsUrl: '/v0/events?name=analitics',
+    clientSessionUrl: '/v0/events?name=clientSession',
+    logUrl: '/v0/events?name=log',
+    performanceUrl: '/v0/events?name=performance',
+    appName: 'chaban-web',
+    appVersion: ENV.VERSION,
+    env: process.env.NODE_ENV,
+  });
 
   return (
     <html lang='en'>

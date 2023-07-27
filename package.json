@@ -27,16 +27,16 @@
     "stop": "turbo run stop --filter @lezo-alert/infra",
     "docker": "turbo run docker --filter @lezo-alert/infra",
     "check-deps": "manypkg check",
-    "up": "yarn upgrade-interactive --latest",
+    "up": " yarn upgrade-interactive -W --latest",
     "postinstall": "turbo run build --filter=@lezo-alert/sdk --filter=@lezo-alert/chaban-core ",
     "patch": "turboversion lezo-alert patch",
     "test": "vitest"
   },
   "devDependencies": {
-    "prettier": "^2.8.8",
-    "turbo": "^1.9.9",
+    "prettier": "^3.0.0",
+    "turbo": "^1.10.12",
     "turboversion": "^1.1.0",
-    "vitest": "^0.31.1"
+    "vitest": "^0.33.0"
   },
   "packageManager": "yarn@1.22.5"
 }

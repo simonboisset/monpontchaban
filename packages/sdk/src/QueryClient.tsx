@@ -16,7 +16,7 @@ export const lezoAlertQueryClient = new QueryClient({
 });
 
 type QueryProviderProp = {
-  children?: ReactNode;
+  children: ReactNode;
   client: SdkClient;
   persister?: Persister;
 };
@@ -25,14 +25,14 @@ export const LezoAlertSdkProvider = ({ children, client, persister }: QueryProvi
   if (!persister) {
     return (
       <lezoAlertApi.Provider client={client} queryClient={lezoAlertQueryClient}>
-        <QueryClientProvider client={lezoAlertQueryClient}>{children}</QueryClientProvider>
+        <QueryClientProvider client={lezoAlertQueryClient}><>{children}</></QueryClientProvider>
       </lezoAlertApi.Provider>
     );
   }
   return (
     <lezoAlertApi.Provider client={client} queryClient={lezoAlertQueryClient}>
       <PersistQueryClientProvider client={lezoAlertQueryClient} persistOptions={{ persister }}>
-        {children}
+      <>{children}</>
       </PersistQueryClientProvider>
     </lezoAlertApi.Provider>
   );

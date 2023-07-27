@@ -19,21 +19,22 @@
     "@remix-run/node": "^1.19.1",
     "@remix-run/react": "^1.19.1",
     "@remix-run/serve": "^1.19.1",
+    "@scalescope/react": "^0.1.4",
     "dayjs": "^1.11.9",
     "expo-server-sdk": "^3.7.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.16.1",
-    "@remix-run/eslint-config": "^1.16.1",
+    "@remix-run/dev": "^1.19.1",
+    "@remix-run/eslint-config": "^1.19.1",
     "@tailwindcss/typography": "^0.5.9",
-    "@types/react": "^18.2.7",
-    "@types/react-dom": "^18.2.4",
-    "dotenv": "^16.0.3",
+    "@types/react": "^18.2.17",
+    "@types/react-dom": "^18.2.7",
+    "dotenv": "^16.3.1",
     "dotenv-cli": "^7.1.0",
-    "eslint": "^8.41.0",
-    "tailwindcss": "^3.3.2",
-    "typescript": "^5.0.4"
+    "eslint": "^8.45.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.1.6"
   }
 }
