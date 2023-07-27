@@ -88,8 +88,8 @@ export default function App() {
   const { log, perf } = useAnalytics({
     host: 'https://api.tinybird.co',
     token:
-      'p.eyJ1IjogIjlmM2I1ZTJkLTcwNWYtNDlhOS1iMDY3LTNjN2VkNmEyNTBkNyIsICJpZCI6ICI4MmZmNGVlYy1hNTdhLTQwZTAtOTU0Yy1lYzk0Y2UzNzMwZjAifQ.SI7i3KOF-8SFKI1vgFGiIKtm8Brk4wpEUU83Tj8vrAw',
-    analyticsUrl: '/v0/events?name=analitics',
+      'p.eyJ1IjogIjJiYTM4MWY1LTBjYmYtNDhiNy04MzMwLTYyMjg5OTA4ZGJmNyIsICJpZCI6ICJlNWJkYjc0My04OWRlLTQyMmQtOWJmYy0zMTVkMjEyMjRhNjYifQ.8QtxPpMnZi8Tv1Q1iLj6lshwNfwg3uglRk7S-6oVKac',
+    analyticsUrl: '/v0/events?name=analytics',
     clientSessionUrl: '/v0/events?name=clientSession',
     logUrl: '/v0/events?name=log',
     performanceUrl: '/v0/events?name=performance',
