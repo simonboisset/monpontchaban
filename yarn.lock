@@ -4545,10 +4545,24 @@
   dependencies:
     "@scalescope/common" "0.1.4"
 
+"@scalescope/client@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@scalescope/client/-/client-0.2.1.tgz#9d05eb31028df1f2c753a153411ed6734383c768"
+  integrity sha512-bacsMxpWjVxv7cij41sbg6MOu8JFHsI/d12411om2D6T6OvNlv2U7RuDdkoMvrwPGOII70F5L26gCoVUuRLQZA==
+  dependencies:
+    "@scalescope/common" "0.2.1"
+
 "@scalescope/common@0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@scalescope/common/-/common-0.1.4.tgz#29482f76b38b1c1b35f6b71a557d427239d20900"
   integrity sha512-Xo3LqDijaB1PUF4KYQJxF2yxn+gUcsCXXq6042plrGOJV/zQmXl9Lbgk9rF2AC/n/diTmEugq2JzdlbGqrYxww==
+  dependencies:
+    zod "^3.21.4"
+
+"@scalescope/common@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@scalescope/common/-/common-0.2.1.tgz#cfc17546914a6c34f47af649a80e4ff344b59283"
+  integrity sha512-/1ALvc+bL2mnZ92D6sXx7cdDdEpsUmn3J5EuesQKUDjpxukNAfXp1sN8zXeCT35cBWh+F+tF20i0ztSJ+CooAA==
   dependencies:
     zod "^3.21.4"
 
@@ -4559,12 +4573,12 @@
   dependencies:
     "@scalescope/client" "0.1.4"
 
-"@scalescope/react@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@scalescope/react/-/react-0.1.4.tgz#88c9a51e9af6649e7f4009b1c6e50d07d07c0642"
-  integrity sha512-AKl3Nb8KLxVUBArjlgOI4GfB2vOghQmibML4K7iY1cukPFnnwSEjDwCCk6Re84qrObREc2pJAhYlkqQZWD6gRg==
+"@scalescope/react@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@scalescope/react/-/react-0.2.1.tgz#71239c8ad56ce1102923ea611bfff86ea94b282f"
+  integrity sha512-+IURxYo5uBcHKR5P5qLNkQ4Fe9YSQ0BmSLeghFgr6xlw6fg06BVbm8Ro6+Z0/YHmmALI63kq2u3YaDbJ/chqLg==
   dependencies:
-    "@scalescope/client" "0.1.4"
+    "@scalescope/client" "0.2.1"
 
 "@segment/loosely-validate-event@^2.0.0":
   version "2.0.0"

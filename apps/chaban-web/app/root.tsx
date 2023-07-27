@@ -11,7 +11,7 @@ import {
   useLocation,
   useParams,
 } from '@remix-run/react';
-import { useAnalytics } from '@scalescope/react';
+import { ScalescopeProvider } from '@scalescope/react';
 import { useEffect } from 'react';
 import styles from '~/styles/root.css';
 import { init, trackEvent } from './aptabase';
@@ -85,21 +85,8 @@ export default function App() {
     trackEvent(`/web${pathWithAnonymousParams}`);
   }, [pathname]);
 
-  const { log, perf } = useAnalytics({
-    host: 'https://api.tinybird.co',
-    token:
-      'p.eyJ1IjogIjlmM2I1ZTJkLTcwNWYtNDlhOS1iMDY3LTNjN2VkNmEyNTBkNyIsICJpZCI6ICI3ZGEwMmI4Mi0yZmE1LTRkZjUtOTFhYS1jMTJkM2UwYmNkMjEifQ.aank4zqkgk8mIRf8z_Xg472vB9r4FtA8-EwjajKsWBs',
-    analyticsUrl: '/v0/events?name=analytics',
-    clientSessionUrl: '/v0/events?name=clientSession',
-    logUrl: '/v0/events?name=log',
-    performanceUrl: '/v0/events?name=performance',
-    appName: 'chaban-web',
-    appVersion: ENV.VERSION,
-    env: process.env.NODE_ENV,
-  });
-
   return (
-    <html lang='en'>
+    <html lang='fr'>
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
@@ -107,7 +94,21 @@ export default function App() {
         <Links />
       </head>
       <body className={theme}>
-        <Outlet context={{ toggleTheme: toggle, theme }} />
+        <ScalescopeProvider
+          config={{
+            host: 'https://api.tinybird.co',
+            token:
+              'p.eyJ1IjogIjlmM2I1ZTJkLTcwNWYtNDlhOS1iMDY3LTNjN2VkNmEyNTBkNyIsICJpZCI6ICI3ZGEwMmI4Mi0yZmE1LTRkZjUtOTFhYS1jMTJkM2UwYmNkMjEifQ.aank4zqkgk8mIRf8z_Xg472vB9r4FtA8-EwjajKsWBs',
+            analyticsUrl: '/v0/events?name=analytics',
+            clientSessionUrl: '/v0/events?name=clientSession',
+            logUrl: '/v0/events?name=log',
+            performanceUrl: '/v0/events?name=performance',
+            appName: 'chaban-web',
+            appVersion: ENV.VERSION,
+            env: process.env.NODE_ENV || 'unknown',
+          }}>
+          <Outlet context={{ toggleTheme: toggle, theme }} />
+        </ScalescopeProvider>
         <ScrollRestoration />
         <Scripts />
         {isDevelopmentMode() && <LiveReload />}
