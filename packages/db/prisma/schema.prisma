@@ -111,3 +111,101 @@ model Channel {
   alerts        Alert[]
   subscriptions NotificationRule[]
 }
+
+model ClientSession {
+  id String @id @default(cuid())
+
+  appName    String
+  appVersion String @default("0.0.0")
+
+  origin   String
+  width    Int    @default(0)
+  height   Int    @default(0)
+  size     String @default("none")
+  language String @default("none")
+  os       String @default("OTHER")
+  browser  String @default("OTHER")
+
+  createdAt DateTime @default(now())
+
+  analytics    Analytics[]
+  logs         Log[]
+  performances Performance[]
+}
+
+model Analytics {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  appName    String
+  appVersion String @default("0.0.0")
+
+  origin   String
+  width    Int    @default(0)
+  height   Int    @default(0)
+  size     String @default("none")
+  language String @default("none")
+  os       String @default("OTHER")
+  browser  String @default("OTHER")
+
+  path     String?
+  referrer String?
+
+  clientSession   ClientSession @relation(fields: [clientSessionId], references: [id])
+  clientSessionId String
+}
+
+model Log {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  level     String
+  message   String
+
+  appName    String
+  appVersion String @default("0.0.0")
+
+  serverSession   ServerSession? @relation(fields: [serverSessionId], references: [id])
+  serverSessionId String?
+
+  clientSession   ClientSession? @relation(fields: [clientSessionId], references: [id])
+  clientSessionId String?
+}
+
+model Monitor {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  cpu        Float
+  memory     Float
+  disk       Float
+  uptime     Float
+  appName    String
+  appVersion String   @default("0.0.0")
+
+  serverSession   ServerSession @relation(fields: [serverSessionId], references: [id])
+  serverSessionId String
+}
+
+model Performance {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  duration   Float
+  name       String
+  appName    String
+  appVersion String   @default("0.0.0")
+
+  serverSession   ServerSession? @relation(fields: [serverSessionId], references: [id])
+  serverSessionId String?
+  clientSession   ClientSession? @relation(fields: [clientSessionId], references: [id])
+  clientSessionId String?
+}
+
+model ServerSession {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  appName    String
+  appVersion String   @default("0.0.0")
+
+  logs         Log[]
+  monitors     Monitor[]
+  performances Performance[]
+}

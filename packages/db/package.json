@@ -2,17 +2,9 @@
   "name": "@lezo-alert/db",
   "version": "1.5.0",
   "private": true,
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "./index.ts",
+  "types": "./index.ts",
   "scripts": {
-    "build": "builder && tsc",
-    "build:dev": "builder --dev && tsc",
-    "lint": "eslint .",
-    "type-check": "tsc --noEmit",
-    "clean": "rm -rf .turbo node_modules",
     "db:generate": "yarn with-env prisma generate",
     "db:push": "yarn with-env prisma db push --skip-generate",
     "db:dev": "yarn with-env prisma migrate dev",
@@ -23,7 +15,6 @@
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
-    "builder": "*",
     "dotenv-cli": "^7.1.0",
     "prisma": "^5.0.0",
     "ts-node": "^10.9.1",

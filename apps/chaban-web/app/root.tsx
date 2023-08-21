@@ -96,16 +96,10 @@ export default function App() {
       <body className={theme}>
         <ScalescopeProvider
           config={{
-            host: 'https://api.tinybird.co',
-            token:
-              'p.eyJ1IjogIjlmM2I1ZTJkLTcwNWYtNDlhOS1iMDY3LTNjN2VkNmEyNTBkNyIsICJpZCI6ICI3ZGEwMmI4Mi0yZmE1LTRkZjUtOTFhYS1jMTJkM2UwYmNkMjEifQ.aank4zqkgk8mIRf8z_Xg472vB9r4FtA8-EwjajKsWBs',
-            analyticsUrl: '/v0/events?name=analytics',
-            clientSessionUrl: '/v0/events?name=clientSession',
-            logUrl: '/v0/events?name=log',
-            performanceUrl: '/v0/events?name=performance',
+            url: '/scalescope',
+            apiKey: 'fNrsYnoqDBBkBPhRp7RYu605bFiG8kMF',
             appName: 'chaban-web',
             appVersion: ENV.VERSION,
-            env: process.env.NODE_ENV || 'unknown',
           }}>
           <Outlet context={{ toggleTheme: toggle, theme }} />
         </ScalescopeProvider>

@@ -2,23 +2,14 @@
   "name": "@lezo-alert/sdk",
   "version": "1.5.0",
   "private": true,
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "clean": "rm -rf .turbo node_modules",
-    "build": "builder && tsc",
-    "build:dev": "builder --dev && tsc",
-    "lint": "eslint .",
-    "type-check": "tsc --noEmit"
-  },
+  "main": "./index.ts",
+  "types": "./index.ts",
   "devDependencies": {
     "@lezo-alert/api": "1.5.0",
     "@types/react": "^18.2.17",
     "@types/react-dom": "^18.2.7",
-    "builder": "*",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "typescript": "^5.1.6"
   },
   "dependencies": {
@@ -27,8 +18,6 @@
     "@tanstack/react-query-persist-client": "^4.32.0",
     "@trpc/react": "^9.27.4",
     "@trpc/react-query": "^10.35.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "react-query": "^3.39.3",
     "superjson": "^1.13.1"
   },

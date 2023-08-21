@@ -1,19 +1,8 @@
 {
   "name": "@lezo-alert/api",
   "version": "1.5.0",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "clean": "rm -rf .turbo node_modules",
-    "build": "builder --env && tsc",
-    "build:dev": "builder --dev --env && tsc",
-    "lint": "eslint .",
-    "with-env": "dotenv -e ../../.env --",
-    "type-check": "tsc --noEmit"
-  },
+  "main": "./index.ts",
+  "types": "./index.ts",
   "dependencies": {
     "@lezo-alert/db": "1.5.0",
     "@react-email/components": "^0.0.7",
@@ -31,7 +20,6 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^9.0.2",
-    "builder": "*",
     "dotenv-cli": "^7.1.0",
     "eslint": "^8.45.0",
     "typescript": "^5.1.6"
