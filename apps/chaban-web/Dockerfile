@@ -27,8 +27,7 @@ ENV NODE_ENV=production
 ENV PORT=8080
 COPY --from=installer /app/node_modules ./node_modules
 COPY --from=installer /app/apps/chaban-web/package.json .
-COPY --from=installer /app/apps/chaban-web/server.js .
 COPY --from=installer /app/apps/chaban-web/build ./build
 COPY --from=installer /app/apps/chaban-web/public ./public
 
-CMD ["node", "server.js"]
+CMD ["yarn", "remix-serve", "build"]
