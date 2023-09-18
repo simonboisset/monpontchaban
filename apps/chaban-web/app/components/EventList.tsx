@@ -7,7 +7,7 @@ export const EventList = ({ events, title }: EventListProps) => {
   return events.length ? (
     <div className='flex flex-col gap-2 z-20 mt-16'>
       <h2 className='text-2xl font-bold pl-4 text-center mb-8'>{title}</h2>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2'>
+      <div className='flex flex-row flex-wrap gap-2'>
         {events.map((data) => (
           <BridgeEventItem key={data.id} {...data} />
         ))}
