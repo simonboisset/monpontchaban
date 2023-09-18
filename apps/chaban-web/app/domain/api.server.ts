@@ -1,8 +1,6 @@
 import { ApiContext, apiContextMiddleware, apiRouter, env, services } from '@lezo-alert/api';
-import { prisma } from '@lezo-alert/db';
 import { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { FetchCreateContextFnOptions, fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import { fetchRequestHandler as scalescopeHandler, scalescopeRouter } from 'scalescope';
 import { sessionService } from './session.server';
 export const remixServices = services;
 
@@ -34,16 +32,5 @@ export const handleRequest = async (args: LoaderArgs | ActionArgs) => {
     req: args.request,
     router: apiRouter,
     createContext: createFetcherContext,
-  });
-};
-
-export const handleRequestScalescope = async (args: LoaderArgs | ActionArgs) => {
-  return scalescopeHandler({
-    endpoint: '/scalescope',
-    req: args.request,
-    router: scalescopeRouter,
-    createContext: () => {
-      return { db: prisma, writeKey: 'fNrsYnoqDBBkBPhRp7RYu605bFiG8kMF', readKey: 'qke1E3UFBkHz4dmK7WNbZ91LAPSexbOm' };
-    },
   });
 };

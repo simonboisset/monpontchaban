@@ -1,8 +1,8 @@
 import { fr } from '@lezo-alert/chaban-core';
 import type { Alert } from '@lezo-alert/db';
 import dayjs from 'dayjs';
-import isToday from 'dayjs/plugin/isToday';
-import isTomorrow from 'dayjs/plugin/isTomorrow';
+import isToday from 'dayjs/plugin/isToday.js';
+import isTomorrow from 'dayjs/plugin/isTomorrow.js';
 import React from 'react';
 import { ClosedLogo } from './ClosedLogo';
 import { OpenedLogo } from './OpenedLogo';

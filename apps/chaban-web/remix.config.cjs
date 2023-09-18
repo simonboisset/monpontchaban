@@ -4,5 +4,4 @@ module.exports = {
   serverDependenciesToBundle: ['@lezo-alert/chaban-core', '@lezo-alert/db', '@lezo-alert/api'],
   tailwind: true,
   postcss: true,
-  serverModuleFormat: 'cjs',
 };

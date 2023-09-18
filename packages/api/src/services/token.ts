@@ -1,4 +1,4 @@
-import { sign, verify } from 'jsonwebtoken';
+import * as jsonwebtoken from 'jsonwebtoken';
 import { ZodType, z } from 'zod';
 import { env } from '../config/env';
 
@@ -9,17 +9,17 @@ const tokenFactory = <I extends Object, O extends Object>(
 ) => ({
   create: (params: I) => {
     const paramsValidated = schema.parse(params);
-    const token = sign(paramsValidated, secret);
+    const token = jsonwebtoken.sign(paramsValidated, secret);
     return token;
   },
   verify: (token: string) => {
-    const decoded = verify(token, secret);
+    const decoded = jsonwebtoken.verify(token, secret);
     const validated = schema.parse(decoded);
     return validated;
   },
   safeVerify: (token: string) => {
     try {
-      const decoded = verify(token, secret);
+      const decoded = jsonwebtoken.verify(token, secret);
       const validated = schema.parse(decoded);
       return validated;
     } catch (e) {

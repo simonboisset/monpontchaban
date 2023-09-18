@@ -1,8 +1,8 @@
 import { Schedule, prisma } from '@lezo-alert/db';
 import { TRPCError } from '@trpc/server';
 import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
 import { createProcedure } from '../../config/api';
 import { managedChannelIds } from '../../config/managedChannels';
 import { services } from '../../services';
