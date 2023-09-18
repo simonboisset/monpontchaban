@@ -24,4 +24,5 @@ export const expressMiddleware = trpcExpress.createExpressMiddleware({
   createContext,
 });
 
-export { ApiContext, apiContextMiddleware };
+export { apiContextMiddleware };
+export type { ApiContext };

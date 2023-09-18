@@ -1,7 +1,6 @@
 {
   "name": "@lezo-alert/chaban-web",
   "private": true,
-  "type": "module",
   "sideEffects": false,
   "version": "1.5.0",
   "scripts": {
