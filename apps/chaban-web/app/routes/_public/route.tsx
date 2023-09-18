@@ -83,6 +83,9 @@ export default function PublicPage() {
                 to='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban'>
                 Application Android
               </Link>
+              <Link className='text-sm' to='https://sedeplacer.bordeaux-metropole.fr/fermeture-pont-chaban-delmas'>
+                Site officiel de Bordeaux Métropole
+              </Link>
             </div>
           </div>
         </div>
