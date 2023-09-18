@@ -1,56 +1,36 @@
-import { fr, Timer, useCurrentStatus } from '@lezo-alert/chaban-core';
-import type { Alert } from '@lezo-alert/db';
-import React from 'react';
+import { Timer, fr } from '@lezo-alert/chaban-core';
+import { useRoot } from '~/domain/theme';
 import { ClosedLogo } from './ClosedLogo';
 import { OpenedLogo } from './OpenedLogo';
 
-type BridgeStatusProps = Alert;
-
-export const BridgeStatus: React.FC<{ event: BridgeStatusProps }> = ({ event }) => {
-  const status = useCurrentStatus(event?.startAt, event?.endAt);
-
-  switch (status || !event) {
-    case 'OPEN':
-      return (
-        <>
-          <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
-            <OpenedLogo />
-          </div>
-          <div className='mb-20 text-2xl md:text-4xl'>{fr.opened}</div>
-        </>
-      );
-
-    case 'WILL_CLOSE':
-      return (
-        <>
-          <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
-            <OpenedLogo />
-          </div>
-          <div className='text-2xl md:text-4xl'>
-            {fr.closeIn} <Timer date={event.startAt} />
-          </div>
-        </>
-      );
-
-    case 'CLOSED':
-      return (
-        <>
-          <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60 '>
-            <ClosedLogo />
-          </div>
-          <div className='text-2xl md:text-4xl'>
-            {fr.reopenIn} <Timer date={event.endAt} />
-          </div>
-        </>
-      );
-    default:
-      return (
-        <>
-          <div className='mb-8 md:mb-12 md:w-52 w-40 lg:w-60'>
-            <OpenedLogo />
-          </div>
-          <div className='text-2xl md:text-4xl'>{fr.opened}</div>
-        </>
-      );
-  }
+export const BridgeStatus = () => {
+  const { currentStatus, alerts } = useRoot();
+  const nextAlert = alerts[0];
+  return (
+    <section className='flex flex-row relative items-center bg-background/30 rounded-lg shadow-md'>
+      <div className='bg-primary/5 p-4 items-center rounded-md'>
+        {currentStatus === 'CLOSED' ? (
+          <ClosedLogo className='aspect-square w-24' />
+        ) : (
+          <OpenedLogo className='aspect-square w-24' />
+        )}
+      </div>
+      <p className='sm:text-4xl text-2xl font-bold flex-1 absolute top-0 bottom-0 left-32 lg:right-32 right-0 flex flex-col md:flex-row justify-center items-center gap-4'>
+        <span>
+          {currentStatus === 'CLOSED' ? fr.reopenIn : currentStatus === 'WILL_CLOSE' ? fr.closeIn : fr.opened}
+        </span>
+        {currentStatus === 'CLOSED' ? (
+          <span>
+            <Timer date={nextAlert.endAt} />
+          </span>
+        ) : (
+          currentStatus === 'WILL_CLOSE' && (
+            <span>
+              <Timer date={nextAlert.startAt} />
+            </span>
+          )
+        )}
+      </p>
+    </section>
+  );
 };

@@ -10,7 +10,7 @@ const getDiff = (d1: Date | string, d2: Date | string) => {
   const hours = !!h ? `${h}h` : '';
   const minutes = !!m || !!h ? `${m < 10 ? '0' : ''}${m}m` : '';
   const secondes = `${s < 10 ? '0' : ''}${s}s`;
-  return `${hours}${minutes}${secondes}`;
+  return `${hours} ${minutes} ${secondes}`;
 };
 
 type TimerProps = { date?: Date };

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "expo start",
     "apk": "eas build --profile dev --platform android --no-wait --non-interactive",
-    "fix":"npx expo install --fix",
+    "fix": "npx expo install --fix",
     "up": "yarn upgrade-interactive --latest"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "expo-constants": "~14.4.2",
     "expo-device": "^5.4.0",
     "expo-font": "~11.4.0",
+    "expo-insights": "^0.4.0",
     "expo-linking": "~5.0.2",
     "expo-localization": "^14.3.0",
     "expo-mail-composer": "^12.3.0",

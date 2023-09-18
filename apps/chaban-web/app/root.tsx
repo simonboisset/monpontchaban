@@ -1,34 +1,60 @@
+import { useCurrentStatus } from '@lezo-alert/chaban-core';
 import { LoaderArgs } from '@remix-run/node';
 import {
   Links,
   LiveReload,
   Meta,
+  MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
-  V2_MetaFunction,
   useLoaderData,
   useLocation,
   useParams,
 } from '@remix-run/react';
-import { ScalescopeProvider } from '@scalescope/react';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
-import styles from '~/styles/root.css';
+import styles from '~/globals.css';
 import { init, trackEvent } from './aptabase';
+import { remixCaller, remixEnv } from './domain/api.server';
 import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
+import { ThemeProvider } from './domain/theme';
 import cookie from './hooks/cookie';
-import { useDarkMode } from './hooks/useDarkMode';
 
-export const meta: V2_MetaFunction<typeof loader> = () => [
-  { title: 'Pont Chaban-Delmas : horaires, levées et fermetures à venir' },
-  {
-    name: 'description',
-    content: `Découvrez les horaires d'ouverture et de fermeture du pont Chaban-Delmas de Bordeaux, ainsi que les prochaines dates de levées. 
-      Consultez notre page pour savoir si le pont est ouvert ou fermé aujourd'hui.`,
-  },
-  { name: 'viewport', content: 'width=device-width,initial-scale=1' },
-  { charset: 'utf-8' },
-];
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const [firstAlert, secondAlert] = data?.alerts?.map(({ startAt, endAt, channelId, id, title }) => ({
+    channelId,
+    id,
+    title,
+    startAt: new Date(startAt),
+    endAt: new Date(endAt),
+  })) ?? [null, null];
+
+  return [
+    { title: 'Pont Chaban-Delmas : horaires, levées et fermetures à venir' },
+    {
+      name: 'description',
+      content:
+        firstAlert && secondAlert
+          ? `Découvrez les horaires d'ouverture et de fermeture du pont Chaban-Delmas de Bordeaux, ainsi que les prochaines dates de levées. 
+      Consultez notre page pour savoir si le pont est ouvert ou fermé aujourd'hui. 
+      Ne manquez pas les prochaines fermetures, telles que ${firstAlert.title.toLowerCase()} le ${dayjs(
+        firstAlert.startAt,
+      ).format('DD/MM/YYYY')} de ${dayjs(firstAlert.startAt).hour()}h${dayjs(firstAlert.startAt).format(
+        'mm',
+      )} à ${dayjs(firstAlert.endAt).hour()}h${dayjs(firstAlert.endAt).format(
+        'mm',
+      )} et ${secondAlert.title.toLowerCase()} le ${dayjs(firstAlert.startAt).format('DD/MM/YYYY')} de ${dayjs(
+        secondAlert.startAt,
+      ).hour()}h${dayjs(secondAlert.startAt).format('mm')} à ${dayjs(secondAlert.endAt).hour()}h${dayjs(
+        secondAlert.endAt,
+      ).format('mm')}.`
+          : "Découvrez les horaires d'ouverture et de fermeture du pont Chaban-Delmas de Bordeaux, ainsi que les prochaines dates de levées. Consultez notre page pour savoir si le pont est ouvert ou fermé aujourd'hui. Ne manquez pas les prochaines fermetures.",
+    },
+    { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+    { charset: 'utf-8' },
+  ];
+};
 export function links() {
   return [
     {
@@ -50,21 +76,28 @@ export function links() {
   ];
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async (args: LoaderArgs) => {
   const packages = require('../package.json');
+  const caller = await remixCaller(args);
+
+  const alerts = await caller.alert.getAlerts({ channelIds: [remixEnv.CHABAN_CHANNEL_ID], minDate: new Date() });
+
   return {
     ENV: {
       VERSION: packages.version,
     },
-    data: cookie.node.get(request.headers.get('Cookie'), 'theme') || ('light' as 'light' | 'dark'),
-  } as { ENV: Record<string, string>; data: 'light' | 'dark' };
+    data: (cookie.node.get(args.request.headers.get('Cookie'), 'theme') || 'light') as 'light' | 'dark',
+    alerts,
+  };
 };
 export type RootLoaderData = ReturnType<typeof loader>;
 export default function App() {
   const ENV = useLoaderData<RootLoaderData>().ENV;
-  const { theme, toggle } = useDarkMode();
   const { pathname } = useLocation();
   const urlParams = useParams();
+  const { data: themeData, alerts } = useLoaderData<RootLoaderData>();
+  const nextAlert = alerts[0];
+  const status = nextAlert ? useCurrentStatus(new Date(nextAlert.startAt), new Date(nextAlert.endAt)) : 'OPEN';
 
   useEffect(() => {
     init('A-EU-5247288806', { appVersion: ENV.VERSION });
@@ -93,20 +126,15 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className={theme}>
-        <ScalescopeProvider
-          config={{
-            url: '/scalescope',
-            apiKey: 'fNrsYnoqDBBkBPhRp7RYu605bFiG8kMF',
-            appName: 'chaban-web',
-            appVersion: ENV.VERSION,
-          }}>
-          <Outlet context={{ toggleTheme: toggle, theme }} />
-        </ScalescopeProvider>
+      <ThemeProvider
+        defaultTheme={themeData}
+        currentStatus={status}
+        alerts={alerts.map((a) => ({ ...a, startAt: new Date(a.startAt), endAt: new Date(a.endAt) }))}>
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
         {isDevelopmentMode() && <LiveReload />}
-      </body>
+      </ThemeProvider>
     </html>
   );
 }
