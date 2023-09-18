@@ -47,7 +47,7 @@ export default function PublicPage() {
         <Outlet />
       </main>
       <footer className='w-full p-4 mt-12 bg-background/30'>
-        <div className='flex sm:flex-row gap-8 flex-col justify-between items-center w-full max-w-screen-lg mx-auto'>
+        <div className='flex sm:flex-row gap-8 flex-col justify-between items-center sm:items-start w-full max-w-screen-lg mx-auto'>
           <div className='flex flex-col gap-2 flex-1 sm:items-start items-center'>
             <h6 className='text-lg font-bold'>Site</h6>
             <Link to='/' className='text-sm'>
