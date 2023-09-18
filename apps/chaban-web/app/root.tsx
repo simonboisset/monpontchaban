@@ -1,5 +1,5 @@
 import { useCurrentStatus } from '@lezo-alert/chaban-core';
-import { LoaderArgs } from '@remix-run/node';
+import { DataFunctionArgs } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -76,7 +76,7 @@ export function links() {
   ];
 }
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: DataFunctionArgs) => {
   const packages = require('../package.json');
   const caller = await remixCaller(args);
 

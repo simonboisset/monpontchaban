@@ -1,5 +1,5 @@
+import type { Alert } from '@lezo-alert/api';
 import { fr } from '@lezo-alert/chaban-core';
-import type { Alert } from '@lezo-alert/db';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday.js';
 import isTomorrow from 'dayjs/plugin/isTomorrow.js';

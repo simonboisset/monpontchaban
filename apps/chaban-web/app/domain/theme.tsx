@@ -1,4 +1,4 @@
-import { Alert } from '@lezo-alert/db';
+import type { Alert } from '@lezo-alert/api';
 import { createContext, useCallback, useContext, useState } from 'react';
 import cookie from '~/hooks/cookie';
 import { cn } from '~/utils';

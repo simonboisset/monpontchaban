@@ -1,5 +1,5 @@
+import { Alert } from '@lezo-alert/api';
 import { isNextWeek, isThisWeek, isToday, isTomorrow } from '@lezo-alert/chaban-core';
-import { Alert } from '@lezo-alert/db';
 import { BridgeEventItem } from './BridgeEventItem';
 
 type EventListProps = { events: Alert[]; title: string };

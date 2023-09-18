@@ -1,8 +1,8 @@
-import type {LoaderArgs} from '@remix-run/node';
-import {mapFormData} from './mapFormData';
-import {mapObjectToArrayIfKeysAreNumbers} from './mapObjectToArrayIfKeysAreNumbers';
+import type { DataFunctionArgs } from '@remix-run/node';
+import { mapFormData } from './mapFormData';
+import { mapObjectToArrayIfKeysAreNumbers } from './mapObjectToArrayIfKeysAreNumbers';
 
-export const getRequestData = async ({request, params}: LoaderArgs) => {
+export const getRequestData = async ({ request, params }: DataFunctionArgs) => {
   let requestData: any = params;
   try {
     const formData = await request.formData();
@@ -16,7 +16,7 @@ export const getRequestData = async ({request, params}: LoaderArgs) => {
     }
 
     const data = mapObjectToArrayIfKeysAreNumbers(result);
-    requestData = {...requestData, ...result, ...data};
+    requestData = { ...requestData, ...result, ...data };
   } catch (error) {}
 
   return requestData;
