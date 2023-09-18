@@ -4,10 +4,10 @@ import {
   Links,
   LiveReload,
   Meta,
-  MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
+  V2_MetaFunction,
   useLoaderData,
   useLocation,
   useParams,
@@ -21,7 +21,7 @@ import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
 import { ThemeProvider } from './domain/theme';
 import cookie from './hooks/cookie';
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const [firstAlert, secondAlert] = data?.alerts?.map(({ startAt, endAt, channelId, id, title }) => ({
     channelId,
     id,
