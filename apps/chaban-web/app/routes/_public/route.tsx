@@ -34,6 +34,7 @@ export default function PublicPage() {
           <Facebook className='w-6 h-6' />
         </Link>
         <button
+          aria-label='Modifier le thème'
           className={cn(
             'cursor-pointer sm:right-4 z-40 flex items-center justify-center p-2',
             'bg-primary-foreground/0 hover:bg-primary-foreground/10 transition-all rounded-full',
@@ -48,7 +49,7 @@ export default function PublicPage() {
       <footer className='w-full p-4 mt-12 bg-background/30'>
         <div className='flex sm:flex-row gap-8 flex-col justify-between items-center w-full max-w-screen-lg mx-auto'>
           <div className='flex flex-col gap-2 flex-1 sm:items-start items-center'>
-            <h4 className='text-lg font-bold'>Site</h4>
+            <h6 className='text-lg font-bold'>Site</h6>
             <Link to='/' className='text-sm'>
               Accueil
             </Link>
@@ -57,7 +58,7 @@ export default function PublicPage() {
             </Link> */}
           </div>
           <div className='flex flex-col gap-2 flex-1 items-center'>
-            <h4 className='text-lg font-bold'>Docs</h4>
+            <h6 className='text-lg font-bold'>Docs</h6>
             <Link className='text-sm' to='/docs/legal'>
               Mentions légales
             </Link>
@@ -67,7 +68,7 @@ export default function PublicPage() {
           </div>
           <div className='flex flex-col gap-2 flex-1 sm:items-end items-center'>
             <div className='flex flex-col gap-2 sm:items-start items-center'>
-              <h4 className='text-lg font-bold'>Liens</h4>
+              <h6 className='text-lg font-bold'>Liens</h6>
               <Link className='text-sm' to='https://www.facebook.com/monpontchaban'>
                 Facebook
               </Link>
