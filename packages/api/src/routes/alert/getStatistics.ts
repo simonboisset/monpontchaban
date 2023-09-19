@@ -1,4 +1,4 @@
-import { prisma } from '@lezo-alert/db';
+import { prisma } from '@chaban/db';
 import { z } from 'zod';
 import { createProcedure } from '../../config/api';
 
@@ -10,12 +10,12 @@ export const getStatisticsSchema = z.object({
 
 export const getStatistics = createProcedure
   .input(getStatisticsSchema)
-  .query(async ({ input: { minDate, maxDate, channelIds } }) => {
+  .query(async ({ input: { minDate, maxDate } }) => {
     if (!minDate && !maxDate) {
       return await prisma.alert.findMany();
     }
     const alerts = await prisma.alert.findMany({
-      where: { channelId: { in: channelIds }, OR: [{ endAt: { gte: minDate } }, { startAt: { lte: maxDate } }] },
+      where: { OR: [{ endAt: { gte: minDate } }, { startAt: { lte: maxDate } }] },
       orderBy: { startAt: 'asc' },
     });
 

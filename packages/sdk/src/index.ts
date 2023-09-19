@@ -1,16 +1,2 @@
-export type {
-  Alert,
-  Channel,
-  Device,
-  DeviceOs,
-  NotificationRule,
-  Schedule,
-  SupportIssue,
-  SupportIssueCategory,
-  SupportIssueStatus,
-  SupportMessage,
-  User,
-  UserCode,
-  UserCodeType,
-} from '@lezo-alert/api';
+export type { Alert, Device, DeviceOs, NotificationRule, Schedule, User, UserCode, UserCodeType } from '@chaban/api';
 export * from './QueryClient';

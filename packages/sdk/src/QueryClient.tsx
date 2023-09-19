@@ -1,4 +1,4 @@
-import type { ApiRouter } from '@lezo-alert/api';
+import type { ApiRouter } from '@chaban/api';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PersistQueryClientProvider, Persister } from '@tanstack/react-query-persist-client';
 import { httpBatchLink } from '@trpc/react';
@@ -25,14 +25,16 @@ export const LezoAlertSdkProvider = ({ children, client, persister }: QueryProvi
   if (!persister) {
     return (
       <lezoAlertApi.Provider client={client} queryClient={lezoAlertQueryClient}>
-        <QueryClientProvider client={lezoAlertQueryClient}><>{children}</></QueryClientProvider>
+        <QueryClientProvider client={lezoAlertQueryClient}>
+          <>{children}</>
+        </QueryClientProvider>
       </lezoAlertApi.Provider>
     );
   }
   return (
     <lezoAlertApi.Provider client={client} queryClient={lezoAlertQueryClient}>
       <PersistQueryClientProvider client={lezoAlertQueryClient} persistOptions={{ persister }}>
-      <>{children}</>
+        <>{children}</>
       </PersistQueryClientProvider>
     </lezoAlertApi.Provider>
   );

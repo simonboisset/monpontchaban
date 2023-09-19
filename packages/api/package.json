@@ -1,10 +1,10 @@
 {
-  "name": "@lezo-alert/api",
+  "name": "@chaban/api",
   "version": "1.5.0",
   "main": "./index.ts",
   "types": "./index.ts",
   "dependencies": {
-    "@lezo-alert/db": "1.5.0",
+    "@chaban/db": "1.5.0",
     "@react-email/components": "^0.0.7",
     "@trpc/client": "^10.35.0",
     "@trpc/server": "^10.35.0",

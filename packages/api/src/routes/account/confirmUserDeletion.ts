@@ -1,4 +1,4 @@
-import { prisma } from '@lezo-alert/db';
+import { prisma } from '@chaban/db';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { createProcedure } from '../../config/api';
@@ -37,8 +37,6 @@ export const confirmUserDeletion = createProcedure
       prisma.device.deleteMany({ where: { userId: user.id } }),
       prisma.userCode.deleteMany({ where: { userId: user.id } }),
       prisma.notificationRule.deleteMany({ where: { userId: user.id } }),
-      prisma.supportMessage.deleteMany({ where: { issue: { userId: user.id } } }),
-      prisma.supportIssue.deleteMany({ where: { userId: user.id } }),
       prisma.user.delete({ where: { id: user.id } }),
     ]);
 

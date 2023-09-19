@@ -1,4 +1,4 @@
-import { prisma } from '@lezo-alert/db';
+import { prisma } from '@chaban/db';
 import { z } from 'zod';
 import { createProcedure } from '../../config/api';
 import { isAuth } from '../context';

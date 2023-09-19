@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./apps/chaban-web/Dockerfile
+          file: ./apps/web/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKER_REGISTRY }}/chaban/web:${{ github.ref_name }}-${{ github.sha }}

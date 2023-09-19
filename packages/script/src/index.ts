@@ -1,4 +1,4 @@
-import { prisma } from '@lezo-alert/db';
+import { prisma } from '@chaban/db';
 
 const holdDevices = [
   {

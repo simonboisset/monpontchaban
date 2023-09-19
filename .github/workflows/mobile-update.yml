@@ -37,9 +37,9 @@ jobs:
         id: metro-cache
         with:
           path: |
-            apps/chaban-mobile/metro-cache
-            apps/chaban-mobile/.expo
-            apps/chaban-mobile/dist
+            apps/mobile/metro-cache
+            apps/mobile/.expo
+            apps/mobile/dist
           restore-keys: ${{ runner.os }}-metro-
           key: |
             ${{ runner.os }}-metro-${{ hashFiles('**/yarn.lock') }}
@@ -49,9 +49,9 @@ jobs:
           yarn build
       - name: 🚀 EAS Update production
         if: ${{ env.branch_name == 'main' }}
-        working-directory: apps/chaban-mobile
-        run: API_URL="${{secrets.API_URL}}" CHABAN_CHANNEL_ID="${{secrets.CHABAN_CHANNEL_ID}}"  eas update --branch main --message "Nouvelle version"
+        working-directory: apps/mobile
+        run: API_URL="${{secrets.API_URL}}" eas update --branch main --message "Nouvelle version"
       - name: 🚀 EAS Update Peview
         if: ${{ env.branch_name != 'main' }}
-        working-directory: apps/chaban-mobile
-        run: API_URL="${{secrets.API_URL}}" CHABAN_CHANNEL_ID="${{secrets.CHABAN_CHANNEL_ID}}" eas update --branch pr-${{ github.event.number }} --message "Push update branch"
+        working-directory: apps/mobile
+        run: API_URL="${{secrets.API_URL}}" eas update --branch pr-${{ github.event.number }} --message "Push update branch"

@@ -50,9 +50,9 @@ jobs:
         id: metro-cache
         with:
           path: |
-            apps/chaban-mobile/metro-cache
-            apps/chaban-mobile/.expo
-            apps/chaban-mobile/dist
+            apps/mobile/metro-cache
+            apps/mobile/.expo
+            apps/mobile/dist
           restore-keys: ${{ runner.os }}-metro-
           key: |
             ${{ runner.os }}-metro-${{ hashFiles('**/yarn.lock') }}
@@ -61,10 +61,10 @@ jobs:
       - name: 🚀 Upgrade packages version
         if: ${{ github.event.inputs.profile == 'production' }}
         run: |
-          echo '${{secrets.PLAY_STORE_API_KEY}}' > apps/chaban-mobile/api-key.json
+          echo '${{secrets.PLAY_STORE_API_KEY}}' > apps/mobile/api-key.json
           git config --local user.email "simon@lezo.dev"
           git config --local user.name "simonboisset"
-          yarn turboversion lezo-alert ${{github.event.inputs.release}}
+          yarn turboversion chaban ${{github.event.inputs.release}}
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           git commit -a -m "v${PACKAGE_VERSION}"
           git push
@@ -72,13 +72,13 @@ jobs:
         run: yarn
       - name: 🚀 EAS Build Production
         if: ${{ github.event.inputs.profile == 'production' }}
-        working-directory: apps/chaban-mobile
+        working-directory: apps/mobile
         run: |
           eas build --profile production --platform android --no-wait --auto-submit --non-interactive
           eas build --profile production --platform ios --no-wait --auto-submit --non-interactive
       - name: 🚀 EAS Build Dev
         if: ${{ github.event.inputs.profile != 'production' }}
-        working-directory: apps/chaban-mobile
+        working-directory: apps/mobile
         run: |
           eas build --profile dev --platform android --no-wait --non-interactive
           eas build --profile dev --platform ios --no-wait --non-interactive

@@ -1,4 +1,4 @@
-import { prisma } from '@lezo-alert/db';
+import { prisma } from '@chaban/db';
 import { z } from 'zod';
 import { createProcedure } from '../../config/api';
 import { isAuth } from '../context';
@@ -6,13 +6,13 @@ import { isAuth } from '../context';
 export const createNotificationRuleSchema = z.object({
   schedules: z.array(z.object({ day: z.number().int(), hour: z.number().int() })),
   delayMinBefore: z.number().int(),
-  channelId: z.string(),
+  channelId: z.string().optional(),
 });
 
 export const createNotificationRule = createProcedure
   .use(isAuth)
   .input(createNotificationRuleSchema)
-  .mutation(async ({ input: { schedules, channelId, delayMinBefore }, ctx: { userId } }) => {
+  .mutation(async ({ input: { schedules, delayMinBefore }, ctx: { userId } }) => {
     const schedulesFromDb = await prisma.$transaction(
       schedules.map(({ day, hour }) =>
         prisma.schedule.findUnique({ where: { day_hour: { day, hour } }, select: { id: true } }),
@@ -23,7 +23,6 @@ export const createNotificationRule = createProcedure
     const notificationRule = await prisma.notificationRule.create({
       data: {
         delayMinBefore,
-        channelId,
         schedules: { connect: filtredSchedules },
         userId,
       },

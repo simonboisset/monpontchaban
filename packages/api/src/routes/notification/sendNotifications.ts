@@ -1,10 +1,9 @@
-import { Schedule, prisma } from '@lezo-alert/db';
+import { Schedule, prisma } from '@chaban/db';
 import { TRPCError } from '@trpc/server';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import { createProcedure } from '../../config/api';
-import { managedChannelIds } from '../../config/managedChannels';
 import { services } from '../../services';
 import { isCron } from '../context';
 
@@ -12,7 +11,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   const now = new Date();
   const rules = await prisma.notificationRule.findMany({
     where: { schedules: { some: { day: now.getDay(), hour: now.getHours() } } },
-    include: { channel: true, schedules: true, user: { include: { devices: true } } },
+    include: { schedules: true, user: { include: { devices: true } } },
   });
 
   for (const rule of rules) {
@@ -23,13 +22,13 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     const limitStartAfter = dayjs(now).add(rule.delayMinBefore, 'minute').toDate();
 
     const alertToNotify = await prisma.alert.findMany({
-      where: { channelId: rule.channelId, startAt: { lte: limitStartBefore, gte: limitStartAfter } },
+      where: { startAt: { lte: limitStartBefore, gte: limitStartAfter } },
     });
 
     await services.notification.send({
       tokens: rule.user.devices.map((d) => d.token),
       badge: alertToNotify.length,
-      title: `Evénements à venir pour ${rule.channel.name}`,
+      title: `Evénements à venir pour le pont chaban`,
       message: `${alertToNotify
         .map((b) => `- ${b.title}: ${dayjs(b.startAt).format('HH:mm')} - ${dayjs(b.endAt).format('HH:mm')}`)
         .join('\n')}`,
@@ -93,7 +92,7 @@ const sendNotificationToChabanSubscribers = async (now: Date) => {
     .toDate();
 
   const alertToNotify = await prisma.alert.findMany({
-    where: { channelId: managedChannelIds.chaban, startAt: { lte: limitStartBefore, gte: limitStartAfter } },
+    where: { startAt: { lte: limitStartBefore, gte: limitStartAfter } },
     orderBy: { startAt: 'asc' },
   });
 

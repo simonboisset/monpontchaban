@@ -1,4 +1,4 @@
-import { prisma } from '@lezo-alert/db';
+import { prisma } from '@chaban/db';
 import { createProcedure } from '../../config/api';
 import { isCron } from '../context';
 import { CODE_EXPIRATION_TIME } from './requestAuthenticationCode';

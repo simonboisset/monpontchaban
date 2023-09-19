@@ -8,7 +8,6 @@ const envSchema = z.object({
   EXPO_ACCESS_TOKEN: z.string(),
   RESEND_SECRET: z.string(),
   JWT_SECRET: z.string(),
-  CHABAN_CHANNEL_ID: z.string(),
   PORT: z
     .string()
     .transform((value) => parseInt(value, 10))
@@ -26,6 +25,5 @@ export const env = envSchema.parse({
   EXPO_ACCESS_TOKEN: process.env.EXPO_ACCESS_TOKEN,
   RESEND_SECRET: process.env.RESEND_SECRET,
   JWT_SECRET: process.env.JWT_SECRET,
-  CHABAN_CHANNEL_ID: process.env.CHABAN_CHANNEL_ID,
   PORT: process.env.PORT,
 });

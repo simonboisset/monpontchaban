@@ -42,7 +42,6 @@ model User {
   emailHash         String             @unique
   devices           Device[]
   notificationRules NotificationRule[]
-  supportIssues     SupportIssue[]
   isAdmin           Boolean            @default(false)
   code              UserCode?
 }
@@ -51,8 +50,6 @@ model NotificationRule {
   id             String     @id @default(cuid())
   user           User       @relation(fields: [userId], references: [id])
   userId         String     @unique
-  channel        Channel    @relation(fields: [channelId], references: [id])
-  channelId      String
   delayMinBefore Int
   schedules      Schedule[]
 }
@@ -67,145 +64,8 @@ model Schedule {
 }
 
 model Alert {
-  id        String   @id @default(cuid())
-  title     String
-  channel   Channel  @relation(fields: [channelId], references: [id])
-  channelId String
-  startAt   DateTime
-  endAt     DateTime
-}
-
-enum SupportIssueCategory {
-  BUG
-  FEATURE
-  OTHER
-}
-
-enum SupportIssueStatus {
-  OPEN
-  CLOSED
-}
-
-model SupportIssue {
-  id       String               @id @default(cuid())
-  title    String?
-  category SupportIssueCategory
-  status   SupportIssueStatus   @default(OPEN)
-  user     User                 @relation(fields: [userId], references: [id])
-  userId   String               @unique
-  messages SupportMessage[]
-}
-
-model SupportMessage {
-  id          String       @id @default(cuid())
-  sentAt      DateTime     @default(now())
-  text        String
-  issue       SupportIssue @relation(fields: [issueId], references: [id])
-  issueId     String
-  isFromAdmin Boolean      @default(false)
-}
-
-model Channel {
-  id            String             @id @default(cuid())
-  name          String
-  alerts        Alert[]
-  subscriptions NotificationRule[]
-}
-
-model ClientSession {
-  id String @id @default(cuid())
-
-  appName    String
-  appVersion String @default("0.0.0")
-
-  origin   String
-  width    Int    @default(0)
-  height   Int    @default(0)
-  size     String @default("none")
-  language String @default("none")
-  os       String @default("OTHER")
-  browser  String @default("OTHER")
-
-  createdAt DateTime @default(now())
-
-  analytics    Analytics[]
-  logs         Log[]
-  performances Performance[]
-}
-
-model Analytics {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-
-  appName    String
-  appVersion String @default("0.0.0")
-
-  origin   String
-  width    Int    @default(0)
-  height   Int    @default(0)
-  size     String @default("none")
-  language String @default("none")
-  os       String @default("OTHER")
-  browser  String @default("OTHER")
-
-  path     String?
-  referrer String?
-
-  clientSession   ClientSession @relation(fields: [clientSessionId], references: [id])
-  clientSessionId String
-}
-
-model Log {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  level     String
-  message   String
-
-  appName    String
-  appVersion String @default("0.0.0")
-
-  serverSession   ServerSession? @relation(fields: [serverSessionId], references: [id])
-  serverSessionId String?
-
-  clientSession   ClientSession? @relation(fields: [clientSessionId], references: [id])
-  clientSessionId String?
-}
-
-model Monitor {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  cpu        Float
-  memory     Float
-  disk       Float
-  uptime     Float
-  appName    String
-  appVersion String   @default("0.0.0")
-
-  serverSession   ServerSession @relation(fields: [serverSessionId], references: [id])
-  serverSessionId String
-}
-
-model Performance {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  duration   Float
-  name       String
-  appName    String
-  appVersion String   @default("0.0.0")
-
-  serverSession   ServerSession? @relation(fields: [serverSessionId], references: [id])
-  serverSessionId String?
-  clientSession   ClientSession? @relation(fields: [clientSessionId], references: [id])
-  clientSessionId String?
-}
-
-model ServerSession {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  appName    String
-  appVersion String   @default("0.0.0")
-
-  logs         Log[]
-  monitors     Monitor[]
-  performances Performance[]
+  id      String   @id @default(cuid())
+  title   String
+  startAt DateTime
+  endAt   DateTime
 }

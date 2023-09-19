@@ -1,9 +1,8 @@
-import { Alert } from '@lezo-alert/db';
+import { Alert } from '@chaban/db';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import { z } from 'zod';
-import { managedChannelIds } from '../../config/managedChannels';
 const get = async () => {
   const datas = await fetchDataToJson();
   return getBridgeLiftingsFromApi(datas);
@@ -48,7 +47,6 @@ export const getBridgeLiftingsFromApi = (datas: ApiBordeauxMetropoleData) => {
         title: record.fields.bateau,
         startAt: closeAt,
         endAt: openAt,
-        channelId: managedChannelIds.chaban,
       } satisfies Omit<Alert, 'id'>;
     })
     .filter((alert) => dayjs(alert.endAt).isAfter(now))

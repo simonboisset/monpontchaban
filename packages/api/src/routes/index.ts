@@ -5,7 +5,6 @@ import { alert } from './alert';
 import { authenticationCode } from './authenticationCode';
 import { ApiContext, apiContextMiddleware, createContext } from './context';
 import { chabanSubscriptions, notificationRule, notifications } from './notification';
-import { supportIssues, supportMessages } from './support';
 
 export const apiRouter = createRouter({
   devices,
@@ -15,8 +14,6 @@ export const apiRouter = createRouter({
   chabanSubscriptions,
   notificationRule,
   notifications,
-  supportIssues,
-  supportMessages,
 });
 export type ApiRouter = typeof apiRouter;
 export const expressMiddleware = trpcExpress.createExpressMiddleware({

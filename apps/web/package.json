@@ -1,0 +1,45 @@
+{
+  "name": "@chaban/web",
+  "private": true,
+  "sideEffects": false,
+  "version": "1.5.0",
+  "scripts": {
+    "build": "prisma generate && remix build",
+    "dev": "yarn with-env remix dev",
+    "start": "yarn with-env remix-serve build",
+    "typecheck": "tsc",
+    "with-env": "dotenv -e ../../.env --",
+    "ts": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@chaban/api": "1.5.0",
+    "@chaban/chaban-core": "1.5.0",
+    "@chaban/db": "1.5.0",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@remix-run/node": "^1.19.1",
+    "@remix-run/react": "^1.19.1",
+    "@remix-run/serve": "^1.19.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "dayjs": "^1.11.9",
+    "expo-server-sdk": "^3.7.0",
+    "lucide-react": "^0.279.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.19.1",
+    "@remix-run/eslint-config": "^1.19.1",
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/react": "^18.2.17",
+    "@types/react-dom": "^18.2.7",
+    "autoprefixer": "^10.4.15",
+    "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.1.0",
+    "eslint": "^8.45.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.1.6"
+  }
+}

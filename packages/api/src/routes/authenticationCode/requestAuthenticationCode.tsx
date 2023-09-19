@@ -1,4 +1,4 @@
-import { prisma } from '@lezo-alert/db';
+import { prisma } from '@chaban/db';
 import { TRPCError } from '@trpc/server';
 import React from 'react';
 import { z } from 'zod';
