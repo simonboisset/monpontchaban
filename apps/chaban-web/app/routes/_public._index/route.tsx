@@ -22,15 +22,15 @@ export default function Index() {
       <h3 className='text-center font-bold text-xl mb-12'>
         Téléchargez l'application mobile pour être notifié des prochaines fermetures du pont Chaban-Delmas.
       </h3>
-      <div className='flex flex-row gap-4 mt-2 justify-center'>
-        <Button asChild variant='light'>
-          <Link to='https://apps.apple.com/app/mon-pont-chaban/id6448217836'>
+      <div className='flex flex-row gap-4 mt-2 justify-center max-w-lg mx-auto'>
+        <Button asChild>
+          <Link to='https://apps.apple.com/app/mon-pont-chaban/id6448217836' className='flex-1'>
             <span>iOS</span>
             <Apple className='h-4 w-4 mb-1 ml-2' />
           </Link>
         </Button>
-        <Button asChild variant='light'>
-          <Link to='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban'>
+        <Button asChild>
+          <Link to='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban' className='flex-1'>
             <span>Android</span>
             <Android className='h-4 w-4 ml-2' />
           </Link>
