@@ -10,7 +10,7 @@ export const deleteNotificationRuleSchema = z.object({
 export const deleteNotificationRule = createProcedure
   .use(isAuth)
   .input(deleteNotificationRuleSchema)
-  .mutation(async ({ input: { id }, ctx: { userId } }) => {
-    await prisma.notificationRule.delete({ where: { id, userId } });
+  .mutation(async ({ input: { id } }) => {
+    await prisma.notificationRule.delete({ where: { id } });
     return true;
   });

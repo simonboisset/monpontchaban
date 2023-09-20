@@ -11,7 +11,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   const now = new Date();
   const rules = await prisma.notificationRule.findMany({
     where: { schedules: { some: { day: now.getDay(), hour: now.getHours() } } },
-    include: { schedules: true, user: { include: { devices: true } } },
+    include: { schedules: true },
   });
 
   for (const rule of rules) {
@@ -26,7 +26,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     });
 
     await services.notification.send({
-      tokens: rule.user.devices.map((d) => d.token),
+      tokens: [],
       badge: alertToNotify.length,
       title: `Evénements à venir pour le pont chaban`,
       message: `${alertToNotify
@@ -78,7 +78,7 @@ const getDateFromSchedule = (schedule: Schedule, now: Date) => {
 const sendNotificationToChabanSubscribers = async (now: Date) => {
   dayjs.extend(utc);
   dayjs.extend(timezone);
-  const devices = await prisma.device.findMany({ where: { active: true, userId: null } });
+  const devices = await prisma.device.findMany({ where: { active: true } });
   const tokens = devices.map((d) => d.token);
   const nextScheduleDate = dayjs(now).add(1, 'hour').toDate();
   const delayMinBefore = 60;

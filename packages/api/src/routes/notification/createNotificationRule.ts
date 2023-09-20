@@ -12,7 +12,7 @@ export const createNotificationRuleSchema = z.object({
 export const createNotificationRule = createProcedure
   .use(isAuth)
   .input(createNotificationRuleSchema)
-  .mutation(async ({ input: { schedules, delayMinBefore }, ctx: { userId } }) => {
+  .mutation(async ({ input: { schedules, delayMinBefore } }) => {
     const schedulesFromDb = await prisma.$transaction(
       schedules.map(({ day, hour }) =>
         prisma.schedule.findUnique({ where: { day_hour: { day, hour } }, select: { id: true } }),
@@ -24,7 +24,6 @@ export const createNotificationRule = createProcedure
       data: {
         delayMinBefore,
         schedules: { connect: filtredSchedules },
-        userId,
       },
     });
 

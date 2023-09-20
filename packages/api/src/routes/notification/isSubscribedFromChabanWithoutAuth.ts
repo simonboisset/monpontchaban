@@ -17,7 +17,7 @@ export const isSubscribedFromChabanWithoutAuth = createProcedure
       return false;
     }
 
-    if (existingDevice.userId || !existingDevice.active) {
+    if (!existingDevice.active) {
       return false;
     }
 

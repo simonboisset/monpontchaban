@@ -9,7 +9,7 @@
   "scripts": {
     "build": "turbo build --filter @chaban/web",
     "clean": "rm -rf node_modules && turbo clean",
-    "db:generate": "turbo db:generate",
+    "generate": "turbo generate",
     "db:push": "turbo db:push --filter @chaban/db",
     "db:dev": "turbo db:dev --filter @chaban/db",
     "db:deploy": "turbo db:deploy --filter @chaban/db",

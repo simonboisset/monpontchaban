@@ -15,9 +15,6 @@ export const unsubscribeFromChabanWithoutAuth = createProcedure
       throw new TRPCError({ code: 'FORBIDDEN', message: 'Device not found' });
     }
 
-    if (existingDevice.userId) {
-      throw new TRPCError({ code: 'FORBIDDEN', message: 'Device already subscribed with user' });
-    }
     const device = await prisma.device.delete({ where: { id: existingDevice.id } });
     return device;
   });

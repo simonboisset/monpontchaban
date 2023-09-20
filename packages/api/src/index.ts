@@ -1,4 +1,4 @@
-export type { Alert, Device, DeviceOs, NotificationRule, Schedule, User, UserCode, UserCodeType } from '@chaban/db';
+export type { Alert, Device, NotificationRule, Schedule } from '@chaban/db';
 export { env } from './config/env';
 export type { EnvType } from './config/env';
 export * from './routes';
