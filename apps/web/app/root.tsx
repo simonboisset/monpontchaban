@@ -55,7 +55,10 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   ];
 };
 export function links() {
-  return [{ rel: 'stylesheet', href: styles }];
+  return [
+    { rel: 'preload', href: styles, as: 'style' },
+    { rel: 'stylesheet', href: styles },
+  ].filter(Boolean);
 }
 
 export const loader = async (args: DataFunctionArgs) => {
