@@ -1,8 +1,22 @@
-version: "3.7"
+version: '3.7'
 services:
-  cockroachdb:
-    image: prismagraphql/cockroachdb-custom:22.1.0
-    restart: always
-    command: start-single-node --insecure
+  postgres:
+    image: postgres:10
+    restart: unless-stopped
+    command: ['postgres', '-c', 'log_statement=all']
+    environment:
+      - POSTGRES_DB=tests
+      - POSTGRES_USER=prisma
+      - POSTGRES_PASSWORD=prisma
     ports:
-      - '26257:26257'
+      - '5432:5432'
+
+  postgres_isolated:
+    image: postgres:10
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=tests
+      - POSTGRES_USER=prisma
+      - POSTGRES_PASSWORD=prisma
+    ports:
+      - '5435:5432'
