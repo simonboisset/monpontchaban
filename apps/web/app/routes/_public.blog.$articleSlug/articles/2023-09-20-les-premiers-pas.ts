@@ -1,5 +1,5 @@
 export const les_premiers_pas = {
-  date: '20-09-2023',
+  date: '2023-09-20',
   slug: 'les-premiers-pas',
   content: `
 # Les premiers pas : de l'idée à l'application.
