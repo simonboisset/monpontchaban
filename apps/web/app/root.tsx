@@ -1,5 +1,5 @@
 import { useCurrentStatus } from '@chaban/chaban-core';
-import { DataFunctionArgs } from '@remix-run/node';
+import { DataFunctionArgs, TypedResponse, json } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -81,21 +81,29 @@ export const loader = async (args: DataFunctionArgs) => {
 
   const alerts = await caller.alert.getAlerts({ channelIds: [], minDate: new Date() });
 
-  return {
-    ENV: {
-      VERSION: packages.version,
-    },
+  const result = {
+    ENV: { VERSION: packages.version as string },
     data: (cookie.node.get(args.request.headers.get('Cookie'), 'theme') || 'light') as 'light' | 'dark',
     alerts,
   };
+
+  return json(result, {
+    status: 200,
+    headers: {
+      'Cache-Control': 'public, max-age=43200, s-maxage=43200',
+    },
+  });
 };
-export type RootLoaderData = ReturnType<typeof loader>;
+
+type UnTypedResponse<R> = R extends TypedResponse<infer U> ? U : never;
+
+export type RootLoaderData = UnTypedResponse<Awaited<ReturnType<typeof loader>>>;
 export default function App() {
-  const ENV = useLoaderData<RootLoaderData>().ENV;
   const { pathname } = useLocation();
   const urlParams = useParams();
-  const { data: themeData, alerts } = useLoaderData<RootLoaderData>();
-  const nextAlert = alerts[0];
+  const { data: themeData, alerts, ENV } = useLoaderData<RootLoaderData>();
+  const futureAlerts = alerts.filter((a) => new Date(a.startAt) > new Date());
+  const nextAlert = futureAlerts[0];
   const status = nextAlert ? useCurrentStatus(new Date(nextAlert.startAt), new Date(nextAlert.endAt)) : 'OPEN';
 
   useEffect(() => {
@@ -128,7 +136,7 @@ export default function App() {
       <ThemeProvider
         defaultTheme={themeData}
         currentStatus={status}
-        alerts={alerts.map((a) => ({ ...a, startAt: new Date(a.startAt), endAt: new Date(a.endAt) }))}>
+        alerts={futureAlerts.map((a) => ({ ...a, startAt: new Date(a.startAt), endAt: new Date(a.endAt) }))}>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
