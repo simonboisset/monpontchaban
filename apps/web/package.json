@@ -24,6 +24,7 @@
     "clsx": "^2.0.0",
     "dayjs": "^1.11.9",
     "expo-server-sdk": "^3.7.0",
+    "isbot": "latest",
     "lucide-react": "^0.279.0",
     "marked": "^9.0.3",
     "react": "18.2.0",

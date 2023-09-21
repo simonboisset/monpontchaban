@@ -51,7 +51,7 @@ export default function PublicPage() {
         <div className='flex sm:flex-row gap-8 flex-col justify-between items-center sm:items-start w-full max-w-screen-lg mx-auto'>
           <div className='flex-1' />
           <div className='flex flex-col gap-2 flex-[2] sm:items-start items-center'>
-            <h6 className='text-lg font-bold'>Site</h6>
+            <span className='text-lg font-bold'>Site</span>
             <Link to='/' className='text-sm'>
               Accueil
             </Link>
@@ -60,7 +60,7 @@ export default function PublicPage() {
             </Link>
           </div>
           <div className='flex flex-col gap-2 flex-[2] sm:items-start items-center'>
-            <h6 className='text-lg font-bold'>Docs</h6>
+            <span className='text-lg font-bold'>Docs</span>
             <Link className='text-sm' to='/docs/legal'>
               Mentions légales
             </Link>
@@ -69,7 +69,7 @@ export default function PublicPage() {
             </Link>
           </div>
           <div className='flex flex-col gap-2 flex-[2] sm:items-start items-center'>
-            <h6 className='text-lg font-bold'>Liens</h6>
+            <span className='text-lg font-bold'>Liens</span>
             <Link className='text-sm' to='https://www.facebook.com/monpontchaban'>
               Facebook
             </Link>
