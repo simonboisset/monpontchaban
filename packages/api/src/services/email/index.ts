@@ -10,8 +10,8 @@ const scwTransporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: env.SCW_API_KEY,
-    pass: env.SCW_SECRET_KEY,
+    user: env.SCALEWAY_API_KEY,
+    pass: env.SCALEWAY_SECRET_KEY,
   },
 });
 
