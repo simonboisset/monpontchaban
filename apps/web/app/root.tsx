@@ -61,7 +61,6 @@ export function links() {
 export const loader = async (args: DataFunctionArgs) => {
   const packages = require('../package.json');
   const caller = await remixCaller(args.request.headers);
-
   const alerts = await caller.alert.getAlerts({ channelIds: [], minDate: new Date() });
 
   const result = {
@@ -72,9 +71,7 @@ export const loader = async (args: DataFunctionArgs) => {
 
   return json(result, {
     status: 200,
-    headers: {
-      'Cache-Control': 'public, max-age=43200, s-maxage=43200',
-    },
+    headers: { 'Cache-Control': 'public, max-age=43200, s-maxage=43200' },
   });
 };
 
