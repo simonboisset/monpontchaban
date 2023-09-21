@@ -1,21 +1,26 @@
-import { Schedule, prisma } from '@chaban/db';
+import { prisma } from '@chaban/db';
 import { TRPCError } from '@trpc/server';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import { createProcedure } from '../../config/api';
+import { Schedule, schedules } from '../../schedules';
 import { services } from '../../services';
 import { isCron } from '../context';
 
 export const sendNotifications = createProcedure.use(isCron).mutation(async () => {
   const now = new Date();
+  const schedule = schedules.find((s) => s.day === now.getDay() && s.hour === now.getHours());
+  if (!schedule) {
+    throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No schedule found for current time' });
+  }
   const rules = await prisma.notificationRule.findMany({
-    where: { schedules: { some: { day: now.getDay(), hour: now.getHours() } } },
-    include: { schedules: true },
+    where: { scheduleIds: { has: schedule.id } },
   });
 
   for (const rule of rules) {
-    const nextSchedule = getNextSchedule(rule.schedules, now);
+    const ruleSchedules = filterUndefined(rule.scheduleIds.map((id) => schedules.find((s) => s.id === id)));
+    const nextSchedule = getNextSchedule(ruleSchedules, now);
     const nextScheduleDate = getDateFromSchedule(nextSchedule, now);
 
     const limitStartBefore = dayjs(nextScheduleDate).add(rule.delayMinBefore, 'minute').toDate();
@@ -78,7 +83,7 @@ const getDateFromSchedule = (schedule: Schedule, now: Date) => {
 const sendNotificationToChabanSubscribers = async (now: Date) => {
   dayjs.extend(utc);
   dayjs.extend(timezone);
-  const devices = await prisma.device.findMany({ where: { active: true } });
+  const devices = await prisma.device.findMany({});
   const tokens = devices.map((d) => d.token);
   const nextScheduleDate = dayjs(now).add(1, 'hour').toDate();
   const delayMinBefore = 60;
@@ -108,3 +113,5 @@ const sendNotificationToChabanSubscribers = async (now: Date) => {
   }
   return alertToNotify.length;
 };
+
+const filterUndefined = <T>(array: (T | undefined)[]): T[] => array.filter((a) => a !== undefined) as T[];

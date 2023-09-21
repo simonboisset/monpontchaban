@@ -55,24 +55,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   ];
 };
 export function links() {
-  return [
-    {
-      rel: 'preconnect',
-      href: 'href="https://fonts.googleapis.com',
-    },
-    {
-      rel: 'preconnect',
-      href: 'href="https://fonts.gstatic.com',
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap',
-    },
-    {
-      rel: 'stylesheet',
-      href: styles,
-    },
-  ];
+  return [{ rel: 'stylesheet', href: styles }];
 }
 
 export const loader = async (args: DataFunctionArgs) => {

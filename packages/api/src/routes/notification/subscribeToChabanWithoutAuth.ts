@@ -12,12 +12,11 @@ export const subscribeToChabanWithoutAuth = createProcedure
   .mutation(async ({ input: { token } }) => {
     const existingDevice = await prisma.device.findFirst({ where: { token } });
     if (existingDevice) {
-      const device = await prisma.device.update({ where: { id: existingDevice.id }, data: { active: true } });
-      return device;
+      return existingDevice;
     }
 
     const device = await prisma.device.create({
-      data: { token, active: true },
+      data: { token },
     });
     await services.notification.send({
       title: 'Inscription à la notification du pont Chaban-Delmas',

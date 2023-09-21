@@ -18,7 +18,7 @@ export const logger = createMiddleware(async (opts) => {
 
 export const isFeature = (...features: Feature[]) =>
   logger.unstable_pipe(async ({ next, ctx: { userId, plan } }) => {
-    if (!plan) {
+    if (!plan || !userId) {
       throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No access to this feature' });
     }
 

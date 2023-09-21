@@ -1,4 +1,4 @@
-type Schedule = {
+export type Schedule = {
   id: number;
   day: number;
   hour: number;
