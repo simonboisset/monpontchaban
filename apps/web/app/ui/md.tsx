@@ -19,3 +19,22 @@ export const Md = ({ text, currentStatus }: { text: string; currentStatus: Statu
     </div>
   );
 };
+
+export const getTitleFromMarkdown = (markdown: string) => {
+  const title = markdown.match(/# (.*)/)?.[1];
+  return title;
+};
+
+export const getPreviewFromMarkdown = (markdown: string) => {
+  const preview =
+    markdown
+      .match(/\*(.*)/)?.[1]
+      .replace(/\[.*\]\(.*\)/g, '')
+      .slice(0, 200) + '...';
+  return preview;
+};
+
+export const getImgFromMarkdown = (markdown: string) => {
+  const img = markdown.match(/!\[(.*)\]\((.*)\)/)?.[2];
+  return img;
+};

@@ -1,5 +1,6 @@
 import { DataFunctionArgs } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
+import { Link, V2_MetaFunction, useLoaderData } from '@remix-run/react';
+import { getImgFromMarkdown, getPreviewFromMarkdown, getTitleFromMarkdown } from '~/ui/md';
 import { cn } from '~/utils';
 import { articles } from '../_public.blog.$articleSlug/articles';
 
@@ -17,6 +18,22 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
     }
   }
   return { articlesList };
+};
+
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    { title: 'Pont Chaban-Delmas : Blog' },
+    {
+      name: 'description',
+      content: `Découvrez les articles du blog de l'application Mon Pont Chaban. Vous y trouverez des articles sur les actualités et mise à jour de l'application. Liste des articles : ${data?.articlesList.map(
+        (art) => `
+        - ${art.title}
+        `,
+      )}`,
+    },
+    { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+    { charset: 'utf-8' },
+  ];
 };
 
 export default function Docs() {
@@ -46,22 +63,3 @@ export default function Docs() {
     </div>
   );
 }
-
-const getTitleFromMarkdown = (markdown: string) => {
-  const title = markdown.match(/# (.*)/)?.[1];
-  return title;
-};
-
-const getPreviewFromMarkdown = (markdown: string) => {
-  const preview =
-    markdown
-      .match(/\*(.*)/)?.[1]
-      .replace(/\[.*\]\(.*\)/g, '')
-      .slice(0, 200) + '...';
-  return preview;
-};
-
-const getImgFromMarkdown = (markdown: string) => {
-  const img = markdown.match(/!\[(.*)\]\((.*)\)/)?.[2];
-  return img;
-};

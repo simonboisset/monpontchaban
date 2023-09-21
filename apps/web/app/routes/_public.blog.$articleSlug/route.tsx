@@ -1,7 +1,7 @@
-import { DataFunctionArgs, redirect } from '@remix-run/node';
+import { DataFunctionArgs, V2_MetaFunction, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { useRoot } from '~/domain/theme';
-import { Md } from '~/ui/md';
+import { Md, getPreviewFromMarkdown, getTitleFromMarkdown } from '~/ui/md';
 import { articles } from './articles';
 
 export const loader = async ({ params }: DataFunctionArgs) => {
@@ -12,6 +12,17 @@ export const loader = async ({ params }: DataFunctionArgs) => {
   }
 
   return { article: articles[articleSlug].content };
+};
+
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+  const title = data?.article ? getTitleFromMarkdown(data?.article) : '';
+  const preview = data?.article ? getPreviewFromMarkdown(data?.article) : '';
+  return [
+    { title: `Pont Chaban-Delmas : ${title}` },
+    { name: 'description', content: preview },
+    { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+    { charset: 'utf-8' },
+  ];
 };
 
 export default function Docs() {
