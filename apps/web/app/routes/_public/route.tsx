@@ -2,6 +2,7 @@ import { Link, Outlet } from '@remix-run/react';
 import { Facebook, Moon, Sun } from 'lucide-react';
 import { OpenedLogo } from '~/components/OpenedLogo';
 import { useRoot } from '~/domain/theme';
+import { Button } from '~/ui/button';
 import { cn } from '~/utils';
 
 export default function PublicPage() {
@@ -18,11 +19,11 @@ export default function PublicPage() {
           <h4 className='grow text-2xl font-bold sm:inline hidden'>Mon Pont Chaban</h4>
         </Link>
         <div className='flex-1' />
-        {/* <Button asChild variant='light' size='sm' className='text-sm'>
+        <Button asChild variant='light' size='sm' className='text-sm'>
           <Link to='/blog' className='text-sm'>
             Blog
           </Link>
-        </Button> */}
+        </Button>
 
         <Link
           aria-label='Facebook'
@@ -48,16 +49,17 @@ export default function PublicPage() {
       </main>
       <footer className='w-full p-4 mt-12 bg-background/30'>
         <div className='flex sm:flex-row gap-8 flex-col justify-between items-center sm:items-start w-full max-w-screen-lg mx-auto'>
-          <div className='flex flex-col gap-2 flex-1 sm:items-start items-center'>
+          <div className='flex-1' />
+          <div className='flex flex-col gap-2 flex-[2] sm:items-start items-center'>
             <h6 className='text-lg font-bold'>Site</h6>
             <Link to='/' className='text-sm'>
               Accueil
             </Link>
-            {/* <Link to='/blog' className='text-sm'>
+            <Link to='/blog' className='text-sm'>
               Blog
-            </Link> */}
+            </Link>
           </div>
-          <div className='flex flex-col gap-2 flex-1 items-center'>
+          <div className='flex flex-col gap-2 flex-[2] sm:items-start items-center'>
             <h6 className='text-lg font-bold'>Docs</h6>
             <Link className='text-sm' to='/docs/legal'>
               Mentions légales
@@ -66,27 +68,23 @@ export default function PublicPage() {
               Politique de confidentialité
             </Link>
           </div>
-          <div className='flex flex-col gap-2 flex-1 sm:items-end items-center'>
-            <div className='flex flex-col gap-2 sm:items-start items-center'>
-              <h6 className='text-lg font-bold'>Liens</h6>
-              <Link className='text-sm' to='https://www.facebook.com/monpontchaban'>
-                Facebook
-              </Link>
-              <Link className='text-sm' to='https://lezo.dev'>
-                Lezo
-              </Link>
-              <Link className='text-sm' to='https://apps.apple.com/app/mon-pont-chaban/id6448217836'>
-                Application iOS
-              </Link>
-              <Link
-                className='text-sm'
-                to='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban'>
-                Application Android
-              </Link>
-              <Link className='text-sm' to='https://sedeplacer.bordeaux-metropole.fr/fermeture-pont-chaban-delmas'>
-                Site officiel de Bordeaux Métropole
-              </Link>
-            </div>
+          <div className='flex flex-col gap-2 flex-[2] sm:items-start items-center'>
+            <h6 className='text-lg font-bold'>Liens</h6>
+            <Link className='text-sm' to='https://www.facebook.com/monpontchaban'>
+              Facebook
+            </Link>
+            <Link className='text-sm' to='https://lezo.dev'>
+              Lezo
+            </Link>
+            <Link className='text-sm' to='https://apps.apple.com/app/mon-pont-chaban/id6448217836'>
+              Application iOS
+            </Link>
+            <Link className='text-sm' to='https://play.google.com/store/apps/details?id=com.simonboisset.monpontchaban'>
+              Application Android
+            </Link>
+            <Link className='text-sm' to='https://sedeplacer.bordeaux-metropole.fr/fermeture-pont-chaban-delmas'>
+              Site officiel de Bordeaux Métropole
+            </Link>
           </div>
         </div>
       </footer>

@@ -1,19 +1,10 @@
 import { initTRPC } from '@trpc/server';
 import superjson from 'superjson';
-import { ZodError } from 'zod';
 import { ApiContext } from '../routes/context';
 
 const api = initTRPC.context<ApiContext>().create({
   transformer: superjson,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
+  errorFormatter: ({ shape }) => ({ ...shape }),
 });
 
 export const createProcedure = api.procedure;

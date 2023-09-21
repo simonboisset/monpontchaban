@@ -7,25 +7,38 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Plan {
+  ADMIN
+  PREMIUM
+  USER
+}
+
+model User {
+  id           String             @id @default(uuid())
+  name         String
+  email        String             @unique
+  plan         Plan               @default(USER)
+  rules        NotificationRule[]
+  devices      Device[]
+  enableEmails Boolean            @default(false)
+  enableHourly Boolean            @default(false)
+  enableWeekly Boolean            @default(false)
+}
+
 model Device {
   id     String  @id @default(cuid())
-  token  String  @unique // FCM token | APNS token | Web Push token | email
-  active Boolean @default(false)
+  token  String  @unique // Expo token 
+  active Boolean @default(false) //deprecated
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }
 
 model NotificationRule {
-  id             String     @id @default(cuid())
+  id             String @id @default(cuid())
   delayMinBefore Int
-  schedules      Schedule[]
-}
-
-model Schedule {
-  id                String             @id @default(cuid())
-  notificationRules NotificationRule[]
-  day               Int
-  hour              Int
-
-  @@unique([day, hour])
+  scheduleIds    Int[]
+  user           User   @relation(fields: [userId], references: [id])
+  userId         String
 }
 
 model Alert {
@@ -33,4 +46,20 @@ model Alert {
   title   String
   startAt DateTime
   endAt   DateTime
+}
+
+model Verification {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  type      String
+  target    String
+  secret    String
+  algorithm String
+  digits    Int
+  period    Int
+  expiresAt DateTime?
+
+  attemptsCount Int @default(0)
+
+  @@unique([target, type])
 }

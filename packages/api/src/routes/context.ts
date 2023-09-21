@@ -1,53 +1,45 @@
-import { TRPCError, inferAsyncReturnType } from '@trpc/server';
-import { CreateExpressContextOptions } from '@trpc/server/adapters/express';
-import { z } from 'zod';
+import { Plan } from '@chaban/db';
+import { TRPCError } from '@trpc/server';
 import { createMiddleware } from '../config/api';
 import { env } from '../config/env';
-import { services } from '../services';
+import { Feature, featuresByPlans } from './features';
 
-type ApiContextParams = {
-  token: string | null;
-  cronSecretKey: string | null;
-};
+export const logger = createMiddleware(async (opts) => {
+  const start = Date.now();
+  const result = await opts.next();
+  const durationMs = Date.now() - start;
 
-export const apiContextMiddleware = ({ token, cronSecretKey }: ApiContextParams) => {
-  const { userId, isAdmin, createdAt } = token
-    ? services.token.auth.verify(token)
-    : { userId: null, isAdmin: false, createdAt: null };
-  return { userId, cronSecretKey, isAdmin, createdAt };
-};
+  result.ok
+    ? console.info('TRPC', opts.path, 'success -', durationMs, 'ms')
+    : console.error('TRPC', opts.path, 'error -', durationMs, 'ms - -', result.error.message);
 
-export const isAuth = createMiddleware(async ({ next, ctx: { userId } }) => {
-  if (!userId) {
-    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User is not authenticated' });
-  }
-  return next({ ctx: { userId: userId } });
+  return result;
 });
 
-export const isCron = createMiddleware(async ({ next, ctx: { cronSecretKey } }) => {
-  if (env.CRON_SECRET !== cronSecretKey) {
-    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Cron secret key is invalid' });
+export const isFeature = (...features: Feature[]) =>
+  logger.unstable_pipe(async ({ next, ctx: { userId, plan } }) => {
+    if (!plan) {
+      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No access to this feature' });
+    }
+
+    if (!featuresByPlans[plan].some((f) => features.includes(f))) {
+      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No access to this feature' });
+    }
+    return next({ ctx: { userId, plan } });
+  });
+
+export const isCron = logger.unstable_pipe(async ({ next, ctx: { cronSecretKey } }) => {
+  if (!cronSecretKey || cronSecretKey !== env.CRON_SECRET) {
+    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Cron secret is invalid' });
   }
 
-  return next({ ctx: { cronSecretKey } });
+  return next({ ctx: {} });
 });
 
-export const isAdmin = createMiddleware(async ({ next, ctx: { userId, isAdmin } }) => {
-  if (userId === null) {
-    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User is not defined' });
-  }
-
-  if (!isAdmin) {
-    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User is not admin' });
-  }
-  return next({ ctx: { userId } });
-});
-
-export const createContext = ({ req }: CreateExpressContextOptions): ApiContext => {
-  const token = z.string().optional().parse(req.headers.authorization?.replace('Bearer ', '')) || null;
-  const cronSecretKey = z.string().optional().parse(req.headers['x-cron-secret-key']) || null;
-  const ctx = apiContextMiddleware({ cronSecretKey, token });
-  return ctx;
+export type ApiContext = {
+  userId?: string;
+  cronSecretKey?: string;
+  plan?: Plan;
+  host: string;
+  domain: string;
 };
-
-export type ApiContext = inferAsyncReturnType<typeof apiContextMiddleware>;

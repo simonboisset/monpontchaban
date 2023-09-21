@@ -1,7 +1,7 @@
 import { prisma } from '@chaban/db';
 import { z } from 'zod';
 import { createProcedure } from '../../config/api';
-import { isAuth } from '../context';
+import { isFeature } from '../context';
 
 export const updateNotificationRuleSchema = z.object({
   id: z.string(),
@@ -9,7 +9,7 @@ export const updateNotificationRuleSchema = z.object({
 });
 
 export const updateNotificationRule = createProcedure
-  .use(isAuth)
+  .use(isFeature('NOTIFICATION_CUSTOM'))
   .input(updateNotificationRuleSchema)
   .mutation(async ({ input: { schedules, id } }) => {
     const schedulesFromDb = await prisma.$transaction(

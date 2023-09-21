@@ -77,7 +77,7 @@ export function links() {
 
 export const loader = async (args: DataFunctionArgs) => {
   const packages = require('../package.json');
-  const caller = await remixCaller(args);
+  const caller = await remixCaller(args.request.headers);
 
   const alerts = await caller.alert.getAlerts({ channelIds: [], minDate: new Date() });
 
