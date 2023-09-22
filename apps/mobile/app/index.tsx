@@ -1,5 +1,5 @@
 import { init, trackEvent } from '@aptabase/react-native';
-import { Status, fr, isNextWeek, isThisWeek, isToday, isTomorrow, useCurrentStatus } from '@chaban/chaban-core';
+import { Status, fr, isNextWeek, isThisWeek, isToday, isTomorrow, useCurrentStatus } from '@chaban/core';
 import { Alert } from '@chaban/sdk';
 import dayjs from 'dayjs';
 import { Link, Stack } from 'expo-router';

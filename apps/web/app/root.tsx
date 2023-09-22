@@ -1,4 +1,4 @@
-import { useCurrentStatus } from '@chaban/chaban-core';
+import { useCurrentStatus } from '@chaban/core';
 import { DataFunctionArgs, TypedResponse, json } from '@remix-run/node';
 import {
   Links,

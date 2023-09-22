@@ -1,5 +1,5 @@
 import type { Alert } from '@chaban/api';
-import { fr } from '@chaban/chaban-core';
+import { fr } from '@chaban/core';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday.js';
 import isTomorrow from 'dayjs/plugin/isTomorrow.js';

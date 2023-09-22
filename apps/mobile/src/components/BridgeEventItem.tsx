@@ -1,4 +1,4 @@
-import { fr } from '@chaban/chaban-core';
+import { fr } from '@chaban/core';
 import { Alert } from '@chaban/sdk';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday.js';
@@ -60,16 +60,7 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ startAt, endAt
           alignItems: 'center',
         }}>
         <Text dark={dark} justify='center' variant='h4'>
-          {dayjs(startAt).isTomorrow()
-            ? 'Demain '
-            : dayjs(startAt).isToday()
-            ? "Aujourd'hui "
-            : fr.weekDays[Number(dayjs(startAt).format('d'))] +
-              ' ' +
-              dayjs(startAt).format('DD') +
-              ' ' +
-              fr.month[dayjs(startAt).month()] +
-              ' '}
+          {formatEventDate(startAt)}
         </Text>
         <Text
           style={{
@@ -97,3 +88,15 @@ export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ startAt, endAt
     </Item>
   );
 };
+
+const formatEventDate = (date: Date) =>
+  dayjs(date).isTomorrow()
+    ? 'Demain '
+    : dayjs(date).isToday()
+    ? "Aujourd'hui "
+    : fr.weekDays[Number(dayjs(date).format('d'))] +
+      ' ' +
+      dayjs(date).format('DD') +
+      ' ' +
+      fr.month[dayjs(date).month()] +
+      ' ';

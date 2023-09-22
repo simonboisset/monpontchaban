@@ -1,4 +1,4 @@
-import { Status } from '@chaban/chaban-core';
+import { Status } from '@chaban/core';
 import { marked } from 'marked';
 import { cn } from '~/utils';
 

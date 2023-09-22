@@ -1,5 +1,5 @@
 import { trackEvent } from '@aptabase/react-native';
-import { Status, useCurrentStatus } from '@chaban/chaban-core';
+import { Status, useCurrentStatus } from '@chaban/core';
 import * as MailComposer from 'expo-mail-composer';
 import { Link, Stack } from 'expo-router';
 import React, { ReactNode, useEffect, useRef } from 'react';

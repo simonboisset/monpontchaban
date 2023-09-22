@@ -1,4 +1,4 @@
-// import { api, filterNextBridgeEvents } from '@chaban/chaban-core';
+// import { api, filterNextBridgeEvents } from '@chaban/core';
 // import { PrismaClient } from '@chaban/db';
 // import dayjs from 'dayjs';
 // import { getPrNumberFromUrl } from '~/dev/getPrNumberFromUrl';

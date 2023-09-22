@@ -5,7 +5,8 @@ import utc from 'dayjs/plugin/utc.js';
 import { z } from 'zod';
 const get = async () => {
   const datas = await fetchDataToJson();
-  return getBridgeLiftingsFromApi(datas);
+  const now = new Date();
+  return getBridgeLiftingsFromApi(now, datas);
 };
 
 export const apiBordeauxMetropole = { get };
@@ -23,10 +24,9 @@ const apiBordeauxMetropoleDataSchema = z.object({
   ),
 });
 
-type ApiBordeauxMetropoleData = z.infer<typeof apiBordeauxMetropoleDataSchema>;
+export type ApiBordeauxMetropoleData = z.infer<typeof apiBordeauxMetropoleDataSchema>;
 
-export const getBridgeLiftingsFromApi = (datas: ApiBordeauxMetropoleData) => {
-  const now = new Date();
+export const getBridgeLiftingsFromApi = (now: Date, datas: ApiBordeauxMetropoleData) => {
   dayjs.extend(utc);
   dayjs.extend(timezone);
   return datas.records

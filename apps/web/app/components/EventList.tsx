@@ -1,5 +1,5 @@
 import { Alert } from '@chaban/api';
-import { isNextWeek, isThisWeek, isToday, isTomorrow } from '@chaban/chaban-core';
+import { isNextWeek, isThisWeek, isToday, isTomorrow } from '@chaban/core';
 import { BridgeEventItem } from './BridgeEventItem';
 
 type EventListProps = { events: Alert[]; title: string };

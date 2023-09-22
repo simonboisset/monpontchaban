@@ -1,4 +1,4 @@
-import { Timer, fr } from '@chaban/chaban-core';
+import { Timer, fr } from '@chaban/core';
 import { useRoot } from '~/domain/theme';
 import { ClosedLogo } from './ClosedLogo';
 import { OpenedLogo } from './OpenedLogo';

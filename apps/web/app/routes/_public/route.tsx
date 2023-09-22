@@ -6,7 +6,8 @@ import { Button } from '~/ui/button';
 import { cn } from '~/utils';
 
 export default function PublicPage() {
-  const { theme, toggle, currentStatus, alerts } = useRoot();
+  const { theme, toggle } = useRoot();
+
   return (
     <>
       <header

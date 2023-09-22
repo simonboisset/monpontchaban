@@ -1,4 +1,4 @@
-import { fr, Timer, useCurrentStatus } from '@chaban/chaban-core';
+import { fr, Timer, useCurrentStatus } from '@chaban/core';
 import { Alert } from '@chaban/sdk';
 import React from 'react';
 import styled from 'styled-components/native';
