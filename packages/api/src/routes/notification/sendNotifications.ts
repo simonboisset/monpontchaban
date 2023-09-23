@@ -71,11 +71,12 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   };
 
   const fullRules = [...tokenRules, baseRule, dailyRule, weeklyRule];
-
+  let count = 0;
   for (const rule of fullRules) {
     const ruleSchedules = filterUndefined(rule.scheduleIds.map((id) => schedules.find((s) => s.id === id)));
     const alertToNotify = getAlertsToNotify(now, alerts, ruleSchedules, rule.delayMinBefore);
     if (alertToNotify.length > 0) {
+      count += alertToNotify.length;
       await services.notification.send({
         tokens: rule.tokens,
         badge: alertToNotify.length,
@@ -91,7 +92,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
       });
     }
   }
-
+  console.info(`Sent ${count} notifications`);
   return fullRules.length;
 });
 

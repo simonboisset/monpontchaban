@@ -8,7 +8,7 @@ export const getAlertsToNotify = (now: Date, alerts: Alert[], schedules: Schedul
   if (!nextSchedule || !currentSchedule) {
     return [];
   }
-  const currentScheduleDate = dayjs()
+  const currentScheduleDate = dayjs(now)
     .startOf('hour')
     .set('hour', currentSchedule.hour)
     .set('day', currentSchedule.day)
@@ -60,12 +60,12 @@ export const getCurrenSchedule = (now: Date, schedules: Schedule[]) =>
 export const getDateFromNextSchedule = (schedule: Schedule, now: Date) => {
   const currentSchedule = getCurrenSchedule(now, [schedule]);
   if (currentSchedule) {
-    return dayjs()
+    return dayjs(now)
       .startOf('hour')
       .set('hour', currentSchedule.hour)
       .set('day', currentSchedule.day)
       .add(1, 'week')
       .toDate();
   }
-  return dayjs().startOf('hour').set('hour', schedule.hour).set('day', schedule.day).toDate();
+  return dayjs(now).startOf('hour').set('hour', schedule.hour).set('day', schedule.day).toDate();
 };

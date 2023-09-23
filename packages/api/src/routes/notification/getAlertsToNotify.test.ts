@@ -267,4 +267,49 @@ describe('Send Alerts', () => {
     expect(ids).not.toContain('9');
     expect(ids).toContain('10');
   });
+  test('Should get alerts of tomorrow', () => {
+    const now = new Date('2023-09-18T19:15');
+    const alerts = [
+      {
+        id: '1',
+        title: 'test',
+        startAt: new Date('2023-09-18T18:00'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+      {
+        id: '2',
+        title: 'test',
+        startAt: new Date('2023-09-18T20:20'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+      {
+        id: '3',
+        title: 'test',
+        startAt: new Date('2023-09-19T09:00'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+      {
+        id: '4',
+        title: 'test',
+        startAt: new Date('2023-09-19T20:01'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+      {
+        id: '5',
+        title: 'test',
+        startAt: new Date('2023-09-20T09:31'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+    ];
+    const selectedSchedule = schedules.filter((s) => s.hour === 19);
+    const alertsToNotify = getAlertsToNotify(now, alerts, selectedSchedule, 300);
+
+    const ids = alertsToNotify.map(({ id }) => id);
+
+    expect(ids).not.toContain('1');
+    expect(ids).not.toContain('2');
+    expect(ids).toContain('3');
+    expect(ids).toContain('4');
+    expect(ids).not.toContain('5');
+  });
 });
