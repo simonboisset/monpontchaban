@@ -58,6 +58,10 @@ export function links() {
   return [
     { rel: 'preload', href: styles, as: 'style' },
     { rel: 'stylesheet', href: styles },
+    { rel: 'alternate icon', type: 'image/png', href: '/favicons/favicon-32x32.png' },
+    { rel: 'mask-icon', href: '/favicons/mask-icon.svg' },
+    { rel: 'apple-touch-icon', href: '/favicons/apple-touch-icon.png' },
+    { rel: 'icon', type: 'image/svg+xml', href: '/favicons/favicon.svg' },
   ].filter(Boolean);
 }
 

@@ -88,7 +88,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
             (b) =>
               `- ${b.title}: ${fr.weekDays[Number(dayjs.tz(b.startAt, 'Europe/Paris').format('d'))]} de ${dayjs
                 .tz(b.startAt, 'Europe/Paris')
-                .format('HH:mm')} à ${dayjs.tz(b.startAt, 'Europe/Paris').format('HH:mm')}`,
+                .format('HH:mm')} à ${dayjs.tz(b.endAt, 'Europe/Paris').format('HH:mm')}`,
           )
           .join('\n')}`,
       });
