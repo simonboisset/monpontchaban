@@ -1,17 +1,14 @@
-import { fr } from '@chaban/core';
 import { prisma } from '@chaban/db';
 import { TRPCError } from '@trpc/server';
 import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone.js';
-import utc from 'dayjs/plugin/utc.js';
+
 import { createProcedure } from '../../config/api';
 import { schedules } from '../../schedules';
 import { services } from '../../services';
 import { isCron } from '../context';
+import { date } from './date';
 import { getAlertsToNotify } from './getAlertsToNotify';
 export const sendNotifications = createProcedure.use(isCron).mutation(async () => {
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
   const now = new Date();
   const schedule = schedules.find((s) => s.day === now.getDay() && s.hour === now.getHours());
   if (!schedule) {
@@ -22,15 +19,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     select: {
       delayMinBefore: true,
       scheduleIds: true,
-      user: {
-        select: {
-          devices: {
-            select: {
-              token: true,
-            },
-          },
-        },
-      },
+      user: { select: { devices: { select: { token: true } } } },
     },
   });
 
@@ -86,9 +75,9 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
         message: `${alertToNotify
           .map(
             (b) =>
-              `- ${b.title}: ${fr.weekDays[Number(dayjs.tz(b.startAt, 'Europe/Paris').format('d'))]} de ${dayjs
-                .tz(b.startAt, 'Europe/Paris')
-                .format('HH:mm')} à ${dayjs.tz(b.endAt, 'Europe/Paris').format('HH:mm')}`,
+              `- ${b.title}: ${date.formatDay(b.startAt)} de ${date.formatTime(b.startAt)} à ${date.formatTime(
+                b.endAt,
+              )}`,
           )
           .join('\n')}`,
       });

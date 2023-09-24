@@ -1,6 +1,7 @@
 import { Alert } from '@chaban/db';
 import dayjs from 'dayjs';
 import { Schedule } from '../../schedules';
+import { date } from './date';
 
 export const getAlertsToNotify = (now: Date, alerts: Alert[], schedules: Schedule[], beforeLimit: number) => {
   const currentSchedule = getCurrenSchedule(now, schedules);
@@ -8,11 +9,7 @@ export const getAlertsToNotify = (now: Date, alerts: Alert[], schedules: Schedul
   if (!nextSchedule || !currentSchedule) {
     return [];
   }
-  const currentScheduleDate = dayjs(now)
-    .startOf('hour')
-    .set('hour', currentSchedule.hour)
-    .set('day', currentSchedule.day)
-    .toDate();
+  const currentScheduleDate = date.getFromSchedule(currentSchedule, now);
   const nextScheduleDate = getDateFromNextSchedule(nextSchedule, now);
   const alertsToNotify = alerts.filter((a) => {
     const alertDate = dayjs(a.startAt);
@@ -55,17 +52,13 @@ export const getNextSchedule = (now: Date, schedules: Schedule[]) => {
 
 // Warning day 0 is sunday
 export const getCurrenSchedule = (now: Date, schedules: Schedule[]) =>
-  schedules.find((s) => s.day === now.getDay() && s.hour === now.getHours());
+  schedules.find((s) => date.isCurrentSchedule(s, now));
 
 export const getDateFromNextSchedule = (schedule: Schedule, now: Date) => {
   const currentSchedule = getCurrenSchedule(now, [schedule]);
   if (currentSchedule) {
-    return dayjs(now)
-      .startOf('hour')
-      .set('hour', currentSchedule.hour)
-      .set('day', currentSchedule.day)
-      .add(1, 'week')
-      .toDate();
+    const oneWeekAfter = dayjs(now).add(1, 'week').toDate();
+    return date.getFromSchedule(currentSchedule, oneWeekAfter);
   }
-  return dayjs(now).startOf('hour').set('hour', schedule.hour).set('day', schedule.day).toDate();
+  return date.getFromSchedule(schedule, now);
 };

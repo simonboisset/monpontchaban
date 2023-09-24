@@ -17,33 +17,33 @@ describe('Send Alerts', () => {
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(8);
   });
-  test('Should not get current schedule Monday at 8', () => {
+  test('Should not get current schedule Monday at 8 -3', () => {
     const now = new Date('2023-09-18T08:10');
     const selectedSchedules = schedules.filter((s) => s.hour === 9);
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule).toBeUndefined();
   });
-  test('Should not get current schedule Monday at 8 - 3', () => {
+  test('Should not get current schedule Monday at 8 - 4', () => {
     const now = new Date('2023-09-18T08:00');
     const selectedSchedules = schedules.filter((s) => s.day === 0);
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule).toBeUndefined();
   });
-  test('Should get current schedule Monday at 8 - 4', () => {
+  test('Should get current schedule Monday at 8 - 5', () => {
     const now = new Date('2023-09-18T08:00');
     const selectedSchedules = schedules.filter((s) => s.day === 1);
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(8);
   });
-  test('Should get current schedule Monday at 8 - 5', () => {
+  test('Should get current schedule Monday at 8 - 6', () => {
     const now = new Date('2023-09-18T08:00');
     const selectedSchedules = schedules.filter((s) => s.day === 1 && s.hour === 8);
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(8);
   });
-  test('Should get next schedule Monday at 8', () => {
+  test('Should get next schedule Monday at 8 - 7', () => {
     const now = new Date('2023-09-18T08:00');
     const selectedSchedules = schedules.filter((s) => s.day === 1 && s.hour === 8);
     const nextSchedule = getNextSchedule(now, selectedSchedules);
@@ -57,28 +57,28 @@ describe('Send Alerts', () => {
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(9);
   });
-  test('Should get next schedule Monday at 9', () => {
+  test('Should get next schedule Monday at 9 - 2', () => {
     const now = new Date('2023-09-18T08:00');
     const selectedSchedules = schedules.filter((s) => s.hour === 8);
     const nextSchedule = getNextSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(2);
     expect(nextSchedule?.hour).toBe(8);
   });
-  test('Should get next schedule Monday at 9', () => {
+  test('Should get next schedule Monday at 9 - 3', () => {
     const now = new Date('2023-09-18T08:00');
     const selectedSchedules = schedules.filter((s) => s.hour === 8 || s.hour === 6);
     const nextSchedule = getNextSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(2);
     expect(nextSchedule?.hour).toBe(6);
   });
-  test('Should get next schedule Monday at 9', () => {
+  test('Should get next schedule Monday at 9 - 4', () => {
     const now = new Date('2023-09-18T08:00');
     const selectedSchedules = schedules.filter((s) => (s.day === 0 && s.hour === 7) || (s.day === 1 && s.hour === 8));
     const nextSchedule = getNextSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(0);
     expect(nextSchedule?.hour).toBe(7);
   });
-  test('Should get date from next Monday at 9', () => {
+  test('Should get date from next Monday at 9 - 5', () => {
     const now = new Date('2023-09-18T08:00');
     const selectedSchedule = { day: 1, hour: 8, id: 0 };
     const date = getDateFromNextSchedule(selectedSchedule, now);
@@ -308,6 +308,51 @@ describe('Send Alerts', () => {
 
     expect(ids).not.toContain('1');
     expect(ids).not.toContain('2');
+    expect(ids).toContain('3');
+    expect(ids).toContain('4');
+    expect(ids).not.toContain('5');
+  });
+  test('Should get alerts weekly', () => {
+    const now = new Date('2023-09-24T19:00');
+    const alerts = [
+      {
+        id: '1',
+        title: 'test',
+        startAt: new Date('2023-09-24T23:00'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+      {
+        id: '2',
+        title: 'test',
+        startAt: new Date('2023-09-25T03:20'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+      {
+        id: '3',
+        title: 'test',
+        startAt: new Date('2023-09-27T09:00'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+      {
+        id: '4',
+        title: 'test',
+        startAt: new Date('2023-10-01T20:01'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+      {
+        id: '5',
+        title: 'test',
+        startAt: new Date('2023-10-02T03:31'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+    ];
+    const selectedSchedule = schedules.filter((s) => s.day === 0 && s.hour === 19);
+    const alertsToNotify = getAlertsToNotify(now, alerts, selectedSchedule, 300);
+
+    const ids = alertsToNotify.map(({ id }) => id);
+
+    expect(ids).not.toContain('1');
+    expect(ids).toContain('2');
     expect(ids).toContain('3');
     expect(ids).toContain('4');
     expect(ids).not.toContain('5');
