@@ -59,7 +59,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   const dailyRule = {
     title: `🌉 Demain Fermeture du pont chaban`,
     delayMinBefore: 300,
-    scheduleIds: schedules.filter((s) => s.hour === 19).map((s) => s.id),
+    scheduleIds: schedules.filter((s) => s.hour === 20).map((s) => s.id),
     tokens: unAuthedtokens,
   };
 
