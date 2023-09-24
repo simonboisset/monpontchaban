@@ -32,6 +32,9 @@ const send = async ({ message, title, tokens, badge, priority }: SendNotificatio
       sendErrorCount++;
     }
   }
+
+  sendErrorCount += tickets.map((t) => t.status).filter((s) => s !== 'ok').length;
+
   console.info(`Expo notifications send errors: ${sendErrorCount}, wrong tokens: ${wrongTokensCount}`);
 };
 
