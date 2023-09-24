@@ -94,7 +94,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
       });
     }
   }
-  console.info(`Sent ${alertCount} alerts to ${tokenCount} tokens`);
+  console.info(`[sendNotifications]: Sent ${alertCount} alerts to ${tokenCount} tokens`);
   return fullRules.length;
 });
 
