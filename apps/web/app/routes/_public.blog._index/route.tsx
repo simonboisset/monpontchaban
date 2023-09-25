@@ -14,9 +14,14 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
         title: getTitleFromMarkdown(element.content),
         preview: getPreviewFromMarkdown(element.content),
         img: getImgFromMarkdown(element.content),
+        date: element.date,
       });
     }
   }
+  articlesList.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
   return { articlesList };
 };
 
