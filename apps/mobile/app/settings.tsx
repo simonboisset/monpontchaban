@@ -1,8 +1,7 @@
-import { trackEvent } from '@aptabase/react-native';
 import { Status, useCurrentStatus } from '@chaban/core';
 import * as MailComposer from 'expo-mail-composer';
 import { Link, Stack } from 'expo-router';
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -83,10 +82,6 @@ export default function Settings() {
       body: 'Bonjour, je souhaite vous faire part de ',
     });
   };
-
-  useEffect(() => {
-    trackEvent('/mobile/settings');
-  }, []);
 
   return (
     <ScreenContainer dark={dark} color={colorPicker[status]}>

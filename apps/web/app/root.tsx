@@ -13,9 +13,7 @@ import {
   useParams,
 } from '@remix-run/react';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
 import styles from '~/globals.css';
-import { init, trackEvent } from './aptabase';
 import { remixCaller } from './domain/api.server';
 import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
 import { ThemeProvider } from './domain/theme';
@@ -93,25 +91,6 @@ export default function App() {
   const nextAlert = futureAlerts[0];
   const status = nextAlert ? useCurrentStatus(new Date(nextAlert.startAt), new Date(nextAlert.endAt)) : 'OPEN';
 
-  useEffect(() => {
-    init('A-EU-5247288806', { appVersion: ENV.VERSION });
-  }, []);
-
-  useEffect(() => {
-    const pathWithAnonymousParams = pathname
-      .split('/')
-      .map((part) => {
-        for (const key in urlParams) {
-          if (part === urlParams[key]) {
-            return `:${key}`;
-          }
-        }
-        return part;
-      })
-      .join('/');
-    trackEvent(`/web${pathWithAnonymousParams}`);
-  }, [pathname]);
-
   return (
     <html lang='fr'>
       <head>
@@ -119,6 +98,7 @@ export default function App() {
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <Meta />
         <Links />
+        <script defer data-domain='pont-chaban-delmas.com' src='https://analytics.lezo.app/js/script.js'></script>
       </head>
       <ThemeProvider
         defaultTheme={themeData}
