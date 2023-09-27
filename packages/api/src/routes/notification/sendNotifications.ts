@@ -60,31 +60,50 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   };
 
   const fullRules = [...tokenRules, baseRule, dailyRule, weeklyRule];
+
+  const results = await Promise.all(fullRules.map((r) => sendNotificationRule(now, alerts, r)));
+
   let tokenCount = 0;
   let alertCount = 0;
-  for (const rule of fullRules) {
-    const ruleSchedules = filterUndefined(rule.scheduleIds.map((id) => schedules.find((s) => s.id === id)));
-    const alertToNotify = getAlertsToNotify(now, alerts, ruleSchedules, rule.delayMinBefore);
-    if (alertToNotify.length > 0) {
-      alertCount += alertToNotify.length;
-      tokenCount += rule.tokens.length;
-      await services.notification.send({
-        tokens: rule.tokens,
-        badge: alertToNotify.length,
-        title: rule.title,
-        message: `${alertToNotify
-          .map(
-            (b) =>
-              `- ${b.title}: ${date.formatDay(b.startAt)} de ${date.formatTime(b.startAt)} à ${date.formatTime(
-                b.endAt,
-              )}`,
-          )
-          .join('\n')}`,
-      });
-    }
-  }
+  results.forEach(([aCount, tCount]) => {
+    tokenCount += tCount;
+    alertCount += aCount;
+  });
   console.info(`[sendNotifications]: Sent ${alertCount} alerts to ${tokenCount} tokens`);
   return fullRules.length;
 });
 
 const filterUndefined = <T>(array: (T | undefined)[]): T[] => array.filter((a) => a !== undefined) as T[];
+type Rule = {
+  title: string;
+  tokens: string[];
+  delayMinBefore: number;
+  scheduleIds: number[];
+};
+type Alert = {
+  id: string;
+  title: string;
+  startAt: Date;
+  endAt: Date;
+};
+const sendNotificationRule = async (now: Date, alerts: Alert[], rule: Rule) => {
+  const ruleSchedules = filterUndefined(rule.scheduleIds.map((id) => schedules.find((s) => s.id === id)));
+  const alertToNotify = getAlertsToNotify(now, alerts, ruleSchedules, rule.delayMinBefore);
+  if (alertToNotify.length > 0) {
+    const alertCount = alertToNotify.length;
+    const tokenCount = rule.tokens.length;
+    await services.notification.send({
+      tokens: rule.tokens,
+      badge: alertToNotify.length,
+      title: rule.title,
+      message: `${alertToNotify
+        .map(
+          (b) =>
+            `- ${b.title}: ${date.formatDay(b.startAt)} de ${date.formatTime(b.startAt)} à ${date.formatTime(b.endAt)}`,
+        )
+        .join('\n')}`,
+    });
+    return [alertCount, tokenCount] as const;
+  }
+  return [0, 0] as const;
+};
