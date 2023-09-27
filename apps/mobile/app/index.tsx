@@ -1,8 +1,9 @@
 import { Status, fr, isNextWeek, isThisWeek, isToday, isTomorrow, useCurrentStatus } from '@chaban/core';
 import { Alert } from '@chaban/sdk';
 import dayjs from 'dayjs';
+import Constants from 'expo-constants';
 import { Link, Stack } from 'expo-router';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -77,6 +78,10 @@ export default function ScreenView() {
   const laterEvents =
     alerts?.filter(({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && !isThisWeek(endAt) && !isNextWeek(endAt)) ||
     [];
+
+  useEffect(() => {
+    trackEvent('mobile');
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -185,3 +190,24 @@ export const useStyles = (nextAlert?: Alert) => {
     },
   });
 };
+
+async function trackEvent(urlFragment: string) {
+  try {
+    const HOST = 'pont-chaban-delmas.com';
+    const userAgent = (await Constants.getWebViewUserAgentAsync()) || 'unknown';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const url = 'https://' + HOST + '/' + urlFragment;
+
+    await fetch('https://analytics.lezo.app/api/event', {
+      method: 'POST',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'User-Agent': userAgent },
+      body: JSON.stringify({ name: 'pageview', domain: HOST, url: url }),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+  } catch (e) {
+    console.info(`Plausible Tracker error to ${urlFragment}: ${e}`);
+  }
+}

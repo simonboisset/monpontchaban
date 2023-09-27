@@ -15,19 +15,19 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No schedule found for current time' });
   }
   const rules = await prisma.notificationRule.findMany({
-    where: { scheduleIds: { has: schedule.id } },
+    where: { schedules: { some: { id: schedule.id } } },
     select: {
       delayMinBefore: true,
-      scheduleIds: true,
-      user: { select: { devices: { select: { token: true } } } },
+      schedules: true,
+      device: { select: { token: true } },
     },
   });
 
   const tokenRules = rules.map((r) => ({
     title: `⏰ Alerte Fermeture du pont chaban`,
-    tokens: r.user.devices.map((d) => d.token),
+    tokens: [r.device.token],
     delayMinBefore: r.delayMinBefore,
-    scheduleIds: r.scheduleIds,
+    scheduleIds: r.schedules.map((s) => s.id),
   }));
 
   const oneWeekOneDayAfter = dayjs(now).add(1, 'week').add(1, 'day').toDate();
@@ -35,7 +35,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     where: { startAt: { lte: oneWeekOneDayAfter, gte: now } },
   });
 
-  const unAutheddevices = await prisma.device.findMany({ where: { userId: null } });
+  const unAutheddevices = await prisma.device.findMany({ where: { sessions: { none: {} } }, select: { token: true } });
   const unAuthedtokens = unAutheddevices.map((d) => d.token);
 
   const baseRule = {

@@ -1,44 +1,33 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./chaban.db"
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-enum Plan {
-  ADMIN
-  PREMIUM
-  USER
-}
-
-model User {
-  id           String             @id @default(uuid())
-  name         String
-  email        String             @unique
-  plan         Plan               @default(USER)
-  rules        NotificationRule[]
-  devices      Device[]
-  enableEmails Boolean            @default(false)
-  enableHourly Boolean            @default(false)
-  enableWeekly Boolean            @default(false)
-}
-
 model Device {
-  id     String  @id @default(cuid())
-  token  String  @unique // Expo token 
-  active Boolean @default(false) //deprecated
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  id       String             @id @default(cuid())
+  token    String             @unique // Expo token 
+  rules    NotificationRule[]
+  sessions Session[]
 }
 
 model NotificationRule {
-  id             String @id @default(cuid())
+  id             String     @id @default(cuid())
+  title          String
   delayMinBefore Int
-  scheduleIds    Int[]
-  user           User   @relation(fields: [userId], references: [id])
-  userId         String
+  schedules      Schedule[]
+  device         Device     @relation(fields: [deviceId], references: [id])
+  deviceId       String
+}
+
+model Schedule {
+  id            Int                @id
+  hour          Int
+  day           Int
+  notifications NotificationRule[]
 }
 
 model Alert {
@@ -48,18 +37,10 @@ model Alert {
   endAt   DateTime
 }
 
-model Verification {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  type      String
-  target    String
-  secret    String
-  algorithm String
-  digits    Int
-  period    Int
-  expiresAt DateTime?
-
-  attemptsCount Int @default(0)
-
-  @@unique([target, type])
+model Session {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  expiredAt DateTime
+  device    Device   @relation(fields: [deviceId], references: [id])
+  deviceId  String
 }
