@@ -1,6 +1,6 @@
 datasource db {
-  provider = "sqlite"
-  url      = "file:./chaban.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -12,22 +12,17 @@ model Device {
   token    String             @unique // Expo token 
   rules    NotificationRule[]
   sessions Session[]
+  reports  Report[]
 }
 
 model NotificationRule {
-  id             String     @id @default(cuid())
+  id             String  @id @default(cuid())
+  active         Boolean @default(true)
   title          String
   delayMinBefore Int
-  schedules      Schedule[]
-  device         Device     @relation(fields: [deviceId], references: [id])
+  scheduleIds    Int[]
+  device         Device  @relation(fields: [deviceId], references: [id])
   deviceId       String
-}
-
-model Schedule {
-  id            Int                @id
-  hour          Int
-  day           Int
-  notifications NotificationRule[]
 }
 
 model Alert {
@@ -35,6 +30,14 @@ model Alert {
   title   String
   startAt DateTime
   endAt   DateTime
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  status    String
+  device    Device   @relation(fields: [deviceId], references: [id])
+  deviceId  String
 }
 
 model Session {

@@ -4,6 +4,10 @@ import { apiBordeauxMetropole } from '../../managedApis';
 import { isCron } from '../context';
 
 export const getApiData = createProcedure.use(isCron).mutation(async () => {
+  return saveApiData();
+});
+
+export const saveApiData = async () => {
   const data = await apiBordeauxMetropole.get();
   const now = new Date();
 
@@ -11,4 +15,4 @@ export const getApiData = createProcedure.use(isCron).mutation(async () => {
   await prisma.$transaction(data.map((d) => prisma.alert.create({ data: d })));
 
   return data;
-});
+};

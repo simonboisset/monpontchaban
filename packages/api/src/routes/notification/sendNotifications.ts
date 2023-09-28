@@ -15,19 +15,20 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No schedule found for current time' });
   }
   const rules = await prisma.notificationRule.findMany({
-    where: { schedules: { some: { id: schedule.id } } },
+    where: { scheduleIds: { has: schedule.id } },
     select: {
+      title: true,
       delayMinBefore: true,
-      schedules: true,
+      scheduleIds: true,
       device: { select: { token: true } },
     },
   });
 
   const tokenRules = rules.map((r) => ({
-    title: `⏰ Alerte Fermeture du pont chaban`,
+    title: r.title,
     tokens: [r.device.token],
     delayMinBefore: r.delayMinBefore,
-    scheduleIds: r.schedules.map((s) => s.id),
+    scheduleIds: r.scheduleIds,
   }));
 
   const oneWeekOneDayAfter = dayjs(now).add(1, 'week').add(1, 'day').toDate();
