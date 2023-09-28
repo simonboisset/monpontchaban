@@ -87,7 +87,7 @@ export default function App() {
   const { pathname } = useLocation();
   const urlParams = useParams();
   const { data: themeData, alerts, ENV } = useLoaderData<RootLoaderData>();
-  const futureAlerts = alerts.filter((a) => new Date(a.startAt) > new Date());
+  const futureAlerts = alerts.filter((a) => new Date(a.endAt) > new Date());
   const nextAlert = futureAlerts[0];
   const status = nextAlert ? useCurrentStatus(new Date(nextAlert.startAt), new Date(nextAlert.endAt)) : 'OPEN';
 
