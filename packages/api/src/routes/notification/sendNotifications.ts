@@ -1,19 +1,26 @@
 import { prisma } from '@chaban/db';
 import { TRPCError } from '@trpc/server';
-import dayjs from 'dayjs';
-
 import { createProcedure } from '../../config/api';
+import { apiBordeauxMetropole } from '../../managedApis';
 import { schedules } from '../../schedules';
 import { services } from '../../services';
 import { isCron } from '../context';
 import { date } from './date';
 import { getAlertsToNotify } from './getAlertsToNotify';
+
 export const sendNotifications = createProcedure.use(isCron).mutation(async () => {
   const now = new Date();
+
   const schedule = schedules.find((s) => s.day === now.getDay() && s.hour === now.getHours());
   if (!schedule) {
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No schedule found for current time' });
   }
+
+  const data = await apiBordeauxMetropole.get();
+
+  await prisma.alert.deleteMany({ where: { endAt: { gt: now } } });
+  const alerts = await prisma.$transaction(data.map((d) => prisma.alert.create({ data: d })));
+
   const rules = await prisma.notificationRule.findMany({
     where: { scheduleIds: { has: schedule.id } },
     select: {
@@ -29,11 +36,6 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     delayMinBefore: r.delayMinBefore,
     scheduleIds: r.scheduleIds,
   }));
-
-  const oneWeekOneDayAfter = dayjs(now).add(1, 'week').add(1, 'day').toDate();
-  const alerts = await prisma.alert.findMany({
-    where: { startAt: { lte: oneWeekOneDayAfter, gte: now } },
-  });
 
   const unAutheddevices = await prisma.device.findMany({ where: { userId: null } });
   const unAuthedtokens = unAutheddevices.map((d) => d.token);

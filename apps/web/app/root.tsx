@@ -9,8 +9,6 @@ import {
   ScrollRestoration,
   V2_MetaFunction,
   useLoaderData,
-  useLocation,
-  useParams,
 } from '@remix-run/react';
 import dayjs from 'dayjs';
 import styles from '~/globals.css';
@@ -84,8 +82,6 @@ type UnTypedResponse<R> = R extends TypedResponse<infer U> ? U : never;
 
 export type RootLoaderData = UnTypedResponse<Awaited<ReturnType<typeof loader>>>;
 export default function App() {
-  const { pathname } = useLocation();
-  const urlParams = useParams();
   const { data: themeData, alerts, ENV } = useLoaderData<RootLoaderData>();
   const futureAlerts = alerts.filter((a) => new Date(a.endAt) > new Date());
   const nextAlert = futureAlerts[0];
