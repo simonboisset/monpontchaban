@@ -1,4 +1,4 @@
-import { useCurrentStatus } from '@chaban/core';
+import { useCurrentStatus, useNow } from '@chaban/core';
 import { DataFunctionArgs, TypedResponse, json } from '@remix-run/node';
 import {
   Links,
@@ -83,7 +83,8 @@ type UnTypedResponse<R> = R extends TypedResponse<infer U> ? U : never;
 export type RootLoaderData = UnTypedResponse<Awaited<ReturnType<typeof loader>>>;
 export default function App() {
   const { data: themeData, alerts, ENV } = useLoaderData<RootLoaderData>();
-  const futureAlerts = alerts.filter((a) => new Date(a.endAt) > new Date());
+  const now = useNow();
+  const futureAlerts = alerts.filter((a) => new Date(a.endAt) > now);
   const nextAlert = futureAlerts[0];
   const status = nextAlert ? useCurrentStatus(new Date(nextAlert.startAt), new Date(nextAlert.endAt)) : 'OPEN';
 

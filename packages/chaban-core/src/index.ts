@@ -3,4 +3,5 @@ export { api } from './api';
 export { useCurrentStatus } from './status';
 export type { Status } from './status';
 export { fr } from './translation';
+export * from './useNow';
 export * from './utils';
