@@ -17,12 +17,9 @@ const createFetcherContext = ({ req }: FetchCreateContextFnOptions): ApiContext 
     return { domain, host, cronSecretKey };
   }
 
-  const { userId, expiresAt, plan } = services.token.auth.verify(token);
-  if (services.token.isExpired(expiresAt)) {
-    return { domain, host, cronSecretKey };
-  }
+  const { deviceId, sessionId } = services.token.auth.verify(token);
 
-  return { domain, host, userId, cronSecretKey, plan };
+  return { domain, host, deviceId, cronSecretKey, sessionId };
 };
 
 export const remixAdapteur = async (headers: Headers): Promise<ApiContext> => {
@@ -38,12 +35,9 @@ export const remixAdapteur = async (headers: Headers): Promise<ApiContext> => {
     return { domain, host, cronSecretKey };
   }
 
-  const { userId, expiresAt, plan } = services.token.auth.verify(token);
-  if (services.token.isExpired(expiresAt)) {
-    return { domain, host, cronSecretKey };
-  }
+  const { deviceId, sessionId } = services.token.auth.verify(token);
 
-  return { domain, host, userId, cronSecretKey, plan };
+  return { domain, host, deviceId, cronSecretKey, sessionId };
 };
 
 export const remixCaller = async (headers: Headers) => {

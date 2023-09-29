@@ -24,20 +24,21 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   const rules = await prisma.notificationRule.findMany({
     where: { scheduleIds: { has: schedule.id } },
     select: {
+      title: true,
       delayMinBefore: true,
       scheduleIds: true,
-      user: { select: { devices: { select: { token: true } } } },
+      device: { select: { token: true } },
     },
   });
 
   const tokenRules = rules.map((r) => ({
-    title: `⏰ Alerte Fermeture du pont chaban`,
-    tokens: r.user.devices.map((d) => d.token),
+    title: r.title,
+    tokens: [r.device.token],
     delayMinBefore: r.delayMinBefore,
     scheduleIds: r.scheduleIds,
   }));
 
-  const unAutheddevices = await prisma.device.findMany({ where: { userId: null } });
+  const unAutheddevices = await prisma.device.findMany({ where: { sessions: { none: {} } } });
   const unAuthedtokens = unAutheddevices.map((d) => d.token);
 
   const baseRule = {
@@ -101,7 +102,9 @@ const sendNotificationRule = async (now: Date, alerts: Alert[], rule: Rule) => {
       message: `${alertToNotify
         .map(
           (b) =>
-            `- ${b.title}: ${date.formatDay(b.startAt)} de ${date.formatTime(b.startAt)} à ${date.formatTime(b.endAt)}`,
+            `- ${b.title.toLowerCase()}: ${date.formatDay(b.startAt)} de ${date.formatTime(
+              b.startAt,
+            )} à ${date.formatTime(b.endAt)}`,
         )
         .join('\n')}`,
     });

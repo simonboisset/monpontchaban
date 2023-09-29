@@ -11,6 +11,7 @@ export const apiRouter = createRouter({
   notificationRule,
   notifications,
 });
+
 export type ApiRouter = typeof apiRouter;
 
 export type { ApiContext };

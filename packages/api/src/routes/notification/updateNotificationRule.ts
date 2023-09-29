@@ -1,18 +1,23 @@
 import { prisma } from '@chaban/db';
 import { z } from 'zod';
 import { createProcedure } from '../../config/api';
-import { isFeature } from '../context';
+import { isRegistered } from '../context';
 
 export const updateNotificationRuleSchema = z.object({
   id: z.string(),
+  title: z.string().optional(),
   scheduleIds: z.array(z.number()).optional(),
+  delayMinBefore: z.number().int().optional(),
 });
 
 export const updateNotificationRule = createProcedure
-  .use(isFeature('NOTIFICATION_CUSTOM'))
+  .use(isRegistered)
   .input(updateNotificationRuleSchema)
-  .mutation(async ({ input: { scheduleIds, id } }) => {
-    const notificationRule = await prisma.notificationRule.update({ where: { id }, data: { scheduleIds } });
+  .mutation(async ({ ctx: { deviceId }, input: { scheduleIds, id, delayMinBefore, title } }) => {
+    const notificationRule = await prisma.notificationRule.update({
+      where: { id, deviceId },
+      data: { delayMinBefore, deviceId, title, scheduleIds },
+    });
 
     return notificationRule;
   });

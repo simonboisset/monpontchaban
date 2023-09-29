@@ -4,6 +4,7 @@ import { deleteNotificationRule } from './deleteNotificationRule';
 import { isSubscribedFromChabanWithoutAuth } from './isSubscribedFromChabanWithoutAuth';
 import { sendNotifications } from './sendNotifications';
 import { subscribeToChabanWithoutAuth } from './subscribeToChabanWithoutAuth';
+import { toggleNotificationRule } from './toggleNotificationRule';
 import { unsubscribeFromChabanWithoutAuth } from './unsubscribeFromChabanWithoutAuth';
 import { updateNotificationRule } from './updateNotificationRule';
 
@@ -11,6 +12,7 @@ export const notificationRule = createRouter({
   createNotificationRule,
   deleteNotificationRule,
   updateNotificationRule,
+  toggleNotificationRule,
 });
 
 export const chabanSubscriptions = createRouter({

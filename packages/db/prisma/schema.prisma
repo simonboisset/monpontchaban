@@ -7,38 +7,22 @@ generator client {
   provider = "prisma-client-js"
 }
 
-enum Plan {
-  ADMIN
-  PREMIUM
-  USER
-}
-
-model User {
-  id           String             @id @default(uuid())
-  name         String
-  email        String             @unique
-  plan         Plan               @default(USER)
-  rules        NotificationRule[]
-  devices      Device[]
-  enableEmails Boolean            @default(false)
-  enableHourly Boolean            @default(false)
-  enableWeekly Boolean            @default(false)
-}
-
 model Device {
-  id     String  @id @default(cuid())
-  token  String  @unique // Expo token 
-  active Boolean @default(false) //deprecated
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  id       String             @id @default(cuid())
+  token    String             @unique // Expo token 
+  rules    NotificationRule[]
+  sessions Session[]
+  reports  Report[]
 }
 
 model NotificationRule {
-  id             String @id @default(cuid())
+  id             String  @id @default(cuid())
+  active         Boolean @default(true)
+  title          String
   delayMinBefore Int
   scheduleIds    Int[]
-  user           User   @relation(fields: [userId], references: [id])
-  userId         String
+  device         Device  @relation(fields: [deviceId], references: [id])
+  deviceId       String
 }
 
 model Alert {
@@ -48,18 +32,18 @@ model Alert {
   endAt   DateTime
 }
 
-model Verification {
+model Report {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  status    String
+  device    Device   @relation(fields: [deviceId], references: [id])
+  deviceId  String
+}
+
+model Session {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
-  type      String
-  target    String
-  secret    String
-  algorithm String
-  digits    Int
-  period    Int
-  expiresAt DateTime?
-
-  attemptsCount Int @default(0)
-
-  @@unique([target, type])
+  expiredAt DateTime?
+  device    Device    @relation(fields: [deviceId], references: [id])
+  deviceId  String
 }
