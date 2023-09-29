@@ -1,4 +1,4 @@
-import { useCurrentStatus } from '@chaban/core';
+import { useCurrentStatus, useNow } from '@chaban/core';
 import { DataFunctionArgs, TypedResponse, json } from '@remix-run/node';
 import {
   Links,
@@ -9,8 +9,6 @@ import {
   ScrollRestoration,
   V2_MetaFunction,
   useLoaderData,
-  useLocation,
-  useParams,
 } from '@remix-run/react';
 import dayjs from 'dayjs';
 import styles from '~/globals.css';
@@ -84,10 +82,9 @@ type UnTypedResponse<R> = R extends TypedResponse<infer U> ? U : never;
 
 export type RootLoaderData = UnTypedResponse<Awaited<ReturnType<typeof loader>>>;
 export default function App() {
-  const { pathname } = useLocation();
-  const urlParams = useParams();
   const { data: themeData, alerts, ENV } = useLoaderData<RootLoaderData>();
-  const futureAlerts = alerts.filter((a) => new Date(a.startAt) > new Date());
+  const now = useNow();
+  const futureAlerts = alerts.filter((a) => new Date(a.endAt) > now);
   const nextAlert = futureAlerts[0];
   const status = nextAlert ? useCurrentStatus(new Date(nextAlert.startAt), new Date(nextAlert.endAt)) : 'OPEN';
 

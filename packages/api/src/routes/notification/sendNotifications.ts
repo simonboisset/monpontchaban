@@ -1,19 +1,26 @@
 import { prisma } from '@chaban/db';
 import { TRPCError } from '@trpc/server';
-import dayjs from 'dayjs';
-
 import { createProcedure } from '../../config/api';
+import { apiBordeauxMetropole } from '../../managedApis';
 import { schedules } from '../../schedules';
 import { services } from '../../services';
 import { isCron } from '../context';
 import { date } from './date';
 import { getAlertsToNotify } from './getAlertsToNotify';
+
 export const sendNotifications = createProcedure.use(isCron).mutation(async () => {
   const now = new Date();
+
   const schedule = schedules.find((s) => s.day === now.getDay() && s.hour === now.getHours());
   if (!schedule) {
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No schedule found for current time' });
   }
+
+  const data = await apiBordeauxMetropole.get();
+
+  await prisma.alert.deleteMany({ where: { endAt: { gt: now } } });
+  const alerts = await prisma.$transaction(data.map((d) => prisma.alert.create({ data: d })));
+
   const rules = await prisma.notificationRule.findMany({
     where: { scheduleIds: { has: schedule.id } },
     select: {
@@ -31,12 +38,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     scheduleIds: r.scheduleIds,
   }));
 
-  const oneWeekOneDayAfter = dayjs(now).add(1, 'week').add(1, 'day').toDate();
-  const alerts = await prisma.alert.findMany({
-    where: { startAt: { lte: oneWeekOneDayAfter, gte: now } },
-  });
-
-  const unAutheddevices = await prisma.device.findMany({ where: { sessions: { none: {} } }, select: { token: true } });
+  const unAutheddevices = await prisma.device.findMany({ where: { sessions: { none: {} } } });
   const unAuthedtokens = unAutheddevices.map((d) => d.token);
 
   const baseRule = {
@@ -61,31 +63,52 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   };
 
   const fullRules = [...tokenRules, baseRule, dailyRule, weeklyRule];
+
+  const results = await Promise.all(fullRules.map((r) => sendNotificationRule(now, alerts, r)));
+
   let tokenCount = 0;
   let alertCount = 0;
-  for (const rule of fullRules) {
-    const ruleSchedules = filterUndefined(rule.scheduleIds.map((id) => schedules.find((s) => s.id === id)));
-    const alertToNotify = getAlertsToNotify(now, alerts, ruleSchedules, rule.delayMinBefore);
-    if (alertToNotify.length > 0) {
-      alertCount += alertToNotify.length;
-      tokenCount += rule.tokens.length;
-      await services.notification.send({
-        tokens: rule.tokens,
-        badge: alertToNotify.length,
-        title: rule.title,
-        message: `${alertToNotify
-          .map(
-            (b) =>
-              `- ${b.title}: ${date.formatDay(b.startAt)} de ${date.formatTime(b.startAt)} à ${date.formatTime(
-                b.endAt,
-              )}`,
-          )
-          .join('\n')}`,
-      });
-    }
-  }
+  results.forEach(([aCount, tCount]) => {
+    tokenCount += tCount;
+    alertCount += aCount;
+  });
   console.info(`[sendNotifications]: Sent ${alertCount} alerts to ${tokenCount} tokens`);
   return fullRules.length;
 });
 
 const filterUndefined = <T>(array: (T | undefined)[]): T[] => array.filter((a) => a !== undefined) as T[];
+type Rule = {
+  title: string;
+  tokens: string[];
+  delayMinBefore: number;
+  scheduleIds: number[];
+};
+type Alert = {
+  id: string;
+  title: string;
+  startAt: Date;
+  endAt: Date;
+};
+const sendNotificationRule = async (now: Date, alerts: Alert[], rule: Rule) => {
+  const ruleSchedules = filterUndefined(rule.scheduleIds.map((id) => schedules.find((s) => s.id === id)));
+  const alertToNotify = getAlertsToNotify(now, alerts, ruleSchedules, rule.delayMinBefore);
+  if (alertToNotify.length > 0) {
+    const alertCount = alertToNotify.length;
+    const tokenCount = rule.tokens.length;
+    await services.notification.send({
+      tokens: rule.tokens,
+      badge: alertToNotify.length,
+      title: rule.title,
+      message: `${alertToNotify
+        .map(
+          (b) =>
+            `- ${b.title.toLowerCase()}: ${date.formatDay(b.startAt)} de ${date.formatTime(
+              b.startAt,
+            )} à ${date.formatTime(b.endAt)}`,
+        )
+        .join('\n')}`,
+    });
+    return [alertCount, tokenCount] as const;
+  }
+  return [0, 0] as const;
+};
