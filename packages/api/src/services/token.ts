@@ -24,4 +24,4 @@ const tokenFactory = <I extends Object, O extends Object>(schema: ZodType<O, any
   },
 });
 
-export const token = { auth: tokenFactory(z.object({ deviceId: z.string() })) };
+export const token = { auth: tokenFactory(z.object({ deviceId: z.string(), sessionId: z.string() })) };

@@ -32,6 +32,7 @@ export const isCron = logger.unstable_pipe(async ({ next, ctx: { cronSecretKey }
 
 export type ApiContext = {
   deviceId?: string;
+  sessionId?: string;
   cronSecretKey?: string;
   host: string;
   domain: string;
