@@ -1,37 +1,38 @@
 import { fr, Timer, useCurrentStatus } from '@chaban/core';
 import { Alert } from '@chaban/sdk';
 import React from 'react';
-import styled from 'styled-components/native';
+import { H2 } from 'tamagui';
 
 type BridgeStatusProps = Alert;
 
-const Text = styled.Text<{ dark: boolean }>`
-  text-align: center;
-  font-family: ${({ theme }) => theme.typography.status.font};
-  font-size: ${({ theme }) => theme.typography.status.size}px;
-  color: ${({ theme, dark }) => (dark ? theme.colors.background.main : 'white')};
-`;
-
-export const BridgeStatus: React.FC<{ event?: BridgeStatusProps; dark: boolean }> = ({ event, dark }) => {
+export const BridgeStatus: React.FC<{ event?: BridgeStatusProps }> = ({ event }) => {
   const status = useCurrentStatus(event?.startAt, event?.endAt);
   switch (status || !event) {
     case 'OPEN':
-      return <Text dark={dark}>{fr.opened}</Text>;
+      return (
+        <H2 color='$primary' textAlign='center' flex={1}>
+          {fr.opened}
+        </H2>
+      );
 
     case 'WILL_CLOSE':
       return (
-        <Text dark={dark}>
+        <H2 color='$primary' textAlign='center' flex={1}>
           {fr.closeIn} {!!event && <Timer date={event?.startAt} />}
-        </Text>
+        </H2>
       );
 
     case 'CLOSED':
       return (
-        <Text dark={dark}>
+        <H2 color='$primary' textAlign='center' flex={1}>
           {fr.reopenIn} {!!event && <Timer date={event?.endAt} />}
-        </Text>
+        </H2>
       );
     default:
-      return <Text dark={dark}>{fr.opened}</Text>;
+      return (
+        <H2 color='$primary' textAlign='center' flex={1}>
+          {fr.opened}
+        </H2>
+      );
   }
 };

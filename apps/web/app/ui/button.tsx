@@ -5,18 +5,16 @@ import * as React from 'react';
 import { cn } from '~/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
         default: 'bg-background/5 hover:bg-background/10',
-        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        outline: 'border border-foreground bg-background hover:bg-foreground hover:text-foreground-foreground',
         success: 'bg-background/0 text-success-foreground hover:bg-background/10',
         warning: 'bg-background/0 text-warning-foreground hover:bg-background/10',
         error: 'bg-background/0 text-error-foreground hover:bg-background/10',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        ghost: 'hover:bg-foreground hover:text-foreground-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         light: 'bg-background/0 hover:bg-background/10',
       },

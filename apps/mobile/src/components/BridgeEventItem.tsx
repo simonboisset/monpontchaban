@@ -3,89 +3,50 @@ import { Alert } from '@chaban/sdk';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday.js';
 import isTomorrow from 'dayjs/plugin/isTomorrow.js';
+import { Ship } from 'lucide-react-native';
 import React from 'react';
-import { View } from 'react-native';
-import styled from 'styled-components/native';
-import { Theme } from '../const/theme';
+import { H5, H6, View, XStack, YStack, useTheme } from 'tamagui';
+import { ClosedLogo } from '../ui/ClosedLogo';
+import { OpenedLogo } from '../ui/OpenedLogo';
 
-type BridgeEventItemProps = Alert & { dark: boolean };
+type BridgeEventItemProps = Alert;
 dayjs.extend(isToday);
 dayjs.extend(isTomorrow);
 
-const Item = styled.View<{ dark: boolean }>`
-  flex-direction: column;
-  border-radius: 16px;
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: ${({ theme, dark }) => (dark ? theme.colors.background.dark : 'white')};
-`;
-
-type DotProps = {
-  color?: keyof Theme['colors'];
-};
-const Dot = styled.View<DotProps>`
-  border-radius: 16px;
-  padding: 3px;
-  margin: 8px;
-  background-color: ${({ color = 'success', theme }) => theme.colors[color].main};
-`;
-type TextAlign = 'center' | 'flex-start' | 'flex-end';
-type TextProps = {
-  variant?: keyof Theme['typography'];
-  justify?: TextAlign;
-};
-const Text = styled.Text<TextProps & { dark: boolean }>`
-  flex-direction: row;
-  align-items: center;
-  justify-content: ${({ justify = 'flex-start' }) => justify};
-  font-family: ${({ variant = 'h5', theme }) => theme.typography[variant].font};
-  font-size: ${({ variant = 'h5', theme }) => theme.typography[variant].size}px;
-  margin-bottom: ${({ variant = 'h5', theme }) => theme.typography[variant].size / 2}px;
-  color: ${({ theme, dark }) => (dark ? theme.colors.background.light : theme.colors.background.main)};
-`;
-const Row = styled.View<TextProps>`
-  flex-direction: row;
-  align-items: center;
-  justify-content: ${({ justify = 'flex-start' }) => justify};
-`;
-export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ startAt, endAt, dark, title }) => {
+export const BridgeEventItem: React.FC<BridgeEventItemProps> = ({ startAt, endAt, title }) => {
+  const { success, error, primary } = useTheme();
   return (
-    <Item dark={dark}>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-        }}>
-        <Text dark={dark} justify='center' variant='h4'>
+    <YStack borderRadius='$6' mb={4} p='$4' bg='$foregroundTransparent' gap='$4'>
+      <XStack gap='$1' flexWrap='wrap' alignItems='center' justifyContent='space-between'>
+        <H5 color='$primary' justifyContent='center'>
           {formatEventDate(startAt)}
-        </Text>
-        <Text
-          style={{
-            textTransform: 'capitalize',
-            fontWeight: 'bold',
-          }}
-          dark={dark}
-          justify='center'
-          variant='h3'>
-          {title.toLowerCase()}
-        </Text>
-      </View>
-      <Row>
-        <Dot color='error' />
-        <Text dark={dark}>
-          {dayjs(startAt).hour()}h{dayjs(startAt).format('mm')}
-        </Text>
-      </Row>
-      <Row>
-        <Dot />
-        <Text dark={dark}>
-          {dayjs(endAt).hour()}h{dayjs(endAt).format('mm')}
-        </Text>
-      </Row>
-    </Item>
+        </H5>
+        <XStack alignItems='center' gap='$2'>
+          <Ship size={20} color={primary.val} />
+          <H6 color='$primary' textTransform='capitalize' justifyContent='center'>
+            {title.toLowerCase()}
+          </H6>
+        </XStack>
+      </XStack>
+      <XStack alignItems='center' gap='$6'>
+        <XStack alignItems='center' gap='$2'>
+          <View w={16} h={16}>
+            <ClosedLogo color={error.val} />
+          </View>
+          <H6 color='$error'>
+            {dayjs(startAt).hour()}h{dayjs(startAt).format('mm')}
+          </H6>
+        </XStack>
+        <XStack alignItems='center' gap='$2'>
+          <View w={16} h={16}>
+            <OpenedLogo color={success.val} />
+          </View>
+          <H6 color='$success'>
+            {dayjs(endAt).hour()}h{dayjs(endAt).format('mm')}
+          </H6>
+        </XStack>
+      </XStack>
+    </YStack>
   );
 };
 

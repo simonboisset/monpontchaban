@@ -6,7 +6,7 @@
   "scripts": {
     "build": "prisma generate && remix build",
     "dev": "yarn with-env remix dev",
-    "start": "yarn with-env remix-serve build",
+    "start": "prisma migrate deploy && remix-serve build",
     "typecheck": "tsc",
     "with-env": "dotenv -e ../../.env --",
     "ts": "tsc --noEmit"
@@ -16,7 +16,6 @@
     "@chaban/core": "1.5.0",
     "@chaban/db": "1.5.0",
     "@radix-ui/react-slot": "^1.0.2",
-    "@radix-ui/react-toast": "^1.1.4",
     "@remix-run/node": "^1.19.1",
     "@remix-run/react": "^1.19.1",
     "@remix-run/serve": "^1.19.1",

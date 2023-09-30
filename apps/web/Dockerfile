@@ -30,4 +30,4 @@ COPY --from=installer /app/apps/web/package.json .
 COPY --from=installer /app/apps/web/build ./build
 COPY --from=installer /app/apps/web/public ./public
 
-CMD ["yarn", "remix-serve", "build"]
+CMD ["yarn", "start"]

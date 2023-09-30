@@ -2,11 +2,10 @@ import { lezoAlertApi } from '@chaban/sdk';
 
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { toast } from '../ui/useToast';
 import { useToken } from './pushTokenContext';
-import { useError } from './useError';
 
 export const useChabanAlerts = () => {
-  const { setError } = useError();
   const [now] = useState(() => new Date());
   const { today } = useToken();
   const { data, isLoading } = lezoAlertApi.alert.getAlerts.useQuery(
@@ -16,7 +15,7 @@ export const useChabanAlerts = () => {
     },
     {
       onError: () => {
-        setError('Un problème est survenu, veuillez réessayer ultérieurement');
+        toast({ title: 'Un problème est survenu, veuillez réessayer ultérieurement' });
       },
     },
   );
