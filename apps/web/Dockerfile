@@ -25,6 +25,8 @@ FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
+
+COPY --from=installer /app/packages/db/prisma ./prisma
 COPY --from=installer /app/node_modules ./node_modules
 COPY --from=installer /app/apps/web/package.json .
 COPY --from=installer /app/apps/web/build ./build
