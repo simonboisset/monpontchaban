@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useChabanAlerts } from './useChabanAlerts';
 
 export const useRootData = () => {
-  const { isAlertsLoading } = useChabanAlerts();
+  const { isAlertsLoading, alerts } = useChabanAlerts();
   const [fontsLoaded] = useFonts({
     Roboto: require('../../assets/fonts/Roboto-Regular.ttf'),
     RobotoBold: require('../../assets/fonts/Roboto-Bold.ttf'),
@@ -18,7 +18,7 @@ export const useRootData = () => {
     }
   }, [isAlertsLoading, fontsLoaded]);
 
-  return { isReady };
+  return { isReady, alerts };
 };
 
 const clearAllNotifications = async () => {

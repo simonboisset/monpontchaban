@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Theme } from './Theme';
 
 const TOAST_LIMIT = 1;
-const TOAST_DISMISS_DELAY = 5_000;
-const TOAST_REMOVE_DELAY = 10_0000;
+const TOAST_DISMISS_DELAY = 3_000;
+const TOAST_REMOVE_DELAY = 4_0000;
 
 type ToasterToast = {
   id: string;
@@ -26,6 +26,10 @@ type Action =
   | {
       type: 'ADD_TOAST';
       toast: ToasterToast;
+    }
+  | {
+      type: 'OPEN_TOAST';
+      toastId?: ToasterToast['id'];
     }
   | {
       type: 'DISMISS_TOAST';
@@ -64,6 +68,12 @@ export const reducer = (state: State, action: Action): State => {
       const { toast } = action;
       setTimeout(() => {
         dispatch({
+          type: 'OPEN_TOAST',
+          toastId: toast.id,
+        });
+      }, 100);
+      setTimeout(() => {
+        dispatch({
           type: 'DISMISS_TOAST',
           toastId: toast.id,
         });
@@ -93,6 +103,13 @@ export const reducer = (state: State, action: Action): State => {
       }
       return { ...state, toasts: state.toasts.filter((t) => t.id !== action.toastId) };
     }
+    case 'OPEN_TOAST': {
+      const { toastId } = action;
+      return {
+        ...state,
+        toasts: state.toasts.map((t) => (t.id === toastId ? { ...t, open: true } : t)),
+      };
+    }
   }
 };
 
@@ -114,7 +131,7 @@ function toast({ ...props }: Toast) {
 
   dispatch({
     type: 'ADD_TOAST',
-    toast: { ...props, id, open: true },
+    toast: { ...props, id, open: false },
   });
 
   return { id };

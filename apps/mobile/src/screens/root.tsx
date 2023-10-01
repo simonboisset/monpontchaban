@@ -1,10 +1,10 @@
-import { isNextWeek, isThisWeek, isToday, isTomorrow, useCurrentStatus } from '@chaban/core';
+import { isNextWeek, isThisWeek, isToday, isTomorrow } from '@chaban/core';
 import { Alert } from '@chaban/sdk';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import { Settings } from 'lucide-react-native';
 import React, { useEffect } from 'react';
-import { H1, H3, Theme, View, XStack, YStack } from 'tamagui';
+import { H1, H3, View, XStack, YStack } from 'tamagui';
 import { BridgeEventItem } from '../components/BridgeEventItem';
 import { BridgeStatus } from '../components/BridgeStatus';
 import { useChabanAlerts } from '../services/useChabanAlerts';
@@ -21,7 +21,6 @@ export const bgColors = {
 export default function RootPage() {
   const { alerts } = useChabanAlerts();
   const nextAlert = alerts?.[0];
-  const status = useCurrentStatus(nextAlert?.startAt, nextAlert?.endAt);
 
   const todayEvents = alerts?.filter(({ endAt }) => isToday(endAt)) || [];
   const tomorrowEvents = alerts?.filter(({ endAt }) => isTomorrow(endAt)) || [];
@@ -40,34 +39,25 @@ export default function RootPage() {
   }, []);
 
   return (
-    <Theme name={bgColors[status]}>
-      <View backgroundColor={'$primaryForeground'}>
-        <Scrollable gap='$8' px='$4' py='$12'>
-          <IconButton Icon={Settings} href={['Settings']} position='absolute' right='$4' top='$12' />
-          <H1 color='$primary' textAlign='center' mt={80}>
-            Mon Pont Chaban
-          </H1>
-          <XStack
-            mt={80}
-            alignItems='center'
-            borderRadius={'$6'}
-            w='100%'
-            mb='$6'
-            overflow='hidden'
-            bg='$foregroundTransparent'>
-            <View w={120} h={120} bg='$backgroundTransparent' p='$4' borderRadius={'$6'}>
-              <OpenedLogo />
-            </View>
-            <BridgeStatus event={nextAlert} />
-          </XStack>
-          <EventList events={todayEvents} title="Aujourd'hui" />
-          <EventList events={tomorrowEvents} title='Demain' />
-          <EventList events={thisWeekEvents} title='Cette semaine' />
-          <EventList events={nextWeekEvents} title='La semaine prochaine' />
-          <EventList events={laterEvents} title="Dans plus d'une semaine" />
-        </Scrollable>
-      </View>
-    </Theme>
+    <View backgroundColor={'$primaryForeground'}>
+      <Scrollable gap='$8' px='$4' py='$8'>
+        <IconButton Icon={Settings} href={['Settings']} position='absolute' right='$4' top='$12' />
+        <H1 color='$primary' textAlign='center' mt={80}>
+          Mon Pont Chaban
+        </H1>
+        <XStack alignItems='center' borderRadius={'$6'} w='100%' my='$8' overflow='hidden' bg='$foregroundTransparent'>
+          <View w={120} h={120} bg='$backgroundTransparent' p='$4' borderRadius={'$6'}>
+            <OpenedLogo />
+          </View>
+          <BridgeStatus event={nextAlert} />
+        </XStack>
+        <EventList events={todayEvents} title="Aujourd'hui" />
+        <EventList events={tomorrowEvents} title='Demain' />
+        <EventList events={thisWeekEvents} title='Cette semaine' />
+        <EventList events={nextWeekEvents} title='La semaine prochaine' />
+        <EventList events={laterEvents} title="Dans plus d'une semaine" />
+      </Scrollable>
+    </View>
   );
 }
 

@@ -11,6 +11,6 @@ export const deleteNotificationRule = createProcedure
   .use(isRegistered)
   .input(deleteNotificationRuleSchema)
   .mutation(async ({ ctx: { deviceId }, input: { id } }) => {
-    await prisma.notificationRule.delete({ where: { id, deviceId } });
-    return true;
+    const deleted = await prisma.notificationRule.delete({ where: { id, deviceId } });
+    return deleted;
   });

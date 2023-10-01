@@ -1,5 +1,5 @@
+import { schedules } from '@chaban/core';
 import { describe, expect, test } from 'vitest';
-import { schedules } from '../../schedules';
 import { getAlertsToNotify, getCurrenSchedule, getDateFromNextSchedule, getNextSchedule } from './getAlertsToNotify';
 
 describe('Send Alerts', () => {
@@ -311,6 +311,30 @@ describe('Send Alerts', () => {
     expect(ids).toContain('3');
     expect(ids).toContain('4');
     expect(ids).not.toContain('5');
+  });
+  test('Should get alerts of tomorrow next month', () => {
+    const now = new Date('2023-09-30T20:15');
+    const alerts = [
+      {
+        id: '1',
+        title: 'test',
+        startAt: new Date('2023-10-01T06:29'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+      {
+        id: '2',
+        title: 'test',
+        startAt: new Date('2023-10-02T17:34'),
+        endAt: new Date('2023-09-18T08:00'),
+      },
+    ];
+    const selectedSchedule = schedules.filter((s) => s.hour === 20);
+    const alertsToNotify = getAlertsToNotify(now, alerts, selectedSchedule, 300);
+
+    const ids = alertsToNotify.map(({ id }) => id);
+
+    expect(ids).toContain('1');
+    expect(ids).not.toContain('2');
   });
   test('Should get alerts weekly', () => {
     const now = new Date('2023-09-24T19:00');

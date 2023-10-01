@@ -1,3 +1,4 @@
+import { useCurrentStatus } from '@chaban/core';
 import { LezoAlertSdkProvider } from '@chaban/sdk';
 import { NavigationContainer } from '@react-navigation/native';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
@@ -11,6 +12,7 @@ import { TamaguiProvider, Theme } from 'tamagui';
 import { lezoAlertApiClient } from './src/const/api';
 import { FontProvider } from './src/init';
 import { Navigator } from './src/screens/Navigator';
+import { bgColors } from './src/screens/root';
 import { PushTokenProvider } from './src/services/pushTokenContext';
 import { AsyncStorageProvider } from './src/services/secure-store';
 import { useRootData } from './src/services/useRootData';
@@ -79,9 +81,9 @@ const asyncStoragePersister = createAsyncStoragePersister({
 });
 
 const SafeLoadedScreen = ({ children }: { children: React.ReactNode }) => {
-  const { isReady } = useRootData();
+  const { isReady, alerts } = useRootData();
   const [isFirst, setIsFirst] = useState(true);
-
+  const status = useCurrentStatus(alerts?.[0].startAt, alerts?.[0].endAt);
   useEffect(() => {
     if (isReady) {
       setTimeout(() => setIsFirst(false), 1000);
@@ -92,5 +94,5 @@ const SafeLoadedScreen = ({ children }: { children: React.ReactNode }) => {
     }
   }, [isReady, isFirst]);
 
-  return <>{isReady && children}</>;
+  return <Theme name={bgColors[status]}>{isReady && children}</Theme>;
 };

@@ -1,8 +1,8 @@
 import type { ApiRouter } from '@chaban/api';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider, Persister } from '@tanstack/react-query-persist-client';
 import { httpBatchLink } from '@trpc/react';
-import { createTRPCReact } from '@trpc/react-query';
+import { createTRPCReact, getQueryKey } from '@trpc/react-query';
 import React, { ReactNode } from 'react';
 import superjson from 'superjson';
 
@@ -65,3 +65,5 @@ export const createLezoAlertClient = (host: string, geToken: () => Promise<strin
   });
 };
 export type SdkClient = ReturnType<typeof createLezoAlertClient>;
+
+export { getQueryKey, useQueryClient };

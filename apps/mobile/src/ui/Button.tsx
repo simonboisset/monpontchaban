@@ -1,6 +1,6 @@
 import { LucideIcon } from 'lucide-react-native';
 import { forwardRef } from 'react';
-import { ButtonFrame, Spinner, Text, View, useTheme } from 'tamagui';
+import { ButtonFrame, Spinner, StackProps, Text, View, useTheme } from 'tamagui';
 import { RootNavigationProps, useRootNavigation } from '../services/useRootNavigation';
 import { type Theme } from './Theme';
 
@@ -17,16 +17,14 @@ export type ButtonProps = {
   onPress?: () => void;
   onPressIn?: () => void;
   onPressOut?: () => void;
-  flex?: number;
   textAling?: 'left' | 'center' | 'right';
-};
+} & StackProps;
 
 export const Button = forwardRef(
   (
     {
       label,
       color = 'primary',
-      flex,
       textAling = 'center',
       LeftIcon,
       RightIcon,
@@ -47,8 +45,7 @@ export const Button = forwardRef(
     const textColor = theme[color].val;
     return (
       <ButtonFrame
-        flex={flex}
-        ref={ref}
+        ref={ref as any}
         p={0}
         px={size === 'medium' ? '$4' : '$6'}
         animation={'slow'}
@@ -63,7 +60,7 @@ export const Button = forwardRef(
           opacity: 0.6,
         }}
         onPress={loading ? () => {} : href ? () => navigate(...href) : onPress}
-        {...(rest as any)}>
+        {...rest}>
         {LeftIcon && (
           <View position='absolute' left={size === 'medium' ? '$4' : '$6'}>
             <LeftIcon color={textColor} size={size === 'medium' ? 20 : 32} />

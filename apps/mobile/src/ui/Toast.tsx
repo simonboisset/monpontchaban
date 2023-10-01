@@ -16,8 +16,8 @@ export const Toast = ({ title, message, color = 'error', open, offsetTop = 0 }: 
     <View
       top={-200}
       position='absolute'
-      backgroundColor='$gray1'
-      borderColor={`$${color}5`}
+      backgroundColor={`$${color}`}
+      borderColor={`$${color}`}
       borderWidth={1}
       paddingVertical={12}
       borderRadius={12}
@@ -25,10 +25,11 @@ export const Toast = ({ title, message, color = 'error', open, offsetTop = 0 }: 
       alignSelf='center'
       paddingHorizontal={16}
       zIndex={1000}
-      transform={[{ translateY: open ? offsetTop + 320 : offsetTop }]}
+      transform={[{ translateY: open ? offsetTop + 280 : offsetTop }]}
+      animateOnly={['transform']}
       animation='bouncy'>
-      <H4 color={`$${color}7`}>{title}</H4>
-      {message && <Text color={`$${color}7`}>{message}</Text>}
+      <H4 color={`$${color}Foreground`}>{title}</H4>
+      {message && <Text color={`$${color}`}>{message}</Text>}
     </View>
   );
 };

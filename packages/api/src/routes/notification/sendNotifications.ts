@@ -1,8 +1,8 @@
+import { schedules } from '@chaban/core';
 import { prisma } from '@chaban/db';
 import { TRPCError } from '@trpc/server';
 import { createProcedure } from '../../config/api';
 import { apiBordeauxMetropole } from '../../managedApis';
-import { schedules } from '../../schedules';
 import { services } from '../../services';
 import { isCron } from '../context';
 import { date } from './date';

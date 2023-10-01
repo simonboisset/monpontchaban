@@ -1,3 +1,4 @@
+import { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import { createRouter } from '../config/api';
 import { alert } from './alert';
 import { auth } from './auth';
@@ -13,5 +14,6 @@ export const apiRouter = createRouter({
 });
 
 export type ApiRouter = typeof apiRouter;
-
+export type ApiParams = inferRouterInputs<ApiRouter>;
+export type ApiResponse = inferRouterOutputs<ApiRouter>;
 export type { ApiContext };

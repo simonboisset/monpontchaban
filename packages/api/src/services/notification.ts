@@ -4,12 +4,14 @@ import { env } from '../config/env';
 
 type SendNotificationParams = {
   tokens: ExpoPushToken[];
-  title: string;
-  message: string;
+  title?: string;
+  subtitle?: string;
+  message?: string;
   priority?: 'default' | 'normal' | 'high';
   badge?: number;
+  data?: Record<string, string>;
 };
-const send = async ({ message, title, tokens, badge, priority }: SendNotificationParams) => {
+const send = async ({ message, title, tokens, badge, priority, data, subtitle }: SendNotificationParams) => {
   let expo = new Expo({ accessToken: env.EXPO_ACCESS_TOKEN });
   let messages: ExpoPushMessage[] = [];
   let wrongTokensCount = 0;
@@ -18,7 +20,7 @@ const send = async ({ message, title, tokens, badge, priority }: SendNotificatio
       wrongTokensCount++;
       continue;
     }
-    messages.push({ to: pushToken, sound: 'default', title, body: message, priority, badge });
+    messages.push({ to: pushToken, sound: 'default', title, body: message, priority, badge, data, subtitle });
   }
 
   let chunks = expo.chunkPushNotifications(messages);

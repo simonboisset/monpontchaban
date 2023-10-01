@@ -1,16 +1,19 @@
+import { Schedule } from '@chaban/core';
 import { Alert } from '@chaban/db';
 import dayjs from 'dayjs';
-import { Schedule } from '../../schedules';
 import { date } from './date';
 
 export const getAlertsToNotify = (now: Date, alerts: Alert[], schedules: Schedule[], beforeLimit: number) => {
   const currentSchedule = getCurrenSchedule(now, schedules);
   const nextSchedule = getNextSchedule(now, schedules);
+
   if (!nextSchedule || !currentSchedule) {
     return [];
   }
   const currentScheduleDate = date.getFromSchedule(currentSchedule, now);
   const nextScheduleDate = getDateFromNextSchedule(nextSchedule, now);
+  console.log(currentScheduleDate, nextScheduleDate);
+
   const alertsToNotify = alerts.filter((a) => {
     const alertDate = dayjs(a.startAt);
     return (
