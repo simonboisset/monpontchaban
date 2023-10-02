@@ -10,7 +10,6 @@ const envSchema = z.object({
   SCALEWAY_API_KEY: z.string(),
   SCALEWAY_PROJECT_ID: z.string(),
   JWT_SECRET: z.string(),
-  RESEND_SECRET: z.string(),
   PORT: z
     .string()
     .transform((value) => parseInt(value, 10))
@@ -29,6 +28,5 @@ export const env = envSchema.parse({
   SCALEWAY_API_KEY: process.env.SCALEWAY_API_KEY,
   SCALEWAY_PROJECT_ID: process.env.SCALEWAY_PROJECT_ID,
   JWT_SECRET: process.env.JWT_SECRET,
-  RESEND_SECRET: process.env.RESEND_SECRET,
   PORT: process.env.PORT,
 });

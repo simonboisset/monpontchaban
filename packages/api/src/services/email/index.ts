@@ -1,9 +1,6 @@
 import { render } from '@react-email/components';
 import nodemailer from 'nodemailer';
-import { Resend } from 'resend';
 import { env } from '../../config/env';
-
-const resend = new Resend(env.RESEND_SECRET);
 
 const scwTransporter = nodemailer.createTransport({
   host: 'smtp.tem.scw.cloud',
@@ -33,18 +30,10 @@ const sendWithScw = async ({ from, to, subject, react }: SendEmailParams) => {
   return scwTransporter.sendMail({ sender: options.from, ...options, encoding: 'utf8' });
 };
 
-const sendWithResend = async ({ from, react, subject, to }: SendEmailParams) => {
-  const fromAddress = `${from.name} <${from.address}>`;
-  await resend.emails.send({ from: fromAddress, to, subject, react });
-};
-
 const send = async (params: SendEmailParams) => {
   const domainDestination = params.to.split('@')[1];
   if (domainDestination === 'icloud.com') {
     return sendWithScw(params);
-  }
-  if (domainDestination === 'laposte.net') {
-    return sendWithResend(params);
   }
 
   return sendWithScw(params);

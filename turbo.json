@@ -64,5 +64,5 @@
       "cache": false
     }
   },
-  "globalEnv": ["DATABASE_URL", "SESSION_SECRET", "JWT_SECRET", "RESEND_SECRET", "CRON_SECRET", "EXPO_ACCESS_TOKEN"]
+  "globalEnv": ["DATABASE_URL", "SESSION_SECRET", "JWT_SECRET", "CRON_SECRET", "EXPO_ACCESS_TOKEN"]
 }
