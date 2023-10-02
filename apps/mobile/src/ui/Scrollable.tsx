@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { NativeScrollEvent, NativeSyntheticEvent, RefreshControl, StyleSheet } from 'react-native';
-import { ScrollView, StackProps, View } from 'tamagui';
+import { NativeScrollEvent, NativeSyntheticEvent, RefreshControl } from 'react-native';
+import { ScrollView, StackProps, YStack } from 'tamagui';
 
 export type ScrollEvent = NativeSyntheticEvent<NativeScrollEvent>;
 
@@ -22,7 +22,7 @@ export const Scrollable = ({
   ...props
 }: ScrollableProps) => {
   return (
-    <View
+    <YStack
       bg={bg}
       animateOnly={['opacity', 'transform']}
       animation={'lazy'}
@@ -44,19 +44,10 @@ export const Scrollable = ({
         keyboardDismissMode='on-drag'
         keyboardShouldPersistTaps='handled'
         automaticallyAdjustKeyboardInsets>
-        <View flexDirection='column' flex={1} maxWidth={520} w='100%' {...props}>
+        <YStack mx='auto' flex={1} maxWidth={520} w='100%' {...props}>
           {children}
-        </View>
+        </YStack>
       </ScrollView>
-    </View>
+    </YStack>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    minHeight: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-});
