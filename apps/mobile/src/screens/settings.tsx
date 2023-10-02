@@ -60,7 +60,7 @@ export default function Settings() {
               onPress={login}
               label={'Activer'}
               loading={isCurrentDeviceLoading || isLoginLoading}
-              LeftIcon={BellOff}
+              RightIcon={BellOff}
             />
           ) : (
             <NotificationSection />
@@ -71,23 +71,23 @@ export default function Settings() {
           description={`Vous aimez l'application ? Notez la sur ${
             Platform.OS == 'android' ? 'le Play' : "l'App"
           } Store en cliquant sur le bouton ci-dessous.`}>
-          <Button onPress={onpenStoreReview} label="Noter l'application" LeftIcon={StarIcon} />
+          <Button onPress={onpenStoreReview} label="Noter l'application" RightIcon={StarIcon} />
         </SettingItem>
         <SettingItem
           tittle='Partagez à vos amis'
           description="Vous aimez l'application ? Partagez la à vos amis en cliquant sur le bouton ci-dessous.">
-          <Button onPress={shareApp} label="Partager l'application" LeftIcon={Share2} />
+          <Button onPress={shareApp} label="Partager l'application" RightIcon={Share2} />
         </SettingItem>
         <SettingItem
           tittle='Faites nous un retour'
           description="Vous avez des suggestions d'amélioration ou des bugs à nous signaler ? Ecrivez nous un email">
-          <Button onPress={sendEmail} label='Nous contacter' LeftIcon={Mail} />
+          <Button onPress={sendEmail} label='Nous contacter' RightIcon={Mail} />
         </SettingItem>
         {!!currentDevice?.id && (
           <SettingItem
             tittle='Supprimer mes données'
             description='En supprimant vos données, vous ne recevrez plus de notifications et vos preferences seront perdues'>
-            <Button color='error' label='Supprimer' LeftIcon={Trash} onPress={deleteAccount} />
+            <Button color='error' label='Supprimer' RightIcon={Trash} onPress={deleteAccount} />
           </SettingItem>
         )}
       </Scrollable>
@@ -321,7 +321,7 @@ const NotificationCard = ({ rule }: { rule: ApiResponse['notificationRule']['get
             <Switch.Thumb size='$2' bg={rule.active ? '$successForeground' : '$errorForeground'} animation='lazy' />
           </Switch>
         </XStack>
-        <Button label='Modifier' LeftIcon={Edit} href={['NotificationRule', { id: rule.id }]} />
+        <Button label='Modifier' RightIcon={Edit} href={['NotificationRule', { id: rule.id }]} />
       </YStack>
     </YStack>
   );
