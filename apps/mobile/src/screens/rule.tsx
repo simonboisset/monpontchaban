@@ -9,6 +9,7 @@ import { RoundedButton } from '../ui/RoundedButton';
 import { Scrollable } from '../ui/Scrollable';
 import { TextField } from '../ui/TextField';
 import { RootStack } from './Navigator';
+import { trackEvent } from './root';
 import { useNotificationRules } from './settings';
 
 type RuleSettingsProps = { route: RouteProp<RootStack, 'NotificationRule'> };
@@ -21,6 +22,10 @@ export default function RuleSettings({ route }: RuleSettingsProps) {
   const [delayMinBeforeInHours, setDelayMinBeforeInHours] = React.useState(
     Math.floor((rule?.delayMinBefore || 0) / 60),
   );
+
+  useEffect(() => {
+    trackEvent('mobile/notification-rule');
+  }, []);
 
   const toggleSchedule = (id: number) => {
     if (scheduleIds.includes(id)) {

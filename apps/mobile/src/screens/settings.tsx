@@ -3,7 +3,7 @@ import { ApiParams, ApiResponse, getQueryKey, lezoAlertApi, useQueryClient } fro
 import * as MailComposer from 'expo-mail-composer';
 import * as Notifications from 'expo-notifications';
 import { BellOff, ChevronDown, ChevronUp, Edit, Mail, Plus, Share2, StarIcon, Trash, Undo2 } from 'lucide-react-native';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Linking, Platform, Share } from 'react-native';
 import { H4, H5, H6, Switch, Text, View, XStack, YStack } from 'tamagui';
 import { useToken } from '../services/pushTokenContext';
@@ -13,11 +13,16 @@ import { Button } from '../ui/Button';
 import { IconButton } from '../ui/IconButton';
 import { Scrollable } from '../ui/Scrollable';
 import { toast } from '../ui/useToast';
+import { trackEvent } from './root';
 
 export default function Settings() {
   const { currentDevice, isCurrentDeviceLoading } = useCurrentDevice();
   const { deleteAccount, isDeleteAccountLoading } = useDeleteAccount();
   const { login, isLoginLoading } = useLogin();
+
+  useEffect(() => {
+    trackEvent('mobile/settings');
+  }, []);
 
   const shareApp = async () => {
     Share.share({

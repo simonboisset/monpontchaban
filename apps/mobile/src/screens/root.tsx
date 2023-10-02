@@ -75,7 +75,7 @@ const EventList = ({ events, title }: EventListProps) => {
   ) : null;
 };
 
-async function trackEvent(urlFragment: string) {
+export async function trackEvent(urlFragment: string) {
   if (!Device.isDevice) return;
   try {
     const HOST = 'pont-chaban-delmas.com';
