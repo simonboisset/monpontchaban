@@ -10,27 +10,27 @@ export const BridgeStatus: React.FC<{ event?: BridgeStatusProps }> = ({ event })
   switch (status || !event) {
     case 'OPEN':
       return (
-        <H2 color='$primary' textAlign='center' flex={1}>
+        <H2 color='$primary' textAlign='center' flex={1} mx='$1'>
           {fr.opened}
         </H2>
       );
 
     case 'WILL_CLOSE':
       return (
-        <H2 color='$primary' textAlign='center' flex={1}>
+        <H2 color='$primary' textAlign='center' flex={1} mx='$1'>
           {fr.closeIn} {!!event && <Timer date={event?.startAt} />}
         </H2>
       );
 
     case 'CLOSED':
       return (
-        <H2 color='$primary' textAlign='center' flex={1}>
+        <H2 color='$primary' textAlign='center' flex={1} mx='$1'>
           {fr.reopenIn} {!!event && <Timer date={event?.endAt} />}
         </H2>
       );
     default:
       return (
-        <H2 color='$primary' textAlign='center' flex={1}>
+        <H2 color='$primary' textAlign='center' flex={1} mx='$1'>
           {fr.opened}
         </H2>
       );

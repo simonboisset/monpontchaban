@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 import { H1, H3, View, XStack, YStack } from 'tamagui';
 import { BridgeEventItem } from '../components/BridgeEventItem';
 import { BridgeStatus } from '../components/BridgeStatus';
-import { useChabanAlerts } from '../services/useChabanAlerts';
+import { useRootContext } from '../services/useRootData';
 import { IconButton } from '../ui/IconButton';
 import { OpenedLogo } from '../ui/OpenedLogo';
 import { Scrollable } from '../ui/Scrollable';
@@ -19,7 +19,7 @@ export const bgColors = {
 } as const;
 
 export default function RootPage() {
-  const { alerts } = useChabanAlerts();
+  const { alerts } = useRootContext();
   const nextAlert = alerts?.[0];
 
   const todayEvents = alerts?.filter(({ endAt }) => isToday(endAt)) || [];

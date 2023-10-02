@@ -15,7 +15,7 @@ import { Navigator } from './src/screens/Navigator';
 import { bgColors } from './src/screens/root';
 import { PushTokenProvider } from './src/services/pushTokenContext';
 import { AsyncStorageProvider } from './src/services/secure-store';
-import { useRootData } from './src/services/useRootData';
+import { RootContext, useRootData } from './src/services/useRootData';
 import { ToastProvider } from './src/ui/Toast';
 import config from './tamagui.config';
 
@@ -94,5 +94,9 @@ const SafeLoadedScreen = ({ children }: { children: React.ReactNode }) => {
     }
   }, [isReady, isFirst]);
 
-  return <Theme name={bgColors[status]}>{isReady && children}</Theme>;
+  return (
+    <RootContext.Provider value={{ alerts, isReady }}>
+      <Theme name={bgColors[status]}>{isReady && children}</Theme>
+    </RootContext.Provider>
+  );
 };

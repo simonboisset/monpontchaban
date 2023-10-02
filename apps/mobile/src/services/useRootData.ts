@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useChabanAlerts } from './useChabanAlerts';
 
 export const useRootData = () => {
@@ -19,6 +19,12 @@ export const useRootData = () => {
   }, [isAlertsLoading, fontsLoaded]);
 
   return { isReady, alerts };
+};
+
+export const RootContext = createContext({} as ReturnType<typeof useRootData>);
+
+export const useRootContext = () => {
+  return useContext(RootContext);
 };
 
 const clearAllNotifications = async () => {
