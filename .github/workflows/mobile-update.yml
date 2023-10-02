@@ -1,17 +1,14 @@
 name: 📱 Mobile Update
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   eas-update:
-    name: 📱 EAS update
+    name: 📱 EAS update dev
     runs-on: ubuntu-latest
     steps:
-      - name: Set branch_name environment variable
-        run: |
-          REPO=${{github.ref}}
-          BRANCH_NAME="${REPO/'refs/heads/'/''}"
-          BRANCH_NAME="${BRANCH_NAME////-}"
-          echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
       - name: 🔌 Checkout
         uses: actions/checkout@v3
       - name: 🏗 Setup Node
@@ -46,12 +43,6 @@ jobs:
       - name: ⏳ Yarn install
         run: |
           yarn
-          yarn build
-      - name: 🚀 EAS Update production
-        if: ${{ env.branch_name == 'main' }}
-        working-directory: apps/mobile
-        run: API_URL="${{secrets.API_URL}}" eas update --branch main --message "Nouvelle version"
       - name: 🚀 EAS Update Peview
-        if: ${{ env.branch_name != 'main' }}
         working-directory: apps/mobile
-        run: API_URL="${{secrets.API_URL}}" eas update --branch pr-${{ github.event.number }} --message "Push update branch"
+        run: API_URL="${{secrets.API_URL}}" eas update --branch dev --message "Nouvelle version de dev"
