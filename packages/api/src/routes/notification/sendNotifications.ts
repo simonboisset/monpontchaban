@@ -6,12 +6,12 @@ import { apiBordeauxMetropole } from '../../managedApis';
 import { services } from '../../services';
 import { isCron } from '../context';
 import { date } from './date';
-import { getAlertsToNotify } from './getAlertsToNotify';
+import { getAlertsToNotify, getCurrenSchedule } from './getAlertsToNotify';
 
 export const sendNotifications = createProcedure.use(isCron).mutation(async () => {
   const now = new Date();
 
-  const schedule = schedules.find((s) => s.day === now.getDay() && s.hour === now.getHours());
+  const schedule = getCurrenSchedule(now, schedules);
   if (!schedule) {
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No schedule found for current time' });
   }

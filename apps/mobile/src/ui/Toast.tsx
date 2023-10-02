@@ -29,7 +29,7 @@ export const Toast = ({ title, message, color = 'error', open, offsetTop = 0 }: 
       animateOnly={['transform']}
       animation='bouncy'>
       <H4 color={`$${color}Foreground`}>{title}</H4>
-      {message && <Text color={`$${color}`}>{message}</Text>}
+      {message && <Text color={`$${color}Foreground`}>{message}</Text>}
     </View>
   );
 };
