@@ -1,14 +1,14 @@
 {
   "name": "@chaban/api",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
     "test": "vitest"
   },
   "dependencies": {
-    "@chaban/db": "1.5.0",
-    "@chaban/core": "1.5.0",
+    "@chaban/db": "2.0.0",
+    "@chaban/core": "2.0.0",
     "@react-email/components": "^0.0.7",
     "@trpc/client": "^10.35.0",
     "@trpc/server": "^10.35.0",

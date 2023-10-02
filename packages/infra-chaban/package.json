@@ -1,6 +1,6 @@
 {
   "name": "@chaban/infra",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "kill": "docker stop $(docker ps -aq) && docker rm $(docker ps -aq)",

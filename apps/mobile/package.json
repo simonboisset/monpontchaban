@@ -1,7 +1,7 @@
 {
   "name": "@chaban/mobile",
   "main": "index.js",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "scripts": {
     "dev": "expo start",
     "apk": "eas build --profile dev --platform android --no-wait --non-interactive",
@@ -9,8 +9,8 @@
     "up": "yarn upgrade-interactive --latest"
   },
   "dependencies": {
-    "@chaban/core": "1.5.0",
-    "@chaban/sdk": "1.5.0",
+    "@chaban/core": "2.0.0",
+    "@chaban/sdk": "2.0.0",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.14",
