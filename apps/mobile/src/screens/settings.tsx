@@ -17,7 +17,7 @@ import { trackEvent } from './root';
 
 export default function Settings() {
   const { currentDevice, isCurrentDeviceLoading } = useCurrentDevice();
-  const { deleteAccount, isDeleteAccountLoading } = useDeleteAccount();
+  const { deleteAccount } = useDeleteAccount();
   const { login, isLoginLoading } = useLogin();
 
   useEffect(() => {

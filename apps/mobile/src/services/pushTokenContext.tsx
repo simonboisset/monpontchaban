@@ -47,7 +47,10 @@ export const useToken = () => {
         return;
       }
     } catch (error) {
-      toast({ title: 'Un problème est survenu, veuillez réessayer ultérieurement' });
+      toast({
+        title: 'Un problème est survenu, veuillez réessayer ultérieurement',
+        message: `${JSON.stringify(error)}`,
+      });
     }
   };
   return { token, setToken, requestToken };
