@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -15,7 +16,9 @@ export const PushTokenProvider = ({ children }: { children: React.ReactNode }) =
   const [token, setToken] = useState<string>();
   useEffect(() => {
     const getToken = async () => {
-      const token = await Notifications.getExpoPushTokenAsync();
+      const token = await Notifications.getExpoPushTokenAsync({
+        projectId: Constants.expoConfig?.extra?.eas.projectId,
+      });
       setToken(token.data);
     };
     getToken();
@@ -41,14 +44,24 @@ export const useToken = () => {
               lightColor: '#FF231F7C',
             });
           }
-          const { status } = await Notifications.requestPermissionsAsync();
+          const { status } = await Notifications.requestPermissionsAsync({
+            ios: {
+              allowAlert: true,
+              allowBadge: true,
+              allowSound: true,
+            },
+          });
           finalStatus = status;
         }
         if (finalStatus !== 'granted') {
           toast({ title: 'Vous devez autoriser les notifications pour vous inscrire' });
           return;
         }
-        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        const token = (
+          await Notifications.getExpoPushTokenAsync({
+            projectId: Constants.expoConfig?.extra?.eas.projectId,
+          })
+        ).data;
         setToken(token);
         return token;
       } else {
