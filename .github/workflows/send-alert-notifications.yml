@@ -7,7 +7,7 @@ on:
 jobs:
   send_alert_notifications:
     name: 'Send alert notifications'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Request to server
