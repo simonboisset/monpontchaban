@@ -44,7 +44,7 @@ export const Scrollable = ({
         keyboardDismissMode='on-drag'
         keyboardShouldPersistTaps='handled'
         automaticallyAdjustKeyboardInsets>
-        <YStack mx='auto' flex={1} maxWidth={520} w='100%' {...props}>
+        <YStack mx='auto' flex={1} maxWidth={800} w='100%' {...props}>
           {children}
         </YStack>
       </ScrollView>
