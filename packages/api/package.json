@@ -7,8 +7,8 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@chaban/db": "2.0.0",
     "@chaban/core": "2.0.0",
+    "@chaban/db": "2.0.0",
     "@react-email/components": "^0.0.7",
     "@trpc/client": "^10.35.0",
     "@trpc/server": "^10.35.0",
@@ -18,7 +18,7 @@
     "jsonwebtoken": "^9.0.1",
     "nodemailer": "^6.9.5",
     "react": "^18.2.0",
-    "resend": "^0.17.2",
+    "resend": "^1.1.0",
     "superjson": "^1.13.1",
     "thirty-two": "^1.0.2",
     "zod": "^3.20.2"
