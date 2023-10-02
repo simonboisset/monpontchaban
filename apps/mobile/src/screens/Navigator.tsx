@@ -5,7 +5,7 @@ import Settings from './settings';
 
 export const Navigator = () => {
   return (
-    <Stack.Navigator initialRouteName='Root' screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName='Root' screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <Stack.Screen name='Root' component={RootPage} />
       <Stack.Screen name='Settings' component={Settings} />
       <Stack.Screen name='NotificationRule' component={RuleSettings} />
