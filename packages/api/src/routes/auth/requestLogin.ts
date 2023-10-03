@@ -20,6 +20,11 @@ export const requestLogin = createProcedure
     });
     const expiresAt = dayjs().add(15, 'm').toISOString();
     const confirmToken = services.token.confirmLogin.create({ deviceId: device.id, expiresAt: expiresAt });
-    await services.notification.send({ tokens: [token], data: { confirmToken } });
+    await services.notification.send({
+      title: 'Connexion au notifications',
+      message: 'Vous recevez ce message pour confirmer votre connexion aux notifications',
+      tokens: [token],
+      data: { confirmToken },
+    });
     return true;
   });
