@@ -22,7 +22,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   const alerts = await prisma.$transaction(data.map((d) => prisma.alert.create({ data: d })));
 
   const rules = await prisma.notificationRule.findMany({
-    where: { scheduleIds: { has: schedule.id } },
+    where: { scheduleIds: { has: schedule.id }, active: true },
     select: {
       title: true,
       delayMinBefore: true,
