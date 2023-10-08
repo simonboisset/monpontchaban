@@ -6,7 +6,7 @@ import { BellOff, ChevronDown, ChevronUp, Edit, Mail, Plus, Share2, StarIcon, Tr
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Linking, Platform, Share } from 'react-native';
 import { H4, H5, H6, Switch, Text, View, XStack, YStack } from 'tamagui';
-import { useToken } from '../services/pushTokenContext';
+import { usePushToken } from '../services/pushTokenContext';
 import { useAuthToken } from '../services/secure-store';
 import { useRootNavigation } from '../services/useRootNavigation';
 import { Button } from '../ui/Button';
@@ -157,7 +157,7 @@ const useLogin = () => {
   const currentDeviceCache = useCurrentDeviceCache();
   const { setAuthToken } = useAuthToken();
   const { mutate, isLoading } = lezoAlertApi.auth.requestLogin.useMutation();
-  const { requestToken, token } = useToken();
+  const { requestToken, token } = usePushToken();
   const { mutate: confirmLogin, isLoading: isConfirmLoading } = lezoAlertApi.auth.confirmLogin.useMutation();
   const [isWaitingForConfirm, setIsWaitingForConfirm] = useState(false);
 

@@ -1,6 +1,9 @@
+import { lezoAlertApi } from '@chaban/sdk';
 import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { usePushToken } from './pushTokenContext';
+import { useAuthToken } from './secure-store';
 import { useChabanAlerts } from './useChabanAlerts';
 
 export const useRootData = () => {
@@ -8,7 +11,10 @@ export const useRootData = () => {
   const [fontsLoaded] = useFonts({
     Roboto: require('../../assets/fonts/Roboto-Regular.ttf'),
     RobotoBold: require('../../assets/fonts/Roboto-Bold.ttf'),
+    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
   });
+  useCheckPushToken();
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -34,4 +40,17 @@ const clearAllNotifications = async () => {
   }
   await Notifications.setBadgeCountAsync(0);
   await Notifications.cancelAllScheduledNotificationsAsync();
+};
+
+const useCheckPushToken = () => {
+  const { token } = usePushToken();
+  const { authToken } = useAuthToken();
+  const { mutate } = lezoAlertApi.notifications.updatePushToken.useMutation();
+
+  useEffect(() => {
+    if (!token || !authToken) {
+      return;
+    }
+    mutate({ pushToken: token });
+  }, [!token, !authToken]);
 };

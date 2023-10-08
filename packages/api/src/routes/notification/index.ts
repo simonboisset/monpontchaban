@@ -8,6 +8,7 @@ import { subscribeToChabanWithoutAuth } from './subscribeToChabanWithoutAuth';
 import { toggleNotificationRule } from './toggleNotificationRule';
 import { unsubscribeFromChabanWithoutAuth } from './unsubscribeFromChabanWithoutAuth';
 import { updateNotificationRule } from './updateNotificationRule';
+import { updatePushToken } from './updatePushToken';
 
 export const notificationRule = createRouter({
   createNotificationRule,
@@ -25,4 +26,5 @@ export const chabanSubscriptions = createRouter({
 
 export const notifications = createRouter({
   sendNotifications,
+  updatePushToken,
 });

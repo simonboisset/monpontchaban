@@ -1,9 +1,10 @@
 import { prisma } from '@chaban/db';
 import { z } from 'zod';
 import { createProcedure } from '../../config/api';
+import { pushTokenSchema } from './pushToken';
 
 const isSubscribedFromChabanWithoutAuthSchema = z.object({
-  token: z.string().optional(),
+  token: pushTokenSchema.optional(),
 });
 
 export const isSubscribedFromChabanWithoutAuth = createProcedure

@@ -10,7 +10,6 @@ import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { TamaguiProvider, Theme } from 'tamagui';
 import { lezoAlertApiClient } from './src/const/api';
-import { FontProvider } from './src/init';
 import { Navigator } from './src/screens/Navigator';
 import { bgColors } from './src/screens/root';
 import { PushTokenProvider } from './src/services/pushTokenContext';
@@ -34,32 +33,30 @@ export default function App() {
     prefixes: [Linking.createURL('/'), 'https://www.pont-chaban-delmas.com'],
   };
   return (
-    <FontProvider>
-      <AsyncStorageProvider>
-        <NavigationContainer linking={linking}>
-          <TamaguiProvider config={config}>
-            <Theme name={colorScheme === 'dark' ? 'dark' : 'light'}>
-              <SafeAreaProvider>
-                <ToastProvider>
-                  <PushTokenProvider>
-                    <LezoAlertSdkProvider client={lezoAlertApiClient} persister={asyncStoragePersister}>
-                      <StatusBar
-                        barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
-                        translucent={true}
-                        backgroundColor='transparent'
-                      />
-                      <SafeLoadedScreen>
-                        <Navigator />
-                      </SafeLoadedScreen>
-                    </LezoAlertSdkProvider>
-                  </PushTokenProvider>
-                </ToastProvider>
-              </SafeAreaProvider>
-            </Theme>
-          </TamaguiProvider>
-        </NavigationContainer>
-      </AsyncStorageProvider>
-    </FontProvider>
+    <AsyncStorageProvider>
+      <NavigationContainer linking={linking}>
+        <TamaguiProvider config={config}>
+          <Theme name={colorScheme === 'dark' ? 'dark' : 'light'}>
+            <SafeAreaProvider>
+              <ToastProvider>
+                <PushTokenProvider>
+                  <LezoAlertSdkProvider client={lezoAlertApiClient} persister={asyncStoragePersister}>
+                    <StatusBar
+                      barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+                      translucent={true}
+                      backgroundColor='transparent'
+                    />
+                    <SafeLoadedScreen>
+                      <Navigator />
+                    </SafeLoadedScreen>
+                  </LezoAlertSdkProvider>
+                </PushTokenProvider>
+              </ToastProvider>
+            </SafeAreaProvider>
+          </Theme>
+        </TamaguiProvider>
+      </NavigationContainer>
+    </AsyncStorageProvider>
   );
 }
 

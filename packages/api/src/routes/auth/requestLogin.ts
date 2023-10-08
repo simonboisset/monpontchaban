@@ -4,9 +4,10 @@ import { z } from 'zod';
 import { createProcedure } from '../../config/api';
 import { services } from '../../services';
 import { logger } from '../context';
+import { pushTokenSchema } from '../notification/pushToken';
 
 export const requestLoginSchema = z.object({
-  token: z.string(),
+  token: pushTokenSchema,
 });
 
 export const requestLogin = createProcedure

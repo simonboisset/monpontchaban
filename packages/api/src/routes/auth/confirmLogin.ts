@@ -6,9 +6,10 @@ import { z } from 'zod';
 import { createProcedure } from '../../config/api';
 import { services } from '../../services';
 import { logger } from '../context';
+import { pushTokenSchema } from '../notification/pushToken';
 
 export const confirmLoginSchema = z.object({
-  pushToken: z.string(),
+  pushToken: pushTokenSchema,
   confirmToken: z.string(),
 });
 

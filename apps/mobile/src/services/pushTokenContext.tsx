@@ -27,7 +27,7 @@ export const PushTokenProvider = ({ children }: { children: React.ReactNode }) =
   return <PushTokenContext.Provider value={{ token, setToken }}>{children}</PushTokenContext.Provider>;
 };
 
-export const useToken = () => {
+export const usePushToken = () => {
   const { token, setToken } = useContext(PushTokenContext);
   const requestToken = async () => {
     try {
