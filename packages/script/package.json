@@ -1,6 +1,6 @@
 {
   "name": "@chaban/script",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -16,7 +16,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@chaban/db": "2.0.1"
+    "@chaban/db": "2.0.2"
   },
   "devDependencies": {
     "builder": "*",
