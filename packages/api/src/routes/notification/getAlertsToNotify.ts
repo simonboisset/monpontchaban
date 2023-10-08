@@ -12,7 +12,6 @@ export const getAlertsToNotify = (now: Date, alerts: Alert[], schedules: Schedul
   }
   const currentScheduleDate = date.getFromSchedule(currentSchedule, now);
   const nextScheduleDate = getDateFromNextSchedule(nextSchedule, now);
-  console.log(currentScheduleDate, nextScheduleDate);
 
   const alertsToNotify = alerts.filter((a) => {
     const alertDate = dayjs(a.startAt);

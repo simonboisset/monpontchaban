@@ -30,7 +30,6 @@ export const PushTokenProvider = ({ children }: { children: React.ReactNode }) =
 export const useToken = () => {
   const { token, setToken } = useContext(PushTokenContext);
   const requestToken = async () => {
-    if (token) return token;
     try {
       if (Device.isDevice) {
         const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -63,6 +62,7 @@ export const useToken = () => {
           })
         ).data;
         setToken(token);
+
         return token;
       } else {
         toast({ title: 'Vous devez être sur un appareil pour vous inscrire', color: 'error' });

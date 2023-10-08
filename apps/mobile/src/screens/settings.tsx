@@ -157,9 +157,30 @@ const useLogin = () => {
   const currentDeviceCache = useCurrentDeviceCache();
   const { setAuthToken } = useAuthToken();
   const { mutate, isLoading } = lezoAlertApi.auth.requestLogin.useMutation();
-  const { requestToken } = useToken();
+  const { requestToken, token } = useToken();
   const { mutate: confirmLogin, isLoading: isConfirmLoading } = lezoAlertApi.auth.confirmLogin.useMutation();
   const [isWaitingForConfirm, setIsWaitingForConfirm] = useState(false);
+
+  useEffect(() => {
+    if (!isWaitingForConfirm || !token) return;
+
+    const subscription = Notifications.addNotificationReceivedListener((response) => {
+      const confirmToken = response?.request?.content?.data?.confirmToken as string | undefined;
+      if (!confirmToken) return;
+      confirmLogin(
+        { confirmToken, pushToken: token },
+        {
+          onSuccess: async ({ authToken, deviceId, pushToken }) => {
+            setAuthToken(authToken);
+            currentDeviceCache.setCache({ id: deviceId, token: pushToken });
+            setIsWaitingForConfirm(false);
+            await Notifications.dismissAllNotificationsAsync();
+          },
+        },
+      );
+    });
+    return () => subscription.remove();
+  }, [isWaitingForConfirm, token]);
 
   const login = async () => {
     setIsWaitingForConfirm(true);
@@ -167,24 +188,6 @@ const useLogin = () => {
     if (!token) return;
 
     mutate({ token });
-    setTimeout(async () => {
-      const data = await Notifications.getPresentedNotificationsAsync();
-      const notifications = JSON.parse(JSON.stringify(data)) as Notifications.Notification[];
-      notifications.sort((a, b) => b.date - a.date);
-      const confirmToken = notifications[0].request.content.data.confirmToken;
-      confirmLogin(
-        { confirmToken, pushToken: token },
-        {
-          onSuccess: ({ authToken, deviceId, pushToken }) => {
-            setAuthToken(authToken);
-            currentDeviceCache.setCache({ id: deviceId, token: pushToken });
-          },
-        },
-      );
-      await Notifications.dismissAllNotificationsAsync();
-
-      setIsWaitingForConfirm(false);
-    }, 3000);
   };
 
   return { login, isLoginLoading: isLoading || isConfirmLoading || isWaitingForConfirm };
