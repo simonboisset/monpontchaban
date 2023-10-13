@@ -1,6 +1,10 @@
 app = "chaban"
 primary_region = "cdg"
 
+[mounts]
+  source = "data"
+  destination = "/data"
+
 [build]
   dockerfile = "./apps/web/Dockerfile"
 

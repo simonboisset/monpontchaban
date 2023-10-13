@@ -22,10 +22,13 @@ RUN yarn turbo run build --filter=@chaban/web...
 RUN yarn install --production=true --ignore-scripts
 
 FROM base AS runner
+RUN apt-get update -y && apt-get install -y ca-certificates fuse3 sqlite3
+
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
+COPY --from=flyio/litefs:0.5 /usr/local/bin/litefs /usr/local/bin/litefs
 COPY --from=installer /app/packages/db/prisma ./prisma
 COPY --from=installer /app/node_modules ./node_modules
 COPY --from=installer /app/apps/web/package.json .

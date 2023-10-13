@@ -22,11 +22,11 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   const alerts = await prisma.$transaction(data.map((d) => prisma.alert.create({ data: d })));
 
   const rules = await prisma.notificationRule.findMany({
-    where: { scheduleIds: { has: schedule.id }, active: true },
+    where: { schedules: { some: { id: schedule.id } }, active: true },
     select: {
       title: true,
       delayMinBefore: true,
-      scheduleIds: true,
+      schedules: true,
       device: { select: { token: true } },
     },
   });
@@ -35,7 +35,7 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
     title: r.title,
     tokens: [r.device.token],
     delayMinBefore: r.delayMinBefore,
-    scheduleIds: r.scheduleIds,
+    scheduleIds: r.schedules.map((s) => s.id),
   }));
 
   const unAutheddevices = await prisma.device.findMany({ where: { sessions: { none: {} } } });

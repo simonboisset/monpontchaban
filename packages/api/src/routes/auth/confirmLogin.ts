@@ -29,27 +29,29 @@ export const confirmLogin = createProcedure
     const existingRules = await prisma.notificationRule.findMany({ where: { deviceId } });
 
     if (existingRules.length === 0) {
-      await prisma.notificationRule.createMany({
-        data: [
-          {
-            title: `🌉 Demain Fermeture du pont chaban`,
-            delayMinBefore: 300,
-            scheduleIds: schedules.filter((s) => s.hour === 20).map((s) => s.id),
-            deviceId,
-          },
-          {
-            title: `📅 Récap Hebdos du pont chaban`,
-            delayMinBefore: 300,
-            scheduleIds: schedules.filter((s) => s.day === 0 && s.hour === 19).map((s) => s.id),
-            deviceId,
-          },
-          {
-            title: `⏰ Alerte Fermeture du pont chaban`,
-            delayMinBefore: 60,
-            scheduleIds: schedules.map((s) => s.id),
-            deviceId,
-          },
-        ],
+      await prisma.notificationRule.create({
+        data: {
+          title: `⏰ Alerte Fermeture du pont chaban`,
+          delayMinBefore: 60,
+          schedules: { connect: schedules.map((s) => ({ id: s.id })) },
+          deviceId,
+        },
+      });
+      await prisma.notificationRule.create({
+        data: {
+          title: `🌉 Demain Fermeture du pont chaban`,
+          delayMinBefore: 300,
+          schedules: { connect: schedules.filter((s) => s.hour === 20).map((s) => ({ id: s.id })) },
+          deviceId,
+        },
+      });
+      await prisma.notificationRule.create({
+        data: {
+          title: `📅 Récap Hebdos du pont chaban`,
+          delayMinBefore: 300,
+          schedules: { connect: schedules.filter((s) => s.day === 0 && s.hour === 19).map((s) => ({ id: s.id })) },
+          deviceId,
+        },
       });
     }
 

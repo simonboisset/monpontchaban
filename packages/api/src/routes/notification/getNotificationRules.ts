@@ -11,7 +11,8 @@ export const getNotificationRules = createProcedure
   .query(async ({ ctx: { deviceId } }) => {
     const notificationRule = await prisma.notificationRule.findMany({
       where: { deviceId },
+      include: { schedules: true },
     });
 
-    return notificationRule;
+    return notificationRule.map(({ schedules, ...rule }) => ({ ...rule, scheduleIds: schedules.map(({ id }) => id) }));
   });

@@ -13,9 +13,16 @@ export const createNotificationRule = createProcedure
   .use(isRegistered)
   .input(createNotificationRuleSchema)
   .mutation(async ({ ctx: { deviceId }, input: { scheduleIds, delayMinBefore, title } }) => {
-    const notificationRule = await prisma.notificationRule.create({
-      data: { delayMinBefore, deviceId, title, scheduleIds, active: true },
+    const { schedules, ...notificationRule } = await prisma.notificationRule.create({
+      data: {
+        delayMinBefore,
+        deviceId,
+        title,
+        active: true,
+        schedules: { connect: scheduleIds.map((id) => ({ id })) },
+      },
+      include: { schedules: true },
     });
 
-    return notificationRule;
+    return { ...notificationRule, scheduleIds: schedules.map(({ id }) => id) };
   });

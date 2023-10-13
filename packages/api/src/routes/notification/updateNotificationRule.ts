@@ -15,10 +15,17 @@ export const updateNotificationRule = createProcedure
   .use(isRegistered)
   .input(updateNotificationRuleSchema)
   .mutation(async ({ ctx: { deviceId }, input: { scheduleIds, id, delayMinBefore, title, active } }) => {
-    const notificationRule = await prisma.notificationRule.update({
+    const { schedules, ...notificationRule } = await prisma.notificationRule.update({
       where: { id, deviceId },
-      data: { delayMinBefore, deviceId, title, scheduleIds, active },
+      data: {
+        delayMinBefore,
+        deviceId,
+        title,
+        active,
+        schedules: scheduleIds ? { set: scheduleIds.map((id) => ({ id })) } : undefined,
+      },
+      include: { schedules: true },
     });
 
-    return notificationRule;
+    return { ...notificationRule, scheduleIds: schedules.map(({ id }) => id) };
   });
