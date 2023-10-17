@@ -59,7 +59,7 @@ async function seed() {
   // await prisma.session.deleteMany({});
   // await prisma.device.deleteMany({});
 
-  console.log(`Seeding database... 🌱`);
+  // console.log(`Seeding database... 🌱`);
   // const alerts = await prisma.alert.findMany({});
   // const devices = await prisma.device.findMany({});
   // const notificationRules = await prisma.notificationRule.findMany({});
