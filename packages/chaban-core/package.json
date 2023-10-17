@@ -4,10 +4,14 @@
   "private": true,
   "main": "./index.ts",
   "types": "./index.ts",
+  "scripts": {
+    "test": "vitest"
+  },
   "devDependencies": {
     "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.7",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.6"
   },
   "peerDependencies": {
     "react": ">=16",

@@ -20,19 +20,22 @@ export const bgColors = {
 
 export default function RootPage() {
   const { alerts } = useRootContext();
+  const now = new Date();
   const nextAlert = alerts?.[0];
 
-  const todayEvents = alerts?.filter(({ endAt }) => isToday(endAt)) || [];
-  const tomorrowEvents = alerts?.filter(({ endAt }) => isTomorrow(endAt)) || [];
+  const todayEvents = alerts?.filter(({ endAt }) => isToday(endAt, now)) || [];
+  const tomorrowEvents = alerts?.filter(({ endAt }) => isTomorrow(endAt, now)) || [];
 
   const thisWeekEvents =
-    alerts?.filter(({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && isThisWeek(endAt)) || [];
+    alerts?.filter(({ endAt }) => !isToday(endAt, now) && !isTomorrow(endAt, now) && isThisWeek(endAt, now)) || [];
 
-  const nextWeekEvents = alerts?.filter(({ endAt }) => !isTomorrow(endAt) && isNextWeek(endAt)) || [];
+  const nextWeekEvents = alerts?.filter(({ endAt }) => !isTomorrow(endAt, now) && isNextWeek(endAt, now)) || [];
 
   const laterEvents =
-    alerts?.filter(({ endAt }) => !isToday(endAt) && !isTomorrow(endAt) && !isThisWeek(endAt) && !isNextWeek(endAt)) ||
-    [];
+    alerts?.filter(
+      ({ endAt }) =>
+        !isToday(endAt, now) && !isTomorrow(endAt, now) && !isThisWeek(endAt, now) && !isNextWeek(endAt, now),
+    ) || [];
 
   useEffect(() => {
     trackEvent('mobile');
