@@ -2,14 +2,35 @@
   "editor.formatOnSave": true,
   "editor.tabCompletion": "on",
   "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": true,
+      "source.fixAll": true
     }
   },
   "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": true,
+      "source.fixAll": true
     }
   },
-  "files.eol": "\n"
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+  "files.refactoring.autoSave": true
 }
