@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import fs from 'fs';
 import z from 'zod';
 const prisma = new PrismaClient();
 
@@ -66,21 +65,50 @@ async function seed() {
   // const sessions = await prisma.session.findMany({});
   // fs.writeFileSync('./dump.json', JSON.stringify({ alerts, devices, notificationRules, sessions }, null, 2));
 
-  const dump = fs.readFileSync('./dump.json', 'utf-8');
-  const { alerts, devices, notificationRules, sessions } = dumpSchema.parse(JSON.parse(dump));
-  for (const alert of alerts) {
-    await prisma.alert.create({ data: alert });
-  }
-  for (const device of devices) {
-    await prisma.device.create({ data: device });
-  }
-  for (const { scheduleIds, ...notificationRule } of notificationRules) {
-    await prisma.notificationRule.create({ data: notificationRule });
-  }
+  // const dump = fs.readFileSync('./dump.json', 'utf-8');
+  // const { alerts, devices, notificationRules, sessions } = dumpSchema.parse(JSON.parse(dump));
+  // for (const alert of alerts) {
+  //   await prisma.alert.create({ data: alert });
+  // }
+  // for (const device of devices) {
+  //   await prisma.device.create({ data: device });
+  // }
+  // for (const notificationRule  of notificationRules) {
+  //   await prisma.notificationRule.create({ data: notificationRule });
+  // }
 
-  for (const session of sessions) {
-    await prisma.session.create({ data: session });
-  }
+  // for (const session of sessions) {
+  //   await prisma.session.create({ data: session });
+  // }
+
+  await prisma.notificationRule.deleteMany({});
+  const devices = await prisma.device.findMany({});
+  prisma.$transaction(
+    devices.map((device) =>
+      prisma.notificationRule.createMany({
+        data: [
+          {
+            title: `🌉 Demain Fermeture du pont chaban`,
+            delayMinBefore: 300,
+            scheduleIds: schedules.filter((s) => s.hour === 20).map((s) => s.id),
+            deviceId: device.id,
+          },
+          {
+            title: `📅 Récap Hebdos du pont chaban`,
+            delayMinBefore: 300,
+            scheduleIds: schedules.filter((s) => s.day === 0 && s.hour === 19).map((s) => s.id),
+            deviceId: device.id,
+          },
+          {
+            title: `⏰ Alerte Fermeture du pont chaban`,
+            delayMinBefore: 60,
+            scheduleIds: schedules.map((s) => s.id),
+            deviceId: device.id,
+          },
+        ],
+      }),
+    ),
+  );
 
   console.log(`Database has been seeded. 🌱`);
 }

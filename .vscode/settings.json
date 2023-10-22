@@ -32,5 +32,8 @@
   },
   "editor.tabSize": 2,
   "files.eol": "\n",
-  "files.refactoring.autoSave": true
+  "files.refactoring.autoSave": true,
+  "github.copilot.enable": {
+    "markdown": true
+  }
 }

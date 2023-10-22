@@ -9,8 +9,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-background/5 hover:bg-background/10',
-        outline: 'border border-foreground bg-background hover:bg-foreground hover:text-foreground-foreground',
+        default: 'bg-background/40 hover:bg-background/60',
+        outline: 'border border-foreground bg-background/40 hover:bg-background/60',
         success: 'bg-background/0 text-success-foreground hover:bg-background/10',
         warning: 'bg-background/0 text-warning-foreground hover:bg-background/10',
         error: 'bg-background/0 text-error-foreground hover:bg-background/10',
