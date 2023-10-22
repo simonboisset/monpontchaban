@@ -23,7 +23,7 @@ export default function Index() {
         <h2 className='font-semibold text-2xl'>❤️ Soutenir le projet</h2>
         <h3 className='text-lg text-justify'>
           Mon Pont Chaban est un projet hébergé, développé et maintenu gracieusement par le développeur. Aucune
-          publicité n'est présente sur le site ou dans l'application et aucune donnée n'est collectée a des fins
+          publicité n'est présente sur le site ou dans l'application et aucune donnée n'est collectée à des fins
           commerciales. Si vous souhaitez soutenir le projet, vous pouvez faire un don avec le lien ci-dessous.
         </h3>
         <Button asChild variant='outline'>
