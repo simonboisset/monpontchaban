@@ -25,11 +25,11 @@ La solution est constituée de deux parties :
 
 Une partie du code source est partagée entre les deux applications nottament la logique de tri et de filtrage des prochaine dates d'ouverture du pont et de mise à jour du statut du pont.
 
-L'api utilise trpc pour la gestion des requêtes et des réponses ce qui permet de typer toutes les données échangées entre le client et le serveur et de générer automatiquement un client utilisable dans l'application mobile et dans l'application web.
+L'api utilise [trpc](https://trpc.io) pour la gestion des requêtes et des réponses ce qui permet de typer toutes les données échangées entre le client et le serveur et de générer automatiquement un client utilisable dans l'application mobile et dans l'application web.
 
 ## Design
 
-Le design système de l'application est basé sur [Tailwind CSS](https://tailwindcss.com) et [Tailwind UI](https://tailwindui.com) pour la partie web et sur [Tamagui](https://tamagui.dev/) pour la partie mobile. La logique de gestion des thèmes est partagée entre les deux applications.
+Le design système de l'application est basé sur [Tailwind CSS](https://tailwindcss.com) et [Shadcn](https://ui.shadcn.com) pour la partie web et sur [Tamagui](https://tamagui.dev) pour la partie mobile. La logique de gestion des thèmes est partagée entre les deux applications.
 
 ## Monorepo
 
