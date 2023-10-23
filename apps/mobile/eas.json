@@ -1,6 +1,7 @@
 {
   "build": {
     "production": {
+      "node": "18.18.2",
       "distribution": "store",
       "channel": "main",
       "android": {
@@ -8,6 +9,7 @@
       }
     },
     "dev": {
+      "node": "18.18.2",
       "distribution": "internal",
       "channel": "dev",
       "android": {
