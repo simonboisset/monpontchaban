@@ -8,8 +8,8 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@types/react": "^18.2.24",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
     "typescript": "^5.1.6",
     "vitest": "^0.34.6"
   },

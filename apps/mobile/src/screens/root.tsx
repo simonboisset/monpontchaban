@@ -23,18 +23,15 @@ export default function RootPage() {
   const now = new Date();
   const nextAlert = alerts?.[0];
 
-  const todayEvents = alerts?.filter(({ endAt }) => isToday(endAt, now)) || [];
-  const tomorrowEvents = alerts?.filter(({ endAt }) => isTomorrow(endAt, now)) || [];
-
-  const thisWeekEvents =
-    alerts?.filter(({ endAt }) => !isToday(endAt, now) && !isTomorrow(endAt, now) && isThisWeek(endAt, now)) || [];
-
-  const nextWeekEvents = alerts?.filter(({ endAt }) => !isTomorrow(endAt, now) && isNextWeek(endAt, now)) || [];
+  const todayEvents = alerts?.filter(({ startAt }) => isToday(startAt, now)) || [];
+  const tomorrowEvents = alerts?.filter(({ startAt }) => isTomorrow(startAt, now)) || [];
+  const thisWeekEvents = alerts?.filter(({ startAt }) => isThisWeek(startAt, now)) || [];
+  const nextWeekEvents = alerts?.filter(({ startAt }) => isNextWeek(startAt, now)) || [];
 
   const laterEvents =
     alerts?.filter(
-      ({ endAt }) =>
-        !isToday(endAt, now) && !isTomorrow(endAt, now) && !isThisWeek(endAt, now) && !isNextWeek(endAt, now),
+      ({ startAt }) =>
+        !isToday(startAt, now) && !isTomorrow(startAt, now) && !isThisWeek(startAt, now) && !isNextWeek(startAt, now),
     ) || [];
 
   useEffect(() => {

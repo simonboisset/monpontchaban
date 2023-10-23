@@ -21,7 +21,7 @@
   "devDependencies": {
     "builder": "*",
     "dotenv-cli": "^7.1.0",
-    "eslint": "^8.45.0",
+    "eslint": "^8.52.0",
     "typescript": "^5.1.6"
   }
 }

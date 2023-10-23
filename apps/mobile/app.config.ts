@@ -83,6 +83,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     API_URL: process.env.API_URL || 'https://pont-chaban-delmas.com',
   },
   plugins: [
+    'sentry-expo',
     [
       'expo-notifications',
       {
@@ -91,4 +92,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
   ],
+  hooks: {
+    postPublish: [
+      {
+        file: 'sentry-expo/upload-sourcemaps',
+        config: {
+          organization: 'sentry org slug, or use the `SENTRY_ORG` environment variable',
+          project: 'sentry project name, or use the `SENTRY_PROJECT` environment variable',
+        },
+      },
+    ],
+  },
 });

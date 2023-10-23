@@ -10,24 +10,24 @@
     "@chaban/core": "2.0.2",
     "@chaban/db": "2.0.2",
     "@react-email/components": "^0.0.7",
-    "@trpc/client": "^10.35.0",
-    "@trpc/server": "^10.35.0",
+    "@trpc/client": "^10.41.0",
+    "@trpc/server": "^10.41.0",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.9",
     "expo-server-sdk": "^3.7.0",
     "jsonwebtoken": "^9.0.1",
-    "nodemailer": "^6.9.5",
+    "nodemailer": "^6.9.7",
     "react": "^18.2.0",
     "superjson": "^1.13.1",
     "thirty-two": "^1.0.2",
-    "zod": "^3.20.2"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "@types/jsonwebtoken": "^9.0.2",
-    "@types/nodemailer": "^6.4.10",
+    "@types/bcryptjs": "^2.4.5",
+    "@types/jsonwebtoken": "^9.0.4",
+    "@types/nodemailer": "^6.4.13",
     "dotenv-cli": "^7.1.0",
-    "eslint": "^8.45.0",
+    "eslint": "^8.52.0",
     "typescript": "^5.1.6",
     "vitest": "^0.34.5"
   }

@@ -1,15 +1,7 @@
 import { useCurrentStatus, useNow } from '@chaban/core';
-import { DataFunctionArgs, TypedResponse, json } from '@remix-run/node';
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  V2_MetaFunction,
-  useLoaderData,
-} from '@remix-run/react';
+import { DataFunctionArgs, MetaFunction, TypedResponse, json } from '@remix-run/node';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
+import { withSentry } from '@sentry/remix';
 import dayjs from 'dayjs';
 import styles from '~/globals.css';
 import { remixCaller } from './domain/api.server';
@@ -17,7 +9,7 @@ import { isDevelopmentMode } from './domain/config/isDevelopmentMode';
 import { ThemeProvider } from './domain/theme';
 import cookie from './hooks/cookie';
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const [firstAlert, secondAlert] = data?.alerts?.map(({ startAt, endAt, id, title }) => ({
     id,
     title,
@@ -81,7 +73,7 @@ export const loader = async (args: DataFunctionArgs) => {
 type UnTypedResponse<R> = R extends TypedResponse<infer U> ? U : never;
 
 export type RootLoaderData = UnTypedResponse<Awaited<ReturnType<typeof loader>>>;
-export default function App() {
+function App() {
   const { data: themeData, alerts, ENV } = useLoaderData<RootLoaderData>();
   const now = useNow();
   const futureAlerts = alerts.filter((a) => new Date(a.endAt) > now);
@@ -109,3 +101,5 @@ export default function App() {
     </html>
   );
 }
+
+export default withSentry(App);

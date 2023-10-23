@@ -12,6 +12,13 @@ export default function Index() {
   const { laterAlerts, nextWeekAlerts, thisWeekAlerts, todayAlerts, tomorrowAlerts } = groupAlertsByDate(alerts);
   return (
     <div>
+      <button
+        type='button'
+        onClick={() => {
+          throw new Error('Sentry Frontend Error');
+        }}>
+        Throw Test Error
+      </button>
       <h1 className='text-center font-black text-6xl mb-8'>Mon Pont Chaban</h1>
       <h2 className='text-center font-bold text-xl mb-24'>
         Les horaires du pont Chaban-Delmas de Bordeaux en temps réel. Tenez vous informé des prochaines fermetures en un

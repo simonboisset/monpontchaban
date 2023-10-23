@@ -7,13 +7,7 @@ import React, { ReactNode } from 'react';
 import superjson from 'superjson';
 
 export const lezoAlertApi = createTRPCReact<ApiRouter>();
-export const lezoAlertQueryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      cacheTime: 1000 * 60 * 60 * 24,
-    },
-  },
-});
+export const lezoAlertQueryClient = new QueryClient({});
 
 type QueryProviderProp = {
   children: ReactNode;

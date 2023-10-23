@@ -18,15 +18,13 @@ export const EventList = ({ events, title }: EventListProps) => {
 
 export const groupAlertsByDate = (alerts: Alert[]) => {
   const now = new Date();
-  const todayAlerts = alerts.filter(({ endAt }) => isToday(endAt, now));
-  const tomorrowAlerts = alerts.filter(({ endAt }) => isTomorrow(endAt, now));
-  const thisWeekAlerts = alerts.filter(
-    ({ endAt }) => !isToday(endAt, now) && !isTomorrow(endAt, now) && isThisWeek(endAt, now),
-  );
-  const nextWeekAlerts = alerts.filter(({ endAt }) => !isTomorrow(endAt, now) && isNextWeek(endAt, now));
+  const todayAlerts = alerts.filter(({ startAt }) => isToday(startAt, now));
+  const tomorrowAlerts = alerts.filter(({ startAt }) => isTomorrow(startAt, now));
+  const thisWeekAlerts = alerts.filter(({ startAt }) => isThisWeek(startAt, now));
+  const nextWeekAlerts = alerts.filter(({ startAt }) => isNextWeek(startAt, now));
   const laterAlerts = alerts.filter(
-    ({ endAt }) =>
-      !isToday(endAt, now) && !isTomorrow(endAt, now) && !isThisWeek(endAt, now) && !isNextWeek(endAt, now),
+    ({ startAt }) =>
+      !isToday(startAt, now) && !isTomorrow(startAt, now) && !isThisWeek(startAt, now) && !isNextWeek(startAt, now),
   );
   return { todayAlerts, tomorrowAlerts, thisWeekAlerts, nextWeekAlerts, laterAlerts };
 };

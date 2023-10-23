@@ -53,4 +53,12 @@ describe('Date group', () => {
     expect(isThisWeek(date, now)).toBe(false);
     expect(isNextWeek(date, now)).toBe(false);
   });
+  test('Should be next week sunday', () => {
+    const now = dayjs(`2023-10-23 08:00`, 'YYYY-MM-DD HH:mm').toDate();
+    const date = dayjs(`2023-11-05 23:00`, 'YYYY-MM-DD HH:mm').toDate();
+    expect(isToday(date, now)).toBe(false);
+    expect(isTomorrow(date, now)).toBe(false);
+    expect(isThisWeek(date, now)).toBe(false);
+    expect(isNextWeek(date, now)).toBe(true);
+  });
 });
