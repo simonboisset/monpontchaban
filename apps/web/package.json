@@ -6,7 +6,7 @@
   "scripts": {
     "build": "prisma generate && remix build",
     "dev": "yarn with-env remix dev",
-    "start": "prisma migrate deploy && remix-serve build",
+    "start": "prisma migrate deploy && remix-serve ./build/index.js",
     "typecheck": "tsc",
     "with-env": "dotenv -e ../../.env --",
     "ts": "tsc --noEmit"
