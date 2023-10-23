@@ -19,12 +19,13 @@ import { RootContext, useRootData } from './src/services/useRootData';
 import { ToastProvider } from './src/ui/Toast';
 import config from './tamagui.config';
 
-Sentry.init({
-  dsn: 'https://ef67eabf4525efee264d07253cacf2b8@o4506096861839360.ingest.sentry.io/4506096964993024',
-  enableInExpoDevelopment: true,
-  debug: process.env.NODE_ENV === 'development',
-  tracesSampleRate: 1.0,
-});
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: 'https://ef67eabf4525efee264d07253cacf2b8@o4506096861839360.ingest.sentry.io/4506096964993024',
+    enableInExpoDevelopment: true,
+    tracesSampleRate: 1.0,
+  });
+}
 
 SplashScreen.preventAutoHideAsync();
 Notifications.setNotificationHandler({

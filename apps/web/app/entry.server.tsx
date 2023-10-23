@@ -14,12 +14,13 @@ import * as Sentry from '@sentry/remix';
 import isbot from 'isbot';
 import { renderToPipeableStream } from 'react-dom/server';
 
-Sentry.init({
-  dsn: 'https://a3e846d905529b9b08ec539bcd1a4db4@o4506096861839360.ingest.sentry.io/4506096865247232',
-  integrations: [new Sentry.Integrations.Prisma({ client: prisma })],
-  tracesSampleRate: 1.0,
-});
-
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: 'https://a3e846d905529b9b08ec539bcd1a4db4@o4506096861839360.ingest.sentry.io/4506096865247232',
+    integrations: [new Sentry.Integrations.Prisma({ client: prisma })],
+    tracesSampleRate: 1.0,
+  });
+}
 const ABORT_DELAY = 5_000;
 
 export default function handleRequest(
