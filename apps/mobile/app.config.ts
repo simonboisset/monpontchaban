@@ -97,8 +97,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         file: 'sentry-expo/upload-sourcemaps',
         config: {
-          organization: 'sentry org slug, or use the `SENTRY_ORG` environment variable',
-          project: 'sentry project name, or use the `SENTRY_PROJECT` environment variable',
+          organization: 'lezo',
+          project: 'monpontchaban-mobile',
         },
       },
     ],
