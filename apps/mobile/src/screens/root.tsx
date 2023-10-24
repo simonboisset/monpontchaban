@@ -2,14 +2,12 @@ import { isNextWeek, isThisWeek, isToday, isTomorrow } from '@chaban/core';
 import { Alert } from '@chaban/sdk';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
-import { Coins, Settings } from 'lucide-react-native';
+import { Settings } from 'lucide-react-native';
 import React, { useEffect } from 'react';
-import { Linking } from 'react-native';
-import { H1, H2, H3, Text, View, XStack, YStack } from 'tamagui';
+import { H1, H3, View, XStack, YStack } from 'tamagui';
 import { BridgeEventItem } from '../components/BridgeEventItem';
 import { BridgeStatus } from '../components/BridgeStatus';
 import { useRootContext } from '../services/useRootData';
-import { Button } from '../ui/Button';
 import { IconButton } from '../ui/IconButton';
 import { OpenedLogo } from '../ui/OpenedLogo';
 import { Scrollable } from '../ui/Scrollable';
@@ -40,9 +38,9 @@ export default function RootPage() {
     trackEvent('mobile');
   }, []);
 
-  const onPresseDonation = () => {
-    Linking.openURL('https://donate.stripe.com/5kA7t5eVFeogauk000');
-  };
+  // const onPresseDonation = () => {
+  //   Linking.openURL('https://donate.stripe.com/5kA7t5eVFeogauk000');
+  // };
 
   return (
     <View backgroundColor={'$primaryForeground'}>
@@ -57,7 +55,7 @@ export default function RootPage() {
           </View>
           <BridgeStatus event={nextAlert} />
         </XStack>
-        <YStack gap='$4' overflow='hidden' bg='$foregroundTransparent' borderRadius={'$6'} p='$4'>
+        {/* <YStack gap='$4' overflow='hidden' bg='$foregroundTransparent' borderRadius={'$6'} p='$4'>
           <H2 color='$primary'>❤️ Soutenir le projet</H2>
           <Text color='$primary' textAlign='justify'>
             Mon Pont Chaban est un projet hébergé, développé et maintenu gracieusement par le développeur. Aucune
@@ -65,7 +63,7 @@ export default function RootPage() {
             commerciales. Si vous souhaitez soutenir le projet, vous pouvez faire un don avec le lien ci-dessous.
           </Text>
           <Button label='Faire un don' RightIcon={Coins} onPress={onPresseDonation} />
-        </YStack>
+        </YStack> */}
 
         <EventList events={todayEvents} title="Aujourd'hui" />
         <EventList events={tomorrowEvents} title='Demain' />

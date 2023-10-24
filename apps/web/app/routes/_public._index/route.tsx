@@ -1,5 +1,4 @@
 import { Link } from '@remix-run/react';
-import { Coins } from 'lucide-react';
 import { Android } from '~/components/Android';
 import { Apple } from '~/components/Apple';
 import { BridgeStatus } from '~/components/BridgeStatus';
@@ -19,20 +18,7 @@ export default function Index() {
       </h2>
 
       <BridgeStatus />
-      <section className='mt-12 flex flex-col items-start bg-background/60 rounded-lg shadow-md p-8 gap-4'>
-        <h2 className='font-semibold text-2xl'>❤️ Soutenir le projet</h2>
-        <h3 className='text-lg text-justify'>
-          Mon Pont Chaban est un projet hébergé, développé et maintenu gracieusement par le développeur. Aucune
-          publicité n'est présente sur le site ou dans l'application et aucune donnée n'est collectée à des fins
-          commerciales. Si vous souhaitez soutenir le projet, vous pouvez faire un don avec le lien ci-dessous.
-        </h3>
-        <Button asChild variant='outline'>
-          <Link to='https://donate.stripe.com/5kA7t5eVFeogauk000' className='flex-1'>
-            <span>Faire un don</span>
-            <Coins className='h-4 w-4 mb-1 ml-2' />
-          </Link>
-        </Button>
-      </section>
+
       <h2 className='text-center font-bold text-4xl mt-24 mb-12'>L'application mobile</h2>
       <h3 className='text-center font-bold text-xl mb-12'>
         Téléchargez l'application mobile pour être notifié des prochaines fermetures du pont Chaban-Delmas.
@@ -55,6 +41,20 @@ export default function Index() {
       <EventList events={tomorrowAlerts} title='Demain' />
       <EventList events={thisWeekAlerts} title='Cette semaine' />
       <EventList events={nextWeekAlerts} title='La semaine prochaine' />
+      {/* <section className='mt-12 flex flex-col items-start bg-background/30 rounded-lg shadow-md p-8 gap-4'>
+        <h2 className='font-semibold text-2xl'>❤️ Soutenir le projet</h2>
+        <h3 className='text-lg text-justify'>
+          Mon Pont Chaban est un projet hébergé, développé et maintenu gracieusement par le développeur. Aucune
+          publicité n'est présente sur le site ou dans l'application et aucune donnée n'est collectée à des fins
+          commerciales. Si vous souhaitez soutenir le projet, vous pouvez faire un don avec le lien ci-dessous.
+        </h3>
+        <Button asChild variant='outline'>
+          <Link to='https://donate.stripe.com/5kA7t5eVFeogauk000' className='flex-1'>
+            <span>Faire un don</span>
+            <Coins className='h-4 w-4 mb-1 ml-2' />
+          </Link>
+        </Button>
+      </section> */}
       <EventList events={laterAlerts} title="Dans plus d'une semaine" />
     </div>
   );
