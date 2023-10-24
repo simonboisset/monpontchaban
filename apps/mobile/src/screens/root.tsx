@@ -38,10 +38,6 @@ export default function RootPage() {
     trackEvent('mobile');
   }, []);
 
-  // const onPresseDonation = () => {
-  //   Linking.openURL('https://donate.stripe.com/5kA7t5eVFeogauk000');
-  // };
-
   return (
     <View backgroundColor={'$primaryForeground'}>
       <Scrollable gap='$8' px='$4' py='$8'>
@@ -55,16 +51,6 @@ export default function RootPage() {
           </View>
           <BridgeStatus event={nextAlert} />
         </XStack>
-        {/* <YStack gap='$4' overflow='hidden' bg='$foregroundTransparent' borderRadius={'$6'} p='$4'>
-          <H2 color='$primary'>❤️ Soutenir le projet</H2>
-          <Text color='$primary' textAlign='justify'>
-            Mon Pont Chaban est un projet hébergé, développé et maintenu gracieusement par le développeur. Aucune
-            publicité n'est présente sur le site ou dans l'application et aucune donnée n'est collectée à des fins
-            commerciales. Si vous souhaitez soutenir le projet, vous pouvez faire un don avec le lien ci-dessous.
-          </Text>
-          <Button label='Faire un don' RightIcon={Coins} onPress={onPresseDonation} />
-        </YStack> */}
-
         <EventList events={todayEvents} title="Aujourd'hui" />
         <EventList events={tomorrowEvents} title='Demain' />
         <EventList events={thisWeekEvents} title='Cette semaine' />
