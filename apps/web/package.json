@@ -2,7 +2,7 @@
   "name": "@chaban/web",
   "private": true,
   "sideEffects": false,
-  "version": "2.1.0",
+  "version": "2.1.1",
   "scripts": {
     "build": "prisma generate && remix build",
     "dev": "yarn with-env remix dev",
@@ -12,9 +12,9 @@
     "ts": "tsc --noEmit"
   },
   "dependencies": {
-    "@chaban/api": "2.1.0",
-    "@chaban/core": "2.1.0",
-    "@chaban/db": "2.1.0",
+    "@chaban/api": "2.1.1",
+    "@chaban/core": "2.1.1",
+    "@chaban/db": "2.1.1",
     "@radix-ui/react-slot": "^1.0.2",
     "@remix-run/node": "^2.1.0",
     "@remix-run/react": "^2.1.0",
