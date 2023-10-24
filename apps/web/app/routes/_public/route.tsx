@@ -74,11 +74,8 @@ export default function PublicPage() {
             <Link className='text-sm' to='https://www.facebook.com/monpontchaban'>
               Facebook
             </Link>
-            <Link className='text-sm' to='https://simonboisset.com'>
+            <Link className='text-sm' to='https://simonboisset.com/fr'>
               Site du développeur
-            </Link>
-            <Link className='text-sm' to='https://lezo.dev'>
-              Lezo
             </Link>
             <Link className='text-sm' to='https://apps.apple.com/app/mon-pont-chaban/id6448217836'>
               Application iOS
