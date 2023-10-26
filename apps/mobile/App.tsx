@@ -19,6 +19,8 @@ import { RootContext, useRootData } from './src/services/useRootData';
 import { ToastProvider } from './src/ui/Toast';
 import config from './tamagui.config';
 
+SplashScreen.preventAutoHideAsync();
+
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
     dsn: 'https://ef67eabf4525efee264d07253cacf2b8@o4506096861839360.ingest.sentry.io/4506096964993024',
@@ -27,7 +29,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-SplashScreen.preventAutoHideAsync();
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
