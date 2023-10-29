@@ -81,7 +81,7 @@ export async function trackEvent(urlFragment: string) {
     const HOST = 'pont-chaban-delmas.com';
     const userAgent = (await Constants.getWebViewUserAgentAsync()) || 'unknown';
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => controller?.abort(), 5000);
     const url = 'https://' + HOST + '/' + urlFragment;
 
     await fetch('https://analytics.lezo.app/api/event', {
