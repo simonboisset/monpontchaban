@@ -90,11 +90,11 @@ jobs:
         run: |
           eas build --profile dev --platform android --no-wait --non-interactive
           eas build --profile dev --platform ios --no-wait --non-interactive
-      - name: 🚀 EAS Build Production
+      - name: 🚀 EAS Update Production
         if: ${{ github.event.inputs.profile == 'production' &&  github.event.inputs.methode == 'update'}}
         working-directory: apps/mobile
         run: API_URL="${{secrets.API_URL}}" eas update --branch main --message "Nouvelle version de production"
-      - name: 🚀 EAS Build Dev
-        if: ${{ github.event.inputs.profile != 'production'&&  github.event.inputs.methode == 'update' }}
+      - name: 🚀 EAS Update Dev
+        if: ${{ github.event.inputs.profile != 'production' &&  github.event.inputs.methode == 'update' }}
         working-directory: apps/mobile
         run: API_URL="${{secrets.API_URL}}" eas update --branch dev --message "Nouvelle version de dev"
