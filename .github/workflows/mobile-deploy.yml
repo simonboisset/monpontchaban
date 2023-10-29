@@ -19,6 +19,14 @@ on:
         options:
           - dev
           - production
+      methode:
+        description: 'build | update'
+        required: true
+        default: 'build'
+        type: choice
+        options:
+          - build
+          - update
 
 jobs:
   mobile-deploy:
@@ -71,14 +79,22 @@ jobs:
       - name: ⏳ Yarn install after version upgrade
         run: yarn
       - name: 🚀 EAS Build Production
-        if: ${{ github.event.inputs.profile == 'production' }}
+        if: ${{ github.event.inputs.profile == 'production'  &&  github.event.inputs.methode == 'build'}}
         working-directory: apps/mobile
         run: |
           eas build --profile production --platform android --no-wait --auto-submit --non-interactive
           eas build --profile production --platform ios --no-wait --auto-submit --non-interactive
       - name: 🚀 EAS Build Dev
-        if: ${{ github.event.inputs.profile != 'production' }}
+        if: ${{ github.event.inputs.profile != 'production' &&  github.event.inputs.methode == 'build'}}
         working-directory: apps/mobile
         run: |
           eas build --profile dev --platform android --no-wait --non-interactive
           eas build --profile dev --platform ios --no-wait --non-interactive
+      - name: 🚀 EAS Build Production
+        if: ${{ github.event.inputs.profile == 'production' &&  github.event.inputs.methode == 'update'}}
+        working-directory: apps/mobile
+        run: API_URL="${{secrets.API_URL}}" eas update --branch main --message "Nouvelle version de production"
+      - name: 🚀 EAS Build Dev
+        if: ${{ github.event.inputs.profile != 'production'&&  github.event.inputs.methode == 'update' }}
+        working-directory: apps/mobile
+        run: API_URL="${{secrets.API_URL}}" eas update --branch dev --message "Nouvelle version de dev"
