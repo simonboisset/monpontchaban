@@ -58,14 +58,13 @@ type Alert = {
 const filterUndefined = <T>(array: (T | undefined)[]): T[] => array.filter((a) => a !== undefined) as T[];
 
 const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) => {
-  const start = Date.now();
   let expo = new Expo({ accessToken: env.EXPO_ACCESS_TOKEN });
   let alertCount = 0;
   let tokenCount = 0;
 
   let messages: ExpoPushMessage[] = [];
 
-  for (const rule of rules) {
+  const createChunkFromRule = async (rule: Rule) => {
     const ruleSchedules = filterUndefined(rule.scheduleIds.map((id) => schedules.find((s) => s.id === id)));
     const alertToNotify = getAlertsToNotify(now, alerts, ruleSchedules, rule.delayMinBefore);
 
@@ -92,13 +91,14 @@ const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) 
         });
       }
     }
-    console.info(`[sendNotifications]: Rule ${rule.title} ${Date.now() - start}ms`);
-  }
+  };
+
+  await Promise.all(rules.map(createChunkFromRule));
 
   let chunks = expo.chunkPushNotifications(messages);
   let tickets: ExpoPushTicket[] = [];
   let sendErrorCount = 0;
-  console.info(`[sendNotifications]: Chunks created ${Date.now() - start}ms`);
+
   await Promise.all(
     chunks.map(async (chunk) => {
       try {
@@ -111,7 +111,7 @@ const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) 
   );
 
   sendErrorCount += tickets.map((t) => t.status).filter((s) => s !== 'ok').length;
-  console.info(`[sendNotifications]: Chunks sent ${Date.now() - start}ms`);
+
   console.info(`[sendNotifications]: Sent ${alertCount} alerts to ${tokenCount} tokens, errors: ${sendErrorCount}`);
 };
 
