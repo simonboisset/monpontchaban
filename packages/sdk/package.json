@@ -1,11 +1,11 @@
 {
   "name": "@chaban/sdk",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": true,
   "main": "./index.ts",
   "types": "./index.ts",
   "devDependencies": {
-    "@chaban/api": "2.1.1",
+    "@chaban/api": "2.1.2",
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
     "react": "18.2.0",
