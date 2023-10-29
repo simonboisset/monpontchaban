@@ -98,14 +98,15 @@ const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) 
   let chunks = expo.chunkPushNotifications(messages);
   let tickets: ExpoPushTicket[] = [];
   let sendErrorCount = 0;
-  for (let chunk of chunks) {
+  await Promise.all(chunks.map(async chunk=>{
     try {
       let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
       tickets.push(...ticketChunk);
     } catch (error) {
       sendErrorCount++;
     }
-  }
+  }))
+ 
   sendErrorCount += tickets.map((t) => t.status).filter((s) => s !== 'ok').length;
   console.info(
     `[sendNotifications]: Sent ${alertCount} alerts to ${tokenCount} tokens, errors: ${sendErrorCount}, wrong tokens: ${wrongTokensCount}`,
