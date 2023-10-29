@@ -62,7 +62,7 @@ const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) 
   let expo = new Expo({ accessToken: env.EXPO_ACCESS_TOKEN });
   let alertCount = 0;
   let tokenCount = 0;
-  let wrongTokensCount = 0;
+
   let messages: ExpoPushMessage[] = [];
 
   for (const rule of rules) {
@@ -73,27 +73,26 @@ const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) 
       alertCount += alertToNotify.length;
       tokenCount += rule.tokens.length;
 
+      const message = `${alertToNotify
+        .map(
+          (b) =>
+            `- ${b.title.toLowerCase()}: ${date.formatDay(b.startAt)} de ${date.formatTime(
+              b.startAt,
+            )} à ${date.formatTime(b.endAt)}`,
+        )
+        .join('\n')}`;
+
       for (let pushToken of rule.tokens) {
-        if (!Expo.isExpoPushToken(pushToken)) {
-          wrongTokensCount++;
-          continue;
-        }
         messages.push({
           to: pushToken,
           sound: 'default',
           title: rule.title,
-          body: `${alertToNotify
-            .map(
-              (b) =>
-                `- ${b.title.toLowerCase()}: ${date.formatDay(b.startAt)} de ${date.formatTime(
-                  b.startAt,
-                )} à ${date.formatTime(b.endAt)}`,
-            )
-            .join('\n')}`,
+          body: message,
           badge: alertToNotify.length,
         });
       }
     }
+    console.info(`[sendNotifications]: Rule ${rule.title} ${Date.now() - start}ms`);
   }
 
   let chunks = expo.chunkPushNotifications(messages);
@@ -113,9 +112,7 @@ const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) 
 
   sendErrorCount += tickets.map((t) => t.status).filter((s) => s !== 'ok').length;
   console.info(`[sendNotifications]: Chunks sent ${Date.now() - start}ms`);
-  console.info(
-    `[sendNotifications]: Sent ${alertCount} alerts to ${tokenCount} tokens, errors: ${sendErrorCount}, wrong tokens: ${wrongTokensCount}`,
-  );
+  console.info(`[sendNotifications]: Sent ${alertCount} alerts to ${tokenCount} tokens, errors: ${sendErrorCount}`);
 };
 
 export const notification = { send, sendNotificationRules };
