@@ -9,7 +9,7 @@ import { getCurrenSchedule } from './getAlertsToNotify';
 
 export const sendNotifications = createProcedure.use(isCron).mutation(async () => {
   const now = new Date();
-  const start = Date.now();
+
   const schedule = getCurrenSchedule(now, schedules);
   if (!schedule) {
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No schedule found for current time' });
@@ -19,8 +19,6 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
 
   await prisma.alert.deleteMany({ where: { endAt: { gt: now } } });
   const alerts = await prisma.$transaction(data.map((d) => prisma.alert.create({ data: d })));
-
-  console.info(`Alerts created: ${alerts.length}, time: ${Date.now() - start}ms`);
 
   const rules = await prisma.notificationRule.findMany({
     where: { scheduleIds: { has: schedule.id }, active: true },
@@ -64,8 +62,8 @@ export const sendNotifications = createProcedure.use(isCron).mutation(async () =
   };
 
   const fullRules = [...tokenRules, baseRule, dailyRule, weeklyRule];
-  console.info(`Rules created: ${fullRules.length}, time: ${Date.now() - start}ms`);
+
   await services.notification.sendNotificationRules(now, alerts, fullRules);
-  console.info(`Notifications sent, time: ${Date.now() - start}ms`);
+
   return fullRules.length;
 });

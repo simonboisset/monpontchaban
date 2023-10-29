@@ -58,6 +58,7 @@ type Alert = {
 const filterUndefined = <T>(array: (T | undefined)[]): T[] => array.filter((a) => a !== undefined) as T[];
 
 const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) => {
+  const start = Date.now();
   let expo = new Expo({ accessToken: env.EXPO_ACCESS_TOKEN });
   let alertCount = 0;
   let tokenCount = 0;
@@ -98,16 +99,20 @@ const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) 
   let chunks = expo.chunkPushNotifications(messages);
   let tickets: ExpoPushTicket[] = [];
   let sendErrorCount = 0;
-  await Promise.all(chunks.map(async chunk=>{
-    try {
-      let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-      tickets.push(...ticketChunk);
-    } catch (error) {
-      sendErrorCount++;
-    }
-  }))
- 
+  console.info(`[sendNotifications]: Chunks created ${Date.now() - start}ms`);
+  await Promise.all(
+    chunks.map(async (chunk) => {
+      try {
+        let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+        tickets.push(...ticketChunk);
+      } catch (error) {
+        sendErrorCount++;
+      }
+    }),
+  );
+
   sendErrorCount += tickets.map((t) => t.status).filter((s) => s !== 'ok').length;
+  console.info(`[sendNotifications]: Chunks sent ${Date.now() - start}ms`);
   console.info(
     `[sendNotifications]: Sent ${alertCount} alerts to ${tokenCount} tokens, errors: ${sendErrorCount}, wrong tokens: ${wrongTokensCount}`,
   );
