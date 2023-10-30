@@ -16,9 +16,4 @@ const getFromSchedule = (schedule: Schedule, d: Date) => {
   return date;
 };
 
-const isCurrentSchedule = (schedule: Schedule, d: Date) => {
-  const date = getFromSchedule(schedule, d);
-  return dayjs(date).isSame(d, 'hour');
-};
-
-export const date = { getFromSchedule, formatDay, isCurrentSchedule, formatTime };
+export const date = { getFromSchedule, formatDay, formatTime };

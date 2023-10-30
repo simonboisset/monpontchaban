@@ -1,110 +1,131 @@
 import { schedules } from '@chaban/core';
 import { describe, expect, test } from 'vitest';
+import { date } from './date';
 import { getAlertsToNotify, getCurrenSchedule, getDateFromNextSchedule, getNextSchedule } from './getAlertsToNotify';
 
 describe('Send Alerts', () => {
   test('Should get current schedule Monday at 8', () => {
     const now = new Date('2023-09-18T08:10');
-    const selectedSchedules = schedules.filter((s) => s.hour === 8);
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate.filter((s) => s.hour === 8);
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(8);
   });
   test('Should get current schedule Monday at 8 - 2', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedules = schedules;
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate;
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(8);
   });
   test('Should not get current schedule Monday at 8 -3', () => {
     const now = new Date('2023-09-18T08:10');
-    const selectedSchedules = schedules.filter((s) => s.hour === 9);
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate.filter((s) => s.hour === 9);
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule).toBeUndefined();
   });
   test('Should not get current schedule Monday at 8 - 4', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedules = schedules.filter((s) => s.day === 0);
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate.filter((s) => s.day === 0);
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule).toBeUndefined();
   });
   test('Should get current schedule Monday at 8 - 5', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedules = schedules.filter((s) => s.day === 1);
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate.filter((s) => s.day === 1);
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(8);
   });
   test('Should get current schedule Monday at 8 - 6', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedules = schedules.filter((s) => s.day === 1 && s.hour === 8);
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate.filter((s) => s.day === 1 && s.hour === 8);
     const nextSchedule = getCurrenSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(8);
   });
   test('Should get next schedule Monday at 8 - 7', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedules = schedules.filter((s) => s.day === 1 && s.hour === 8);
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate.filter((s) => s.day === 1 && s.hour === 8);
     const nextSchedule = getNextSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(8);
   });
   test('Should get next schedule Monday at 9', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedules = schedules;
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate;
     const nextSchedule = getNextSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(1);
     expect(nextSchedule?.hour).toBe(9);
   });
   test('Should get next schedule Monday at 9 - 2', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedules = schedules.filter((s) => s.hour === 8);
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate.filter((s) => s.hour === 8);
     const nextSchedule = getNextSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(2);
     expect(nextSchedule?.hour).toBe(8);
   });
   test('Should get next schedule Monday at 9 - 3', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedules = schedules.filter((s) => s.hour === 8 || s.hour === 6);
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate.filter((s) => s.hour === 8 || s.hour === 6);
     const nextSchedule = getNextSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(2);
     expect(nextSchedule?.hour).toBe(6);
   });
   test('Should get next schedule Monday at 9 - 4', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedules = schedules.filter((s) => (s.day === 0 && s.hour === 7) || (s.day === 1 && s.hour === 8));
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedules = schedulesWithDate.filter(
+      (s) => (s.day === 0 && s.hour === 7) || (s.day === 1 && s.hour === 8),
+    );
     const nextSchedule = getNextSchedule(now, selectedSchedules);
     expect(nextSchedule?.day).toBe(0);
     expect(nextSchedule?.hour).toBe(7);
   });
   test('Should get date from next Monday at 9 - 5', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedule = { day: 1, hour: 8, id: 0 };
-    const date = getDateFromNextSchedule(selectedSchedule, now);
-    expect(date).toEqual(new Date('2023-09-25T08:00'));
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedule = schedulesWithDate.filter((s) => s.day === 1 && s.hour === 8)[0];
+    const d = getDateFromNextSchedule(selectedSchedule, now);
+    expect(d).toEqual(new Date('2023-09-25T08:00'));
   });
   test('Should get date from next schedule 2', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedule = { day: 1, hour: 9, id: 0 };
-    const date = getDateFromNextSchedule(selectedSchedule, now);
-    expect(date).toEqual(new Date('2023-09-18T09:00'));
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+    const selectedSchedule = schedulesWithDate.filter((s) => s.day === 1 && s.hour === 9)[0];
+
+    const d = getDateFromNextSchedule(selectedSchedule, now);
+    expect(d).toEqual(new Date('2023-09-18T09:00'));
   });
   test('Should get date from next schedule 3', () => {
     const now = new Date('2023-09-18T08:00');
-    const selectedSchedule = { day: 2, hour: 7, id: 0 };
-    const date = getDateFromNextSchedule(selectedSchedule, now);
-    expect(date).toEqual(new Date('2023-09-19T07:00'));
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+
+    const selectedSchedule = schedulesWithDate.filter((s) => s.day === 2 && s.hour === 7)[0];
+    const d = getDateFromNextSchedule(selectedSchedule, now);
+    expect(d).toEqual(new Date('2023-09-19T07:00'));
   });
   test('Should get date from next schedule 4', () => {
     const now = new Date('2023-09-18T08:09');
-    const selectedSchedule = { day: 2, hour: 7, id: 0 };
-    const date = getDateFromNextSchedule(selectedSchedule, now);
-    expect(date).toEqual(new Date('2023-09-19T07:00'));
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
+
+    const selectedSchedule = schedulesWithDate.filter((s) => s.day === 2 && s.hour === 7)[0];
+    const d = getDateFromNextSchedule(selectedSchedule, now);
+    expect(d).toEqual(new Date('2023-09-19T07:00'));
   });
   test('Should get alerts 1', () => {
     const now = new Date('2023-09-18T08:00');
-
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
     const alerts = [
       {
         id: '1',
@@ -131,7 +152,7 @@ describe('Send Alerts', () => {
         endAt: new Date('2023-09-18T08:00'),
       },
     ];
-    const selectedSchedule = schedules;
+    const selectedSchedule = schedulesWithDate;
     const alertsToNotify = getAlertsToNotify(now, alerts, selectedSchedule, 0);
     const alertsToNotify2 = getAlertsToNotify(now, alerts, selectedSchedule, 1);
     const ids = alertsToNotify.map(({ id }) => id);
@@ -146,6 +167,7 @@ describe('Send Alerts', () => {
   });
   test('Should get alerts 2', () => {
     const now = new Date('2023-09-18T08:00');
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
     const alerts = [
       {
         id: '1',
@@ -172,7 +194,7 @@ describe('Send Alerts', () => {
         endAt: new Date('2023-09-18T08:00'),
       },
     ];
-    const selectedSchedule = schedules.filter((s) => s.hour === 8);
+    const selectedSchedule = schedulesWithDate.filter((s) => s.hour === 8);
     const alertsToNotify = getAlertsToNotify(now, alerts, selectedSchedule, 0);
     const alertsToNotify2 = getAlertsToNotify(now, alerts, selectedSchedule, 600);
     const ids = alertsToNotify.map(({ id }) => id);
@@ -188,6 +210,7 @@ describe('Send Alerts', () => {
   });
   test('Should get alerts 3', () => {
     const now = new Date('2023-09-18T08:15');
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
     const alerts = [
       {
         id: '1',
@@ -251,7 +274,7 @@ describe('Send Alerts', () => {
         endAt: new Date('2023-09-18T08:00'),
       },
     ];
-    const selectedSchedule = schedules;
+    const selectedSchedule = schedulesWithDate;
     const alertsToNotify = getAlertsToNotify(now, alerts, selectedSchedule, 60);
 
     const ids = alertsToNotify.map(({ id }) => id);
@@ -269,6 +292,7 @@ describe('Send Alerts', () => {
   });
   test('Should get alerts of tomorrow', () => {
     const now = new Date('2023-09-18T19:15');
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
     const alerts = [
       {
         id: '1',
@@ -301,7 +325,7 @@ describe('Send Alerts', () => {
         endAt: new Date('2023-09-18T08:00'),
       },
     ];
-    const selectedSchedule = schedules.filter((s) => s.hour === 19);
+    const selectedSchedule = schedulesWithDate.filter((s) => s.hour === 19);
     const alertsToNotify = getAlertsToNotify(now, alerts, selectedSchedule, 300);
 
     const ids = alertsToNotify.map(({ id }) => id);
@@ -314,6 +338,7 @@ describe('Send Alerts', () => {
   });
   test('Should get alerts of tomorrow next month', () => {
     const now = new Date('2023-09-30T20:15');
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
     const alerts = [
       {
         id: '1',
@@ -328,7 +353,7 @@ describe('Send Alerts', () => {
         endAt: new Date('2023-09-18T08:00'),
       },
     ];
-    const selectedSchedule = schedules.filter((s) => s.hour === 20);
+    const selectedSchedule = schedulesWithDate.filter((s) => s.hour === 20);
     const alertsToNotify = getAlertsToNotify(now, alerts, selectedSchedule, 300);
 
     const ids = alertsToNotify.map(({ id }) => id);
@@ -338,6 +363,7 @@ describe('Send Alerts', () => {
   });
   test('Should get alerts weekly', () => {
     const now = new Date('2023-09-24T19:00');
+    const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
     const alerts = [
       {
         id: '1',
@@ -370,7 +396,7 @@ describe('Send Alerts', () => {
         endAt: new Date('2023-09-18T08:00'),
       },
     ];
-    const selectedSchedule = schedules.filter((s) => s.day === 0 && s.hour === 19);
+    const selectedSchedule = schedulesWithDate.filter((s) => s.day === 0 && s.hour === 19);
     const alertsToNotify = getAlertsToNotify(now, alerts, selectedSchedule, 300);
 
     const ids = alertsToNotify.map(({ id }) => id);

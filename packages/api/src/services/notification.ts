@@ -1,9 +1,8 @@
-import { schedules } from '@chaban/core';
 import type { ExpoPushMessage, ExpoPushTicket, ExpoPushToken } from 'expo-server-sdk';
 import Expo from 'expo-server-sdk';
 import { env } from '../config/env';
 import { date } from '../routes/notification/date';
-import { getAlertsToNotify } from '../routes/notification/getAlertsToNotify';
+import { SchedulesWithDate, getAlertsToNotify } from '../routes/notification/getAlertsToNotify';
 
 type SendNotificationParams = {
   tokens: ExpoPushToken[];
@@ -57,15 +56,20 @@ type Alert = {
 };
 const filterUndefined = <T>(array: (T | undefined)[]): T[] => array.filter((a) => a !== undefined) as T[];
 
-const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) => {
+const sendNotificationRules = async (
+  now: Date,
+  alerts: Alert[],
+  rules: Rule[],
+  schedulesWithDate: SchedulesWithDate[],
+) => {
   let expo = new Expo({ accessToken: env.EXPO_ACCESS_TOKEN });
   let alertCount = 0;
   let tokenCount = 0;
 
   let messages: ExpoPushMessage[] = [];
 
-  const createChunkFromRule = async (rule: Rule) => {
-    const ruleSchedules = filterUndefined(rule.scheduleIds.map((id) => schedules.find((s) => s.id === id)));
+  for (const rule of rules) {
+    const ruleSchedules = filterUndefined(rule.scheduleIds.map((id) => schedulesWithDate.find((s) => s.id === id)));
     const alertToNotify = getAlertsToNotify(now, alerts, ruleSchedules, rule.delayMinBefore);
 
     if (alertToNotify.length > 0) {
@@ -91,9 +95,7 @@ const sendNotificationRules = async (now: Date, alerts: Alert[], rules: Rule[]) 
         });
       }
     }
-  };
-
-  await Promise.all(rules.map(createChunkFromRule));
+  }
 
   let chunks = expo.chunkPushNotifications(messages);
   let tickets: ExpoPushTicket[] = [];
