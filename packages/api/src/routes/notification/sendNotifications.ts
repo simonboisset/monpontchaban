@@ -6,16 +6,16 @@ import { apiBordeauxMetropole } from '../../managedApis';
 import { services } from '../../services';
 import { isCron } from '../context';
 import { date } from './date';
-import { getCurrenSchedule } from './getAlertsToNotify';
+import { getCurrenScheduleId } from './getAlertsToNotify';
 
 export const sendNotifications = createProcedure.use(isCron).mutation(async () => {
   const now = new Date();
   const schedulesWithDate = schedules.map((s) => ({ ...s, date: date.getFromSchedule(s, now) }));
-  const schedule = getCurrenSchedule(now, schedulesWithDate);
-  if (!schedule) {
+  const scheduleId = getCurrenScheduleId(now, schedulesWithDate);
+  if (scheduleId === -1) {
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No schedule found for current time' });
   }
-
+  const schedule = schedulesWithDate[scheduleId];
   const data = await apiBordeauxMetropole.get();
 
   await prisma.alert.deleteMany({ where: { endAt: { gt: now } } });

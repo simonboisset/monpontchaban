@@ -5,14 +5,13 @@ import dayjs from 'dayjs';
 export type SchedulesWithDate = Schedule & { date: Date };
 
 export const getAlertsToNotify = (now: Date, alerts: Alert[], schedules: SchedulesWithDate[], beforeLimit: number) => {
-  const currentSchedule = getCurrenSchedule(now, schedules);
-  const nextSchedule = getNextSchedule(now, schedules);
+  const currentScheduleId = getCurrenScheduleId(now, schedules);
 
-  if (!nextSchedule || !currentSchedule) {
+  if (currentScheduleId === -1) {
     return [];
   }
-  const currentScheduleDate = currentSchedule.date;
-  const nextScheduleDate = getDateFromNextSchedule(nextSchedule, now);
+  const nextScheduleDate = getNextScheduleDate(schedules, currentScheduleId);
+  const currentScheduleDate = schedules[currentScheduleId].date;
 
   const alertsToNotify = alerts.filter((a) => {
     const alertDate = dayjs(a.startAt);
@@ -26,40 +25,13 @@ export const getAlertsToNotify = (now: Date, alerts: Alert[], schedules: Schedul
   return alertsToNotify;
 };
 
-export const getNextSchedule = (now: Date, schedules: SchedulesWithDate[]) => {
-  const currentSchedule = getCurrenSchedule(now, schedules);
-  if (!currentSchedule) {
-    return undefined;
+export const getNextScheduleDate = (schedules: SchedulesWithDate[], currentScheduleId: number) => {
+  if (schedules.length === 1) {
+    return new Date(schedules[0].date.getTime() + 7 * 24 * 60 * 60 * 1000);
   }
-
-  let day = currentSchedule.day;
-  let hour = currentSchedule.hour + 1;
-  if (hour === 24) {
-    hour = 0;
-    day = (day + 1) % 7;
-  }
-
-  while (hour !== currentSchedule.hour || day !== currentSchedule.day) {
-    const schedule = schedules.find((s) => s.day === day && s.hour === hour);
-    if (schedule) {
-      return schedule;
-    }
-    hour++;
-    if (hour === 24) {
-      hour = 0;
-      day = (day + 1) % 7;
-    }
-  }
-  return currentSchedule;
+  return schedules[(currentScheduleId + 1) % schedules.length].date;
 };
 
 // Warning day 0 is sunday
-export const getCurrenSchedule = (now: Date, schedules: SchedulesWithDate[]) =>
-  schedules.find((s) => dayjs(now).isSame(s.date, 'hour'));
-
-export const getDateFromNextSchedule = (schedule: SchedulesWithDate, now: Date) => {
-  if (dayjs(now).isSame(schedule.date, 'hour')) {
-    return dayjs(schedule.date).add(1, 'week').toDate();
-  }
-  return schedule.date;
-};
+export const getCurrenScheduleId = (now: Date, schedules: SchedulesWithDate[]) =>
+  schedules.findIndex((s) => dayjs(now).isSame(s.date, 'hour'));
