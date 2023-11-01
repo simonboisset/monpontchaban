@@ -9,6 +9,7 @@
       }
     },
     "dev": {
+      "developmentClient": true,
       "node": "18.18.2",
       "distribution": "internal",
       "channel": "dev",
