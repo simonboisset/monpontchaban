@@ -83,6 +83,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     API_URL: process.env.API_URL || 'https://pont-chaban-delmas.com',
   },
   plugins: [
+    'react-native-iap',
     'sentry-expo',
     [
       'expo-notifications',

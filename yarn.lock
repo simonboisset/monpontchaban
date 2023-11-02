@@ -1965,6 +1965,32 @@
     xcode "^3.0.1"
     xml2js "0.6.0"
 
+"@expo/config-plugins@^6.0.1":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-6.0.2.tgz#cf07319515022ba94d9aa9fa30e0cff43a14256f"
+  integrity sha512-Cn01fXMHwjU042EgO9oO3Mna0o/UCrW91MQLMbJa4pXM41CYGjNgVy1EVXiuRRx/upegHhvltBw5D+JaUm8aZQ==
+  dependencies:
+    "@expo/config-types" "^48.0.0"
+    "@expo/json-file" "~8.2.37"
+    "@expo/plist" "^0.0.20"
+    "@expo/sdk-runtime-versions" "^1.0.0"
+    "@react-native/normalize-color" "^2.0.0"
+    chalk "^4.1.2"
+    debug "^4.3.1"
+    find-up "~5.0.0"
+    getenv "^1.0.0"
+    glob "7.1.6"
+    resolve-from "^5.0.0"
+    semver "^7.3.5"
+    slash "^3.0.0"
+    xcode "^3.0.1"
+    xml2js "0.4.23"
+
+"@expo/config-types@^48.0.0":
+  version "48.0.0"
+  resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-48.0.0.tgz#15a46921565ffeda3c3ba010701398f05193d5b3"
+  integrity sha512-DwyV4jTy/+cLzXGAo1xftS6mVlSiLIWZjl9DjTCLPFVgNYQxnh7htPilRv4rBhiNs7KaznWqKU70+4zQoKVT9A==
+
 "@expo/config-types@^49.0.0-alpha.1":
   version "49.0.0"
   resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-49.0.0.tgz#15ffef715285c06703f6fb7ec0cda853f645cc09"
@@ -3216,11 +3242,6 @@
   integrity sha512-KRJtwrjRV5Bb+pM7zxcTJkhIqWWSy+MYsIxHK+0m5atcznsf15YwUBWHWulZerV2+vvHH1Lp1DD7pw6qKW8SgA==
   dependencies:
     web-streams-polyfill "^3.1.1"
-
-"@revenuecat/purchases-typescript-internal@7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@revenuecat/purchases-typescript-internal/-/purchases-typescript-internal-7.2.0.tgz#e387f798521d2497f614bd007b5787b9e6d5080a"
-  integrity sha512-sdcM7f60WktMJui+4LmQUurrjF/XXYNSaBd6PyY6k2U3D4BCKSdnF1lKizN2PjzMP7II20YnZ2+hgkRnnBdwAQ==
 
 "@rushstack/eslint-patch@^1.2.0":
   version "1.5.0"
@@ -12019,12 +12040,12 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-native-purchases@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-purchases/-/react-native-purchases-7.2.0.tgz#fe42e887e1b37e5eaa6e50a6a6ed443ccc070cbd"
-  integrity sha512-pjM0Mz+qLoUyHt14cbWexwLqzWZk3X0gEIYEBXCFX0Io8/42MzDxf97boUuKiVzxZ4uIDn8tQi96xezBP6qgLA==
+react-native-iap@^12.11.0:
+  version "12.11.0"
+  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-12.11.0.tgz#5bb85097a717971371e256a4f48ba91e342a5c4f"
+  integrity sha512-KrRHTqbwEypntb/C+zyD2cV7fRi2Izx9NTd0fIb30yUIvIZ5sD5RQd0kOcabqyQYzfSYPAnZVUIXEtOfjwcJFg==
   dependencies:
-    "@revenuecat/purchases-typescript-internal" "7.2.0"
+    "@expo/config-plugins" "^6.0.1"
 
 react-native-reanimated@~3.3.0:
   version "3.3.0"
@@ -14422,6 +14443,14 @@ xcode@^3.0.1:
   dependencies:
     simple-plist "^1.1.0"
     uuid "^7.0.3"
+
+xml2js@0.4.23:
+  version "0.4.23"
+  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.23.tgz#a0c69516752421eb2ac758ee4d4ccf58843eac66"
+  integrity sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==
+  dependencies:
+    sax ">=0.6.0"
+    xmlbuilder "~11.0.0"
 
 xml2js@0.6.0:
   version "0.6.0"
