@@ -2,9 +2,9 @@ import { isNextWeek, isThisWeek, isToday, isTomorrow } from '@chaban/core';
 import { Alert } from '@chaban/sdk';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
-import { Settings } from 'lucide-react-native';
+import { CircleSlash, Settings } from 'lucide-react-native';
 import React, { useEffect } from 'react';
-import { H1, H3, View, XStack, YStack } from 'tamagui';
+import { H1, H3, Text, View, XStack, YStack, useTheme } from 'tamagui';
 import { BridgeEventItem } from '../components/BridgeEventItem';
 import { BridgeStatus } from '../components/BridgeStatus';
 import { useRootContext } from '../services/useRootData';
@@ -22,7 +22,7 @@ export default function RootPage() {
   const { alerts } = useRootContext();
   const now = new Date();
   const nextAlert = alerts?.[0];
-
+  const theme = useTheme();
   const todayEvents = alerts?.filter(({ startAt }) => isToday(startAt, now)) || [];
   const tomorrowEvents = alerts?.filter(({ startAt }) => isTomorrow(startAt, now)) || [];
   const thisWeekEvents = alerts?.filter(({ startAt }) => isThisWeek(startAt, now)) || [];
@@ -56,6 +56,18 @@ export default function RootPage() {
         <EventList events={thisWeekEvents} title='Cette semaine' />
         <EventList events={nextWeekEvents} title='La semaine prochaine' />
         <EventList events={laterEvents} title="Dans plus d'une semaine" />
+        {!alerts?.length && (
+          <YStack gap='$4' alignItems='center' bg='$backgroundTransparent' p='$4' borderRadius='$6'>
+            <H3 color='$primary' w='100%'>
+              Aucun évènement prévu pour le moment
+            </H3>
+            <Text color='$primary' textAlign='justify'>
+              Il n'y a actuellement aucun évènement prévu pour le pont Chaban Delmas. Lorsque les prochains seront
+              annoncés par Bordeaux Métropole, ils apparaîtront ici.
+            </Text>
+            <CircleSlash color={theme.primary.val} width={64} height={64} />
+          </YStack>
+        )}
       </Scrollable>
     </View>
   );

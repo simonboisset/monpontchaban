@@ -1,4 +1,5 @@
 import { Link } from '@remix-run/react';
+import { CircleSlash } from 'lucide-react';
 import { Android } from '~/components/Android';
 import { Apple } from '~/components/Apple';
 import { BridgeStatus } from '~/components/BridgeStatus';
@@ -42,6 +43,16 @@ export default function Index() {
       <EventList events={thisWeekAlerts} title='Cette semaine' />
       <EventList events={nextWeekAlerts} title='La semaine prochaine' />
       <EventList events={laterAlerts} title="Dans plus d'une semaine" />
+      {!alerts?.length && (
+        <div className='mt-12 flex flex-col gap-6 p-4 rounded-lg bg-foreground/10'>
+          <h3 className='font-bold text-2xl'>Aucun évènement prévu pour le moment</h3>
+          <p className='text-justify'>
+            Il n'y a actuellement aucun évènement prévu pour le pont Chaban Delmas. Lorsque les prochains seront
+            annoncés par Bordeaux Métropole, ils apparaîtront ici.
+          </p>
+          <CircleSlash className='mx-auto w-32 h-32' />
+        </div>
+      )}
     </div>
   );
 }
