@@ -7,6 +7,7 @@ import * as Notifications from 'expo-notifications';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
+import { setup, withIAPContext } from 'react-native-iap';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Sentry from 'sentry-expo';
 import { TamaguiProvider, Theme } from 'tamagui';
@@ -37,7 +38,9 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function App() {
+setup({ storekitMode: 'STOREKIT2_MODE' });
+
+function App() {
   const colorScheme = useColorScheme();
   const linking = {
     prefixes: [Linking.createURL('/'), 'https://www.pont-chaban-delmas.com'],
@@ -108,3 +111,5 @@ const SafeLoadedScreen = ({ children }: { children: React.ReactNode }) => {
     </RootContext.Provider>
   );
 };
+
+export default withIAPContext(App);

@@ -3,7 +3,7 @@
   "main": "index.js",
   "version": "2.1.4",
   "scripts": {
-    "dev": "expo start",
+    "dev": "expo start --dev-client",
     "apk": "eas build --profile dev --platform android --no-wait --non-interactive",
     "fix": "npx expo install --fix",
     "up": "yarn upgrade-interactive --latest"

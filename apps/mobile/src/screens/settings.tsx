@@ -2,10 +2,24 @@ import { schedules } from '@chaban/core';
 import { ApiParams, ApiResponse, getQueryKey, lezoAlertApi, useQueryClient } from '@chaban/sdk';
 import * as MailComposer from 'expo-mail-composer';
 import * as Notifications from 'expo-notifications';
-import { BellOff, ChevronDown, ChevronUp, Edit, Mail, Plus, Share2, StarIcon, Trash, Undo2 } from 'lucide-react-native';
+import {
+  BellOff,
+  ChevronDown,
+  ChevronUp,
+  Coins,
+  Edit,
+  Mail,
+  Plus,
+  Share2,
+  StarIcon,
+  Trash,
+  Undo2,
+} from 'lucide-react-native';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Linking, Platform, Share } from 'react-native';
-import { H4, H5, H6, Switch, Text, View, XStack, YStack } from 'tamagui';
+import { useIAP } from 'react-native-iap';
+import { H2, H4, H5, H6, Switch, Text, View, XStack, YStack } from 'tamagui';
+import { z } from 'zod';
 import { usePushToken } from '../services/pushTokenContext';
 import { useAuthToken } from '../services/secure-store';
 import { useRootNavigation } from '../services/useRootNavigation';
@@ -14,15 +28,88 @@ import { IconButton } from '../ui/IconButton';
 import { Scrollable } from '../ui/Scrollable';
 import { toast } from '../ui/useToast';
 import { trackEvent } from './root';
-
 export default function Settings() {
   const { currentDevice, isCurrentDeviceLoading } = useCurrentDevice();
   const { deleteAccount } = useDeleteAccount();
   const { login, isLoginLoading } = useLogin();
+  const {
+    connected,
+    products,
+    promotedProductsIOS,
+    subscriptions,
+    availablePurchases,
+    currentPurchase,
+    currentPurchaseError,
+    initConnectionError,
+    finishTransaction,
+    getProducts,
+    getSubscriptions,
+    getAvailablePurchases,
+    getPurchaseHistory,
+    purchaseHistory,
+    requestPurchase,
+    requestSubscription,
+  } = useIAP();
+  const [ownedSubscriptions, setOwnedSubscriptions] = useState<string[]>([]);
 
   useEffect(() => {
+    const handleGetSubscriptions = async () => {
+      try {
+        await getSubscriptions({ skus: ['chaban_mobile_plan'] });
+      } catch (error) {
+        console.log({ message: 'handleGetSubscriptions', error });
+      }
+    };
     trackEvent('mobile/settings');
+    handleGetSubscriptions();
   }, []);
+
+  if (availablePurchases !== null && availablePurchases.length > 0) {
+    let current_plan = 'free';
+
+    for (var j = 0; j < availablePurchases.length; j++) {
+      if (
+        availablePurchases[j].productId == 'chaban_mobile_plan' &&
+        availablePurchases[j].autoRenewingAndroid == true
+      ) {
+        current_plan = availablePurchases[j].productId;
+        break;
+      }
+    }
+  }
+  useEffect(() => {
+    const checkCurrentPurchase = async () => {
+      await getAvailablePurchases();
+
+      try {
+        if (currentPurchase?.productId) {
+          await finishTransaction({
+            purchase: currentPurchase,
+            isConsumable: true,
+          });
+
+          setOwnedSubscriptions((prev) => [...prev, currentPurchase?.productId]);
+        }
+      } catch (error) {
+        console.log({ message: 'handleBuyProduct', error });
+      }
+    };
+
+    checkCurrentPurchase();
+  }, [currentPurchase, finishTransaction]);
+
+  const handleBuySubscription = async (productId: string, offerToken?: string) => {
+    try {
+      await requestSubscription({
+        sku: productId,
+        ...(offerToken && {
+          subscriptionOffers: [{ sku: productId, offerToken }],
+        }),
+      });
+    } catch (error) {
+      console.log({ message: 'handleBuySubscription', error });
+    }
+  };
 
   const shareApp = async () => {
     Share.share({
@@ -43,11 +130,40 @@ export default function Settings() {
       body: 'Bonjour, je souhaite vous faire part de ',
     });
   };
-
+  const safeSubscriptionsValidation = subscriptionsSchema.safeParse(subscriptions || []);
+  if (!safeSubscriptionsValidation.success) {
+    console.log(safeSubscriptionsValidation.error);
+    return (
+      <View backgroundColor={'$primaryForeground'}>
+        <Text>Erreur</Text>
+      </View>
+    );
+  }
+  const safeSubscriptions = safeSubscriptionsValidation.data;
   return (
     <View backgroundColor={'$primaryForeground'}>
       <Scrollable gap='$8' px='$4' py='$20'>
         <IconButton Icon={Undo2} href={['Root']} position='absolute' left='$4' top='$12' />
+        <YStack gap='$4' overflow='hidden' bg='$foregroundTransparent' borderRadius={'$6'} p='$4'>
+          <H2 color='$primary'>❤️ Soutenir le projet</H2>
+          <Text color='$primary' textAlign='justify'>
+            Mon Pont Chaban est un projet hébergé, développé et maintenu gracieusement par le développeur. Aucune
+            publicité n'est présente sur le site ou dans l'application et aucune donnée n'est collectée à des fins
+            commerciales. Si vous souhaitez soutenir le projet, vous pouvez souscrire à un de ces abonnements.
+          </Text>
+          {safeSubscriptions.flatMap((subscription) => (
+            <View key={subscription.productId}>
+              {subscription.subscriptionOfferDetails.map((offer) => (
+                <Button
+                  key={offer.basePlanId}
+                  RightIcon={Coins}
+                  label={`${offer.pricingPhases.pricingPhaseList[0].formattedPrice} / an`}
+                  onPress={() => handleBuySubscription(subscription.productId, offer.offerToken)}
+                />
+              ))}
+            </View>
+          ))}
+        </YStack>
         <SettingItem
           tittle='Notifications'
           description={
@@ -329,3 +445,34 @@ const NotificationCard = ({ rule }: { rule: ApiResponse['notificationRule']['get
     </YStack>
   );
 };
+
+const subscriptionsSchema = z.array(
+  z.object({
+    name: z.string(),
+    productType: z.literal('subs'),
+    description: z.string(),
+    title: z.string(),
+    productId: z.string(),
+    platform: z.literal('android'),
+    subscriptionOfferDetails: z.array(
+      z.object({
+        pricingPhases: z.object({
+          pricingPhaseList: z.array(
+            z.object({
+              recurrenceMode: z.number(),
+              priceAmountMicros: z.string(),
+              billingCycleCount: z.number(),
+              billingPeriod: z.string(),
+              priceCurrencyCode: z.string(),
+              formattedPrice: z.string(),
+            }),
+          ),
+        }),
+        offerToken: z.string(),
+        offerTags: z.array(z.string()),
+        offerId: z.null(),
+        basePlanId: z.string(),
+      }),
+    ),
+  }),
+);
