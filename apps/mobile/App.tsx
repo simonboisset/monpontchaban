@@ -91,7 +91,7 @@ const asyncStoragePersister = createAsyncStoragePersister({
 const SafeLoadedScreen = ({ children }: { children: React.ReactNode }) => {
   const { isReady, alerts } = useRootData();
   const [isFirst, setIsFirst] = useState(true);
-  const status = useCurrentStatus(alerts?.[0].startAt, alerts?.[0].endAt);
+  const status = useCurrentStatus(alerts?.[0]?.startAt, alerts?.[0]?.endAt);
   useEffect(() => {
     if (isReady) {
       setTimeout(() => setIsFirst(false), 1000);
