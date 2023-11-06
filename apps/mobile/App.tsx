@@ -5,7 +5,7 @@ import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persi
 import * as Linking from 'expo-linking';
 import * as Notifications from 'expo-notifications';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Sentry from 'sentry-expo';
@@ -90,17 +90,15 @@ const asyncStoragePersister = createAsyncStoragePersister({
 
 const SafeLoadedScreen = ({ children }: { children: React.ReactNode }) => {
   const { isReady, alerts } = useRootData();
-  const [isFirst, setIsFirst] = useState(true);
+
   const status = useCurrentStatus(alerts?.[0]?.startAt, alerts?.[0]?.endAt);
   useEffect(() => {
     if (isReady) {
-      setTimeout(() => setIsFirst(false), 1000);
+      setTimeout(() => {
+        SplashScreen.hideAsync();
+      }, 1000);
     }
-    if (!isReady && isFirst) {
-      setIsFirst(false);
-      SplashScreen.hideAsync();
-    }
-  }, [isReady, isFirst]);
+  }, [isReady]);
 
   return (
     <RootContext.Provider value={{ alerts, isReady }}>
