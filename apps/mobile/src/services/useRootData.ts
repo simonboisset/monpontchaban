@@ -2,6 +2,7 @@ import { lezoAlertApi } from '@chaban/sdk';
 import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
 import { createContext, useContext, useEffect, useState } from 'react';
+import * as Sentry from 'sentry-expo';
 import { usePushToken } from './pushTokenContext';
 import { useAuthToken } from './secure-store';
 import { useChabanAlerts } from './useChabanAlerts';
@@ -51,6 +52,13 @@ const useCheckPushToken = () => {
     if (!token || !authToken) {
       return;
     }
-    mutate({ pushToken: token });
+    mutate(
+      { pushToken: token },
+      {
+        onError: (err) => {
+          Sentry.Native.captureException(err);
+        },
+      },
+    );
   }, [!token, !authToken]);
 };

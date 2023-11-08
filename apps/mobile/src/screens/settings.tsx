@@ -5,6 +5,7 @@ import * as Notifications from 'expo-notifications';
 import { BellOff, ChevronDown, ChevronUp, Edit, Mail, Plus, Share2, StarIcon, Trash, Undo2 } from 'lucide-react-native';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Linking, Platform, Share } from 'react-native';
+import * as Sentry from 'sentry-expo';
 import { H4, H5, H6, Switch, Text, View, XStack, YStack } from 'tamagui';
 import { usePushToken } from '../services/pushTokenContext';
 import { useAuthToken } from '../services/secure-store';
@@ -126,7 +127,14 @@ const onpenStoreReview = () => {
 };
 
 const useCurrentDevice = () => {
-  const { data, isLoading } = lezoAlertApi.auth.getCurrentDevice.useQuery({});
+  const { data, isLoading } = lezoAlertApi.auth.getCurrentDevice.useQuery(
+    {},
+    {
+      onError: (err) => {
+        Sentry.Native.captureException(err);
+      },
+    },
+  );
   return { currentDevice: data, isCurrentDeviceLoading: isLoading };
 };
 
@@ -176,6 +184,9 @@ const useLogin = () => {
             setIsWaitingForConfirm(false);
             await Notifications.dismissAllNotificationsAsync();
           },
+          onError: (err) => {
+            Sentry.Native.captureException(err);
+          },
         },
       );
     });
@@ -187,7 +198,14 @@ const useLogin = () => {
     const token = await requestToken();
     if (!token) return;
 
-    mutate({ token });
+    mutate(
+      { token },
+      {
+        onError: (err) => {
+          Sentry.Native.captureException(err);
+        },
+      },
+    );
   };
 
   return { login, isLoginLoading: isLoading || isConfirmLoading || isWaitingForConfirm };
@@ -246,6 +264,10 @@ export const useNotificationRules = () => {
           cacheData?.map((rule) => (rule.id === updatedRule.id ? { ...rule, ...updatedRule } : rule)) || [],
         );
       },
+
+      onError: (err) => {
+        Sentry.Native.captureException(err);
+      },
     });
   };
 
@@ -256,6 +278,9 @@ export const useNotificationRules = () => {
         const cacheData = cache.getCache();
         cache.setCache([...(cacheData || []), createdRule]);
       },
+      onError: (err) => {
+        Sentry.Native.captureException(err);
+      },
     });
   };
 
@@ -265,6 +290,9 @@ export const useNotificationRules = () => {
         navigate('Settings');
         const cacheData = cache.getCache();
         cache.setCache(cacheData?.filter((rule) => rule.id !== deletedRule.id) || []);
+      },
+      onError: (err) => {
+        Sentry.Native.captureException(err);
       },
     });
   };

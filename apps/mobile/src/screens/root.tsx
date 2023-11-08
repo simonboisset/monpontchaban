@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import { CircleSlash, Settings } from 'lucide-react-native';
 import React, { useEffect } from 'react';
+import * as Sentry from 'sentry-expo';
 import { H1, H3, Text, View, XStack, YStack, useTheme } from 'tamagui';
 import { BridgeEventItem } from '../components/BridgeEventItem';
 import { BridgeStatus } from '../components/BridgeStatus';
@@ -105,6 +106,6 @@ export async function trackEvent(urlFragment: string) {
 
     clearTimeout(timeoutId);
   } catch (e) {
-    console.info(`Plausible Tracker error to ${urlFragment}: ${e}`);
+    Sentry.Native.captureException(e);
   }
 }

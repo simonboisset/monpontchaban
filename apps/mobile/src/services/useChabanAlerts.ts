@@ -1,7 +1,7 @@
 import { lezoAlertApi } from '@chaban/sdk';
-
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import * as Sentry from 'sentry-expo';
 import { toast } from '../ui/useToast';
 
 export const useChabanAlerts = () => {
@@ -13,8 +13,10 @@ export const useChabanAlerts = () => {
       minDate: now,
     },
     {
-      onError: () => {
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+      onError: (err) => {
         toast({ title: 'Un problème est survenu, veuillez réessayer ultérieurement' });
+        Sentry.Native.captureException(err);
       },
     },
   );
